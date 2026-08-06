@@ -113,19 +113,9 @@ asistente). Apoyo entre sesiones **en esta máquina y ruta**. Lo crítico y port
 
 ---
 
-## 6. ¿Hace falta el enunciado en `.md`?
-**No es imprescindible** (para el día a día el asistente usa `tfg-spec.md`, que es el resumen operativo), **pero está
-bien tenerlo**: es la **fuente autoritativa** (si `tfg-spec.md` y el enunciado discrepan, manda el enunciado) y, al ser
-texto, es **portable y greppable**. No se auto-carga; el agente lo abre solo si necesita el texto exacto. **Consérvalo.**
-
-## 7. Recetas para usarlo bien
+## 6. Recetas para usarlo bien
 - Empieza cada sesión con **`/tfg-estado`**.
 - **Una tarea por sesión**; `/clear` al cambiar de tema.
 - Deja que el agente **actualice `estado-vs-rubrica.md` y `seguimiento.md`** al cerrar (si no, pídeselo).
 - Al terminar una feature: **`/informe`**. Al terminar una release: cambia a Redacción y **`/blog`**.
 - No escribas la memoria formal hasta Fase 6; ve dejando **informes** por el camino.
-
-## 8. Resumen de carga
-| Se carga **siempre** | **Bajo demanda** | **No viaja** al fork |
-|---|---|---|
-| `CLAUDE.md`, índice de memoria | `docs/tfg/*`, `docs/*` (lo que el agente abra) | memoria de `~/.claude` |

@@ -1,7 +1,7 @@
 # Estado vs rúbrica (gap analysis vivo)
 
 > **Memoria de trabajo del proyecto.** Léelo al empezar cada sesión para orientarte barato; **actualízalo al terminar**.
-> Estados: ❌ no hecho · 🟡 parcial / en curso · ✅ hecho. Última actualización: **2026-07-23** (siembra inicial).
+> Estados: ❌ no hecho · 🟡 parcial / en curso · ✅ hecho. Última actualización: **2026-08-06** (repo del TFG creado + README de Fase 1).
 
 ## Resumen rápido
 El SaaS funcional está muy avanzado (Angular + Firebase), pero **el TFG exige lo que aún no hay**: backend propio
@@ -13,20 +13,21 @@ que ya se cumplen requisitos "difíciles" (algoritmo avanzado, tecnología compl
 |---|---|---|---|
 | Backend propio con API REST (NestJS) | 2-3 | ❌ | Hoy es Firebase. Crear `backend/`. |
 | ≥4 entidades relacionadas (una = Usuario) | 1 | ✅ | Sobran entidades; documentar modelo. |
-| 3 roles (anónimo/registrado/admin) | 3 | 🟡 | Solo `owner`. Modelar "registrado" o justificar. |
+| 3 roles (anónimo/registrado/admin) | 3 | 🟡 | **Definidos y documentados** en README (matriz de permisos). Implementado solo `owner`; falta construir el rol "registrado". |
 | Permisos/propiedad (ownership) | 3 | 🟡 | Reforzar en backend (service). |
 | Subida de imágenes | 3 | 🟡 | Galería existe (Firebase Storage) → migrar a GridFS/MinIO. |
 | Gráficos (charts) | 4 | ❌ | Implementar dashboard de analítica (KPIs día/hora). |
 | Tecnología complementaria | 3-5 | ✅ | SMS (Mocean) ya cuenta. |
 | Algoritmo / consulta avanzada | 3 | ✅ | Disponibilidad multi-barbero (Strategy). Documentar. |
-| Wireframes (Figma) | 1 | ❌ | Derivar de la UI actual para la memoria. |
+| Wireframes (Figma) | 1 | ❌ | **Único bloqueante de Fase 1.** Capturas de la app actual + wireframes de las pantallas nuevas (área de cliente, dashboard). Sección ya reservada en el README. |
 | OpenAPI en `docs/api/` | 2 | ❌ | Generar con `@nestjs/swagger`. |
 | Datos de ejemplo (seed) | 3 | ❌ | Seed de Mongo con peluquería demo. |
 | Paginación (10 + más) | 3 | ❌ | API + UI. |
-| README + docs/ (estructura rúbrica) | 1-5 | 🟡 | Hay docs sueltos; falta estructura oficial. |
+| README + docs/ (estructura rúbrica) | 1-5 | 🟡 | **README de Fase 1 publicado** (11 apartados del enunciado, Gantt Mermaid, ER, matriz de permisos). Pendiente: wireframes, `docs/api/`, titulación y tutor. |
+| Gráficos (charts) — *definición* | 1 | ✅ | 5 gráficos especificados en README con su tipo. Implementación en Fase 4. |
 | Blog (Medium, EN) | 3-5 | ❌ | Una entrada por release. |
 | Gantt + horas reales | 1-6 | ❌ | Empezar registro en `seguimiento.md`. |
-| GitHub Flow + Issues + Projects (Kanban) | 2 | 🟡 | Se usa git; falta Projects/Issues formal por fase. |
+| GitHub Flow + Issues + Projects (Kanban) | 2 | 🟡 | **Repo del TFG operativo** (`codeurjc-students/2026-daviweb-alvaro`, commit `a2109d5`). Falta Projects/Issues formal por fase. |
 
 ## Optativas elegidas
 | Parte | Pts | Fase | Estado | Notas |
