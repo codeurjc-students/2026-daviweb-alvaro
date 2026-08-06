@@ -1,0 +1,96 @@
+<div class="calendar-wrapper">
+  <div id="appointments">
+    <div class="appointments-header" [class.border]="currentView() === 'hours'">
+      <h2 class="section-title">Reserva tu Cita</h2>
+      <p class="section-subtitle"> Selecciona el día y hora que mejor se adapte a tu agenda. </p>
+      <div class="section-subtitle"> Te esperamos en nuestra peluquería. </div>
+    </div>
+  </div>
+
+  @switch (currentView()) {
+    @case ('calendar') {
+      <div class="header">
+        <button class="arrow-btn" (click)="prevMonth()" aria-label="Mes anterior">&#9664;</button>
+
+        <button #monthYearBtn class="month-year-btn" (click)="togglePicker()" aria-label="Seleccionar mes y año">
+          {{ monthNames[selectedMonth()] }} {{ selectedYear() }}
+          <span class="arrow" [class.open]="showPicker()">&#9662;</span>
+        </button>
+
+        <button class="arrow-btn" (click)="nextMonth()" aria-label="Mes siguiente">&#9654;</button>
+      </div>
+
+      @if (showPicker()) {
+        <div class="picker-dropdown">
+          <select [ngModel]="selectedMonth()" (ngModelChange)="selectedMonth.set(+$event); onDateChange()">
+            @for (m of monthNames; track m; let i = $index) {
+              <option [value]="i">{{ m }}</option>
+            }
+          </select>
+
+          <select [ngModel]="selectedYear()" (ngModelChange)="selectedYear.set(+$event); onDateChange()">
+            @for (y of years; track y) {
+              <option [value]="y">{{ y }}</option>
+            }
+          </select>
+        </div>
+      }
+
+      <table class="calendar-table" role="grid" aria-label="Calendario de citas">
+        <thead>
+          <tr role="row">
+            @for (wd of weekDays; track wd) {
+              <th role="columnheader">{{ wd }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (week of calendarMatrix(); track $index) {
+            <tr role="row">
+              @for (day of week; track $index) {
+                <td role="gridcell"
+                    [class.day-available]="isAvailable(day)"
+                    [class.day-unavailable]="day && !isAvailable(day)"
+                    [class.today]="isToday(day)"
+                    [class.selected]="isSelected(day)"
+                    [class.disabled]="!day"
+                    (click)="selectDate(day)"
+                    [attr.aria-selected]="isSelected(day)"
+                    [attr.aria-disabled]="!day || !isAvailable(day)">
+                  <span class="day-content">{{ day?.getDate() || '' }}</span>
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+    @case ('hours') {
+      <div class="hour-selector-container">
+        <app-hour-selector 
+          [date]="selectedDate() ? formatDate(selectedDate()!) : null" 
+          [availableHours]="availableHours()"
+          [slotCapacity]="slotCapacity()"
+          (back)="onBackToCalendar()"
+          (hourSelected)="onHourSelected($event)">
+        </app-hour-selector>
+      </div>
+    }
+
+    @case ('booking') {
+      <div id="booking-form-div">
+        <button class="back-button" (click)="onBackToHours()">← Cambiar hora</button>
+        <app-booking-form 
+          [date]="selectedDate() ? formatDate(selectedDate()!) : null" 
+          [time]="selectedHour()"
+          [barbers]="barbers()" 
+          [allowBarberSelection]="allowBarberSelection()"
+          [availableSlots]="availableHours()"
+          [isSubmitting]="isSubmitting()"
+          (formSubmitted)="onBookingSubmit($event)">
+        </app-booking-form>
+      </div>
+    }
+  }
+</div>

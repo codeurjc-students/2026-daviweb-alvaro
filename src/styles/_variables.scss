@@ -1,0 +1,200 @@
+// ============================================
+// COLORES PRINCIPALES (DINÁMICOS)
+// ============================================
+// Las variables CSS del tenant se inyectan en runtime por SaasConfigService
+// mediante un <style id="tenant-theme"> escrito en el <head> tanto en SSR
+// como en cliente. NO pongas fallbacks hardcodeados aquí: causarían FOUC
+// al pintarse antes de que Angular aplique los colores reales del tenant.
+
+$primary: var(--color-primary); 
+$primary-rgb: var(--color-primary-rgb); // Para uso en rgba()
+
+$primary-light: var(--color-primary-light); 
+$primary-light-rgb: var(--color-primary-light-rgb);
+
+$primary-lighter: var(--color-primary-lighter); 
+$primary-lighter-rgb: var(--color-primary-lighter-rgb);
+
+$primary-dark: var(--color-primary-dark); 
+$primary-dark-rgb: var(--color-primary-dark-rgb);
+
+$accent: var(--color-accent);
+$accent-rgb: var(--color-accent-rgb);
+
+// FONDOS - Sistema coherente de claro a oscuro
+$secondary: var(--color-secondary); 
+$secondary-rgb: var(--color-secondary-rgb); 
+$secondary-dark: var(--color-secondary-dark);
+$secondary-light: var(--color-secondary-light);
+
+
+
+// Compatibilidad con variables antiguas:
+$primary-gold: $primary;
+$secondary-gold: $primary-light;
+$dark-brown: $secondary;
+$light-gold: $primary-light;
+$background-gold: #fdfcfc;
+$other: #739FE6;
+
+// ============================================
+// COLORES BASE
+// ============================================
+$white: #ffffff; // Blanco puro para mejor contraste
+$black: var(--color-text); // Azul grisáceo oscuro - más suave que negro
+$true-black: #000000; // Negro puro
+$text-gray: #6b7a8a; // Gris azulado medio para textos secundarios
+$text-gray-light: #9ca3af; // Gris claro para textos menos importantes
+$text-dark: var(--color-text); // Azul grisáceo oscuro para textos importantes
+$light-gray: #e8eff5; // Azul grisáceo claro con personalidad
+$border-color: var(--color-border); // Vinculado a configuración
+$border-color-accent: var(--color-border-accent);
+$text-pink: var(--color-text-pink);
+
+// Colores adicionales para componentes específicos
+$color-disabled: #aaaaaa; // Color para elementos deshabilitados
+$color-placeholder: #999999; // Color para placeholders
+$color-muted: #6c757d; // Color para textos atenuados
+$color-info: #3b82f6; // Azul para información
+$color-purple: #8b5cf6; // Púrpura para variantes
+
+// Colores de overlays
+$overlay-dark: rgba(0, 0, 0, 0.5); // Overlay oscuro semi-transparente
+$overlay-darker: rgba(0, 0, 0, 0.7); // Overlay más oscuro
+$overlay-darkest: rgba(0, 0, 0, 0.9); // Overlay casi negro
+$overlay-light: rgba(255, 255, 255, 0.05); // Overlay blanco sutil
+$overlay-skeleton: rgba(0, 0, 0, 0.05); // Para skeleton loaders
+
+// ============================================
+// COLORES DE ESTADO
+// ============================================
+$success-green: #48bb78; // Verde más suave
+$success-green-bright: #22c55e; // Verde brillante para alertas
+$danger-red: #e53e3e; // Rojo más suave
+$danger-red-bright: #dc3545; // Rojo más intenso
+$danger-red-text: #ff6b6b; // Rojo para textos de error
+$warning-orange: #ed8936; // Naranja más suave
+$warning-orange-bright: #f59e0b; // Naranja brillante
+$warning-yellow: #f6e05e; // Amarillo más suave
+$warning-yellow-bright: #fbbf24; // Amarillo dorado
+$status-open: #48bb78;
+$status-closed: #e53e3e;
+
+// Colores sociales
+$social-instagram: #E4405F;
+$social-facebook: #1877F2;
+
+// Colores para estrellas/ratings
+$star-empty: #D1D5DB;
+$star-filled: #fbbf24;
+$star-filled-border: #f59e0b;
+
+// ============================================
+// COLORES DE FONDO - SISTEMA EQUILIBRADO
+// ============================================
+// Header y navegación - tono medio consistente
+$background-primary: var(--color-primary); // Azul grisáceo medio - header y nav
+$background-nav: var(--color-primary); // Igual que primary para consistencia
+$background-calendar: var(--color-background-calendar);
+// Fondo general de la página - con color suave
+$background-secondary: var(--color-background-secondary); // Azul grisáceo muy claro - tiene personalidad
+
+// Secciones de contenido - con color pero suaves
+$background-section: var(--color-background-section); // Azul grisáceo claro - secciones destacadas
+$background-card: var(--color-background); // Blanco puro para cards dentro de secciones
+
+// Solo para elementos que realmente necesitan ser oscuros
+$background-dark: var(--color-secondary-dark); // Azul grisáceo oscuro - usar con moderación
+$background-overlay: rgba(61, 74, 86, 0.85); // Overlay oscuro para modales
+
+// Acentos
+$background-accent: var(--color-background-accent); // Rosa para botones principales
+$background-accent-light: var(--color-primary-lighter); // Rosa muy claro para fondos suaves
+$background-grey: rgba(232, 239, 245, 0.90); // Fondo azulado claro translúcido
+
+// Colores adicionales para fondos
+$background-skeleton: #917B78; // Fondo para skeleton loaders
+$background-footer: rgba(0, 0, 0, 0.9); // Fondo del footer
+$background-footer-loader: rgba(0, 0, 0, 0.4); // Fondo del loader en footer
+$background-progress: #e9ecef; // Fondo de barras de progreso
+$background-button-info: #c1b0c1; // Botón azul información
+// ============================================
+// TIPOGRAFÍA
+// ============================================
+// Vinculamos a las variables CSS generadas por SaasConfigService
+$font-primary: var(--font-main, 'Noto Serif', sans-serif);
+$font-headings: var(--font-headings, 'Noto Sans', sans-serif);
+$font-mono: 'Noto Sans', monospace;
+
+// Tamaños de fuente
+$font-size-xs: 0.75rem;    // 12px
+$font-size-sm: 0.875rem;   // 14px
+$font-size-base: 1rem;     // 16px
+$font-size-lg: 1.125rem;   // 18px
+$font-size-xl: 1.25rem;    // 20px
+$font-size-2xl: 1.5rem;    // 24px
+$font-size-3xl: 2rem;      // 32px
+$font-size-4xl: 2.5rem;    // 40px
+
+// Pesos de fuente
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$font-weight-extrabold: 800;
+
+// ============================================
+// ESPACIADO
+// ============================================
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-2xl: 48px;
+$spacing-3xl: 64px;
+
+// ============================================
+// BORDER RADIUS
+// ============================================
+$border-radius-sm: 6px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+$border-radius-xl: 16px;
+$border-radius-full: 9999px;
+
+// ============================================
+// SOMBRAS (sutiles y consistentes)
+// ============================================
+$shadow-sm: 0 1px 3px rgba(61, 74, 86, 0.08); // Sombra muy sutil
+$shadow-md: 0 2px 8px rgba(61, 74, 86, 0.10); // Sombra media para cards
+$shadow-lg: 0 4px 16px rgba(61, 74, 86, 0.12); // Sombra grande para hover
+$shadow-xl: 0 8px 24px rgba(61, 74, 86, 0.15); // Sombra extra grande para modales
+
+// ============================================
+// TRANSICIONES
+// ============================================
+$transition-fast: 0.15s ease;
+$transition-normal: 0.3s ease;
+$transition-slow: 0.5s ease;
+
+// ============================================
+// BREAKPOINTS
+// ============================================
+$breakpoint-xs: 480px;
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-2xl: 1536px;
+
+// ============================================
+// Z-INDEX
+// ============================================
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;

@@ -1,0 +1,71 @@
+<div class="header">
+  <nav class="nav" aria-label="Navegación principal">
+    <div class="heading">
+      <span class="heading-text">{{ saasConfig.business.name.toUpperCase() }}</span>
+    </div>
+
+    <div class="anchors">
+      <div class="anchor" id="location">
+        <i class="bi bi-geo-alt-fill"></i>
+        <a class="anchor-text" href="#"
+          (click)="scrollToSection('location-and-contact'); $event.preventDefault()">Ubicación</a>
+      </div>
+      <div class="anchor" id="service">
+        <i class="bi bi-clock-fill"></i>
+        <a class="anchor-text" href="#" (click)="scrollToSection('services'); $event.preventDefault()">Servicios</a>
+      </div>
+      <div class="anchor" id="appointment">
+        <i class="bi bi-calendar-fill"></i>
+        <a class="anchor-text" href="#" (click)="scrollToSection('appointments'); $event.preventDefault()">Cita</a>
+      </div>
+
+      <div class="status">
+        <ng-container *ngIf="state.businessStatus() as status">
+          <!-- Abierto normal -->
+          <div *ngIf="status.isOpen && !status.isWarning" class="status-container open">
+            <span class="status-text">Abierto</span>
+          </div>
+
+          <!-- Cerrado normal -->
+          <div *ngIf="!status.isOpen && !status.isWarning" class="status-container closed">
+            <span class="status-text">Cerrado</span>
+          </div>
+
+          <!-- Cerrando pronto -->
+          <div *ngIf="status.isOpen && status.isWarning && status.warningType === 'closing'"
+            class="status-container warning">
+            <span class="status-text">Cerrando en {{ status.remainingMinutes }} min</span>
+          </div>
+
+          <!-- Abriendo pronto -->
+          <div *ngIf="!status.isOpen && status.isWarning && status.warningType === 'opening'"
+            class="status-container warning">
+            <span class="status-text">Abriendo en {{ status.remainingMinutes }} min</span>
+          </div>
+
+        </ng-container>
+      </div>
+    </div>
+  </nav>
+
+  <div class="welcome-banner">
+    <img ngSrc="banner.webp" alt="Banner principal de {{ saasConfig.business.name }}" fill priority fetchpriority="high" sizes="100vw">
+    <div class="banner-overlay"></div>
+    <div class="banner-content">
+      <h1 class="banner-title">
+        {{ saasConfig.business.name.toUpperCase() }}
+        <span class="banner-location">Peluquería moderna en Alcorcón</span>
+      </h1>
+      <h2 class="banner-subtitle">Tu estilo, mi pasión</h2>
+      <h3 class="banner-description">
+        ¡Experta en cortes de pelo modernos, tintes, mechas, permanente y mucho más!
+        <span class="banner-experience">+20 años de experiencia al servicio de tu imagen.</span>
+      </h3>
+      <button class="banner-button" (click)="scrollToSection('appointments')"
+        [attr.aria-label]="'Reservar cita online'">
+        <i class="bi bi-calendar-check"></i>
+        Reservar Cita
+      </button>
+    </div>
+  </div>
+</div>

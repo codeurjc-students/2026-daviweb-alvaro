@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <title>Ro's Peluqueros</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Reserva cita en nuestra peluquería. Los mejores profesionales a tu servicio.">
+  <!-- Color de la barra del navegador en móviles (Android) -->
+  <meta name="theme-color" content="#e673B4">
+
+  <link rel="icon" type="image/x-icon" href="logo-Daviweb.ico">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://firebasestorage.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="banner.webp" fetchpriority="high">
+
+  <!-- Accessibility helpers: color scheme and reduced-motion preference -->
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+
+  <!-- Minimal styles for a visible "skip to content" link (visible on keyboard focus) -->
+  <style>
+    .skip-link {
+      position: absolute;
+      left: -999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+    .skip-link:focus {
+      left: 1rem;
+      top: 1rem;
+      width: auto;
+      height: auto;
+      padding: 0.5rem 0.75rem;
+      background: #111;
+      color: #fff;
+      z-index: 1000;
+      border-radius: 4px;
+      text-decoration: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    /* Respect user preference for reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+    }
+  </style>
+
+</head>
+
+<body class="mat-typography">
+  <!-- Enlace para que usuarios que navegan con teclado puedan saltar directamente al contenido principal -->
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <!-- El app-root queda dentro de un main semántico con id para el enlace de salto y tabindex para recibir foco -->
+  <main id="main" tabindex="-1">
+    <app-root></app-root>
+  </main>
+</body>
+
+</html>

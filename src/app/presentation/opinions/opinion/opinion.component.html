@@ -1,0 +1,52 @@
+<div class="opinion">
+  <div class="opinion-header">
+    <div class="avatar">
+      <svg
+        width="43"
+        height="43"
+        viewBox="0 0 43 43"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <circle cx="21.5" cy="21.5" r="21.5" fill="url(#pattern0)" />
+        <defs>
+          <pattern
+            id="pattern0"
+            patternContentUnits="objectBoundingBox"
+            width="1"
+            height="1"
+          >
+            <use
+              href="#image0"
+              transform="translate(-0.25) scale(0.00102041)"
+            />
+          </pattern>
+          <image
+            id="image0"
+            width="1470"
+            height="980"
+            preserveAspectRatio="none"
+            href="https://your-image-url.com/avatar.jpg"
+          />
+        </defs>
+      </svg>
+    </div>
+    <div class="opinion-info">
+      <div class="platform">{{platform}}</div>
+      <div class="user-name">{{userName}}</div>
+    </div>
+  </div>
+
+  <div class="rating" [attr.aria-label]="'5 de 5 estrellas'">
+    <app-star [property1]="'Default'"></app-star>
+    <app-star [property1]="'Default'"></app-star>
+    <app-star [property1]="'Default'"></app-star>
+    <app-star [property1]="'Default'"></app-star>
+    <app-star [property1]="'Default'"></app-star>
+  </div>
+
+  <blockquote class="opinion-text" itemprop="reviewBody">
+    {{ opinionText }}
+  </blockquote>
+</div>

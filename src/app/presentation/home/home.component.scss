@@ -1,0 +1,433 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.body {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2xl;
+    background-color: $secondary !important;
+}
+
+/* Visually hidden but accessible text for screen readers */
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Focus styles respecting existing theme but ensuring high contrast */
+:focus {
+    outline: 3px solid rgba(0,0,0,0.9);
+    outline-offset: 2px;
+}
+
+/* Prefer focus-visible to avoid showing outlines on mouse click */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.skeleton-services {
+    padding: 48px 24px;
+    max-width: 1180px;
+    width: 100%;
+    margin: 0 auto;
+    background: $secondary;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    min-height: 1124px;
+
+    .skeleton-header {
+        height: 100px;
+        background: rgba($white, 0.15);
+        border-radius: 8px;
+        animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .skeleton-categories {
+        height: 80px;
+        background: $background-grey;
+        border-radius: 12px;
+        animation: pulse 1.5s ease-in-out infinite;
+        animation-delay: 0.2s;
+    }
+
+    .skeleton-content {
+        height: 800px; /* Aumentado para coincidir mejor con el contenido real */
+        background: $background-grey;
+        border-radius: 12px;
+        animation: pulse 1.5s ease-in-out infinite;
+        animation-delay: 0.4s;
+    }
+    @include mobile {
+        min-height: 1269px;
+    }
+}
+
+
+.skeleton-barbers {
+    padding: 48px 24px;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    min-height: 999px; /* Altura mínima para evitar saltos */
+    @include section;
+
+    @include mobile {
+        padding: 36px 16px;
+        min-height: 922px;
+    }
+
+    .skeleton-header {
+        width: 100%;
+        max-width: 600px;
+        height: 120px;
+        background: $overlay-skeleton;
+        border-radius: 8px;
+        animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .skeleton-cards {
+        width: 100%;
+        max-width: 1180px;
+        height: 600px; /* Aumentado */
+        background: $overlay-skeleton;
+        border-radius: 12px;
+        animation: pulse 1.5s ease-in-out infinite;
+        animation-delay: 0.2s;
+    }
+
+    .skeleton-note {
+        width: 100%;
+        max-width: 800px;
+        height: 60px;
+        background: $overlay-skeleton;
+        border-radius: 8px;
+        animation: pulse 1.5s ease-in-out infinite;
+        animation-delay: 0.4s;
+    }
+}
+
+.skeleton-appointment {
+    @include section;
+    padding: 24px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-height: 772px;
+
+    @include mobile {
+        padding: 20px;
+        min-height: 650px;
+    }
+    @include small-mobile {
+        padding: 16px;
+        min-height: 450px;
+    }
+
+    .skeleton-calendar-header {
+        width: 100%;
+        max-width: 600px;
+        height: 80px;
+        margin: 0 auto;
+        background: $overlay-skeleton;
+        border-radius: 12px;
+        animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .skeleton-calendar-grid {
+        width: 100%;
+        max-width: 850px;
+        height: 500px;
+        margin: 0 auto;
+        background: $overlay-skeleton;
+        border-radius: 12px;
+        animation: pulse 1.5s ease-in-out infinite;
+        animation-delay: 0.2s;
+    }
+}
+
+.skeleton-location {
+    @include section;
+    padding: 48px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+    min-height: 691px;
+
+    @include mobile {
+        padding: 36px 16px;
+        gap: 32px;
+        min-height: 900px;
+    }
+
+    .skeleton-heading {
+        width: 300px;
+        height: 45px;
+        background: $overlay-skeleton;
+        border-radius: 8px;
+        animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .skeleton-content {
+        display: flex;
+        gap: 48px;
+        width: 100%;
+        height: 500px; /* Aumentado */
+
+        @include tablet {
+            flex-direction: column;
+            gap: 32px;
+            height: auto;
+        }
+
+        .skeleton-map {
+            flex: 1 1 55%;
+            height: 100%;
+            min-height: 400px; /* Altura mínima para mapa */
+            background: $overlay-skeleton;
+            border-radius: 12px;
+            animation: pulse 1.5s ease-in-out infinite;
+            animation-delay: 0.2s;
+
+            @include tablet {
+                height: 350px;
+            }
+        }
+
+        .skeleton-info {
+            flex: 1 1 40%;
+            height: 100%;
+            min-height: 400px;
+            background: $overlay-skeleton;
+            border-radius: 12px;
+            animation: pulse 1.5s ease-in-out infinite;
+            animation-delay: 0.4s;
+
+            @include tablet {
+                height: 300px;
+            }
+        }
+    }
+}
+
+.skeleton-about {
+    @include section;
+    padding: 48px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+    min-height: 500px;
+
+    @include mobile {
+        padding: 36px 16px;
+        gap: 40px;
+        min-height: 800px;
+    }
+
+    .skeleton-heading {
+        width: 250px;
+        height: 45px;
+        background: $overlay-skeleton;
+        border-radius: 8px;
+        animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .skeleton-content {
+        display: flex;
+        flex-direction: row;
+        gap: 48px;
+        width: 100%;
+        height: 400px; /* Aumentado */
+
+        @include tablet {
+            flex-direction: column;
+            gap: 32px;
+            height: auto;
+        }
+
+        .skeleton-text {
+            flex: 1 1 60%;
+            height: 100%;
+            min-height: 300px;
+            background: $overlay-skeleton;
+            border-radius: 12px;
+            animation: pulse 1.5s ease-in-out infinite;
+            animation-delay: 0.2s;
+        }
+
+        .skeleton-image {
+            flex: 0 0 40%;
+            height: 100%;
+            min-height: 300px;
+            background: $overlay-skeleton;
+            border-radius: 12px;
+            animation: pulse 1.5s ease-in-out infinite;
+            animation-delay: 0.4s;
+
+            @include tablet {
+                width: 100%;
+                order: -1;
+            }
+        }
+    }
+}
+
+.skeleton-opinions {
+    @include section;
+    padding: 48px 24px;
+    min-height: 643px; /* Altura mínima */
+
+    @include mobile {
+        padding: 36px 16px;
+        min-height: 1271px;
+    }
+
+    .skeleton-heading {
+        width: 250px;
+        height: 45px;
+        margin: 0 auto 12px;
+        background: $overlay-skeleton;
+        border-radius: 8px;
+        animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .skeleton-subtitle {
+        width: 400px;
+        height: 24px;
+        margin: 0 auto 36px;
+        background: $overlay-skeleton;
+        border-radius: 6px;
+        animation: pulse 1.5s ease-in-out infinite;
+        animation-delay: 0.1s;
+
+        @include mobile {
+            width: 280px;
+        }
+    }
+
+    .skeleton-cards-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 0 12px;
+        max-width: 100%;
+        min-height: 350px; /* Altura mínima para cards */
+
+        .skeleton-card {
+            flex: 1 1 300px;
+            max-width: 320px;
+            min-width: 280px;
+            height: 320px;
+            background: $overlay-skeleton;
+            border-radius: 40px;
+            animation: pulse 1.5s ease-in-out infinite;
+
+            &:nth-child(1) {
+                animation-delay: 0.2s;
+            }
+
+            &:nth-child(2) {
+                animation-delay: 0.3s;
+            }
+
+            &:nth-child(3) {
+                animation-delay: 0.4s;
+            }
+        }
+    }
+}
+
+.skeleton-faq {
+    @include section;
+    padding: 36px 40px 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+    min-height: 622px; /* Altura mínima */
+
+    @include mobile {
+        padding: 24px 24px 36px;
+        min-height: 800px;
+    }
+
+    .skeleton-heading {
+        width: 300px;
+        height: 45px;
+        background: $overlay-skeleton;
+        border-radius: 8px;
+        animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .skeleton-items {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        width: 100%;
+        max-width: 1120px;
+        min-height: 500px; /* Altura mínima para items */
+
+        .skeleton-item {
+            width: 100%;
+            height: 100px;
+            background: $overlay-skeleton;
+            border-radius: 20px;
+            animation: pulse 1.5s ease-in-out infinite;
+
+            &:nth-child(1) {
+                animation-delay: 0.2s;
+            }
+
+            &:nth-child(2) {
+                animation-delay: 0.3s;
+            }
+
+            &:nth-child(3) {
+                animation-delay: 0.4s;
+            }
+
+            &:nth-child(4) {
+                animation-delay: 0.5s;
+            }
+        }
+    }
+}
+
+.skeleton-footer {
+    width: 100%;
+    background: $overlay-darkest;
+    padding: 48px 24px 24px;
+    box-sizing: border-box;
+    min-height: 350px;
+
+    @include mobile {
+        padding: 36px 16px 16px;
+        min-height: 400px;
+    }
+}

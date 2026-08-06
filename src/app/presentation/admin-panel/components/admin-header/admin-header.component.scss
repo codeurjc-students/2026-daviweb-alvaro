@@ -1,0 +1,133 @@
+// admin-header.component.scss (ACTUALIZADO)
+@use "../../../../../styles/variables" as *;
+@use "../../../../../styles/mixins" as *;
+@use "../../../../../styles/functions" as *;
+
+
+.admin-header {
+    background: $white;
+    color: $text-dark;
+    border-bottom: 2px solid alpha($primary, 0.2);
+    padding: 15px 0;
+    box-shadow: 0 4px 20px alpha($primary, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    @include mobile {
+        border-bottom: 0;
+        box-shadow: none;
+    }
+
+    .header-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        @include mobile {
+            padding: 0 15px;
+        }
+    }
+
+    .brand-section {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        @include mobile {
+            gap: 8px;
+        }
+
+        .bi-scissors {
+            font-size: 1.8rem;
+            rotate: 180deg;
+            color: $primary;
+
+            @include mobile {
+                font-size: 1.5rem;
+            }
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 0.5px;
+            color: $text-dark;
+
+            @include mobile {
+                font-size: 1.2rem;
+                letter-spacing: 0.3px;
+            }
+        }
+
+        .admin-badge {
+            background: $primary;
+            color: $white;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 0.75rem;
+            font-weight: 500;
+
+            @include mobile {
+                display: none; // Ocultar badge en móvil para ahorrar espacio
+            }
+        }
+    }
+
+    .user-section {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+
+        @include mobile {
+            gap: 10px;
+        }
+
+        .welcome-text {
+            font-weight: 500;
+            color: $text-dark;
+
+            @include mobile {
+                display: none; // Ocultar texto de bienvenida en móvil
+            }
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, $primary 0%, $accent 100%);
+            border: none;
+            color: $white;
+            &:hover {
+                background: linear-gradient(135deg, $accent 0%, $primary 100%);
+                color: $white;
+            }
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 10px alpha($primary, 0.3);
+
+            @include mobile {
+                padding: 8px 14px;
+                font-size: 1rem;
+
+                span {
+                    display: none; // Ocultar texto, solo mostrar icono
+                }
+            }
+
+            &:hover {
+                box-shadow: 0 4px 20px alpha($primary, 0.4);
+                transform: translateY(-1px);
+            }
+        }
+    }
+}

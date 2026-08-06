@@ -1,0 +1,27 @@
+<div class="hour-selector-wrapper">
+  @if (date()) {
+    <h3>Horas disponibles para {{ date() | date:'fullDate' }}</h3>
+  }
+
+  <ul class="hours-list">
+    @for (hour of hours(); track hour.value) {
+      <li 
+          (click)="selectHour(hour)"
+          (dblclick)="confirmDirect(hour)"
+          [class.selected]="hour.value === selectedHour()"
+          [class.disabled]="hour.disabled">
+        <span class="time">{{ hour.value }}</span>
+        @if (hour.capacity !== undefined && hour.capacity > 1) {
+          <span class="capacity-badge">
+            <i class="bi bi-person-fill"></i> {{ hour.capacity }} huecos
+          </span>
+        }
+      </li>
+    }
+  </ul>
+
+  <div class="buttons">
+    <button (click)="goBack()">Volver</button>
+    <button [disabled]="!selectedHour()" (click)="confirm()">Confirmar</button>
+  </div>
+</div>

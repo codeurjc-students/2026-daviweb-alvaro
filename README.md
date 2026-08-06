@@ -1,0 +1,404 @@
+# Davidevs Hairdressers
+
+Aplicación web **SaaS multi-tenant** de gestión de reservas para peluquerías y barberías. Cada negocio (*tenant*)
+dispone de su propia web pública personalizada —branding, servicios, horarios y contenidos propios— desde la que sus
+clientes reservan cita online sin necesidad de registrarse, y de un panel de administración con el que gestionar la
+agenda, el equipo de profesionales, el catálogo de servicios y la configuración del negocio. El sistema calcula la
+disponibilidad real en tiempo real teniendo en cuenta horarios, excepciones, bloqueos de agenda y la carga de trabajo
+de cada profesional, y notifica a los clientes por SMS los eventos relevantes de su cita.
+
+---
+
+## ⚠️ Punto de partida y alcance del Trabajo de Fin de Grado
+
+> **Este apartado delimita con precisión qué se ha desarrollado con anterioridad y qué constituye el trabajo evaluable
+> de este TFG. Léase antes que cualquier otra sección.**
+
+Este TFG **no parte de cero**. Existe una aplicación previa, funcional y en uso, desarrollada **fuera del marco de
+este trabajo** y con anterioridad a su inicio: un SaaS de reservas construido con **Angular 19 + Firebase**
+(Firestore, Authentication, Storage y Cloud Functions), cuyo historial de desarrollo completo permanece públicamente
+consultable en el repositorio original:
+
+📦 **Repositorio de origen (trabajo previo, 206 commits):**
+[`DaviDevs-org/ProyectoWebPeluqueros`](https://github.com/DaviDevs-org/ProyectoWebPeluqueros)
+
+Este repositorio se inicia con un **único commit** que consolida dicha base de código como punto de partida. La
+trazabilidad del desarrollo anterior queda preservada en el repositorio enlazado; **todo el historial de commits de
+este repositorio a partir de aquí corresponde al trabajo realizado durante el TFG.**
+
+### Qué **NO** forma parte del trabajo evaluable
+
+- La aplicación Angular existente (web pública, panel de administración, motor de reservas sobre Firebase).
+- La infraestructura Firebase actual (Firestore, Auth, Storage, Cloud Functions).
+
+### Qué **SÍ** constituye el TFG
+
+| Objetivo del TFG | Estado |
+|---|---|
+| **Backend propio con NestJS + MongoDB** sustituyendo por completo a Firebase | No iniciado |
+| **API REST** `/api/v1` documentada con OpenAPI (contract-first) | No iniciado |
+| **Autenticación propia con JWT** y sistema de **3 roles** (anónimo / registrado / administrador) | No iniciado |
+| **Rol de usuario registrado**, inexistente hoy: área de cliente con historial y gestión de sus citas | No iniciado |
+| **Batería de pruebas** unitarias, de integración y de sistema (Jest, Supertest, Playwright) | No iniciado |
+| **Integración y despliegue continuos** (GitHub Actions) y **contenerización** con Docker | No iniciado |
+| **Dashboard de analítica con gráficos** para el propietario del negocio | No iniciado |
+| **Paginación** en todos los listados de la API y de la interfaz | No iniciado |
+| **Despliegue en la nube** de la versión final | No iniciado |
+
+> **Estado actual del proyecto:** finalizando la **Fase 1**. A día de hoy se han definido los objetivos funcionales y
+> técnicos, el modelo de entidades, los permisos y el plan de trabajo aquí recogidos, pero **no se ha comenzado la
+> implementación de ninguno de los objetivos del TFG listados en la tabla anterior.**
+
+La viabilidad de esta migración se sustenta en que la aplicación existente está construida siguiendo **Clean
+Architecture**: las capas de dominio y de aplicación son independientes de la tecnología de persistencia, por lo que
+la sustitución de Firebase por el backend propio se concentra en la capa de infraestructura. Este punto se desarrolla
+en los [objetivos técnicos](#objetivos-técnicos).
+
+---
+
+## Bocetos de pantalla
+
+> 🚧 **Pendiente de incorporar.** Se añadirán en esta sección las capturas de la aplicación actual junto con los
+> wireframes de las pantallas nuevas previstas (área de cliente registrado y dashboard de analítica), elaborados con
+> Figma.
+
+---
+
+## Objetivos
+
+### Objetivos funcionales
+
+El objetivo funcional del proyecto es ofrecer a peluquerías y barberías —negocios que habitualmente gestionan su
+agenda por teléfono o mensajería— una solución completa de presencia web y reserva online que puedan poner en marcha
+sin conocimientos técnicos. La aplicación debe permitir al cliente final reservar una cita en pocos pasos y sin
+fricciones, garantizando que el hueco ofrecido está realmente disponible; y debe dar al propietario del negocio el
+control total sobre su agenda, su catálogo y la imagen de su web, además de información agregada que le ayude a tomar
+decisiones. Todo ello sobre una única plataforma capaz de servir a múltiples negocios de forma aislada y
+personalizada.
+
+1. **Reserva de cita online** para clientes no registrados, con selección de servicio, profesional, fecha y hora, y
+   confirmación inmediata.
+2. **Cálculo de disponibilidad en tiempo real** que respeta horarios de apertura, excepciones de calendario, bloqueos
+   de agenda, duración de cada servicio y ocupación individual de cada profesional.
+3. **Área de cliente registrado** con historial de citas, repetición de reservas anteriores y cancelación o
+   modificación sin necesidad de enlace externo.
+4. **Panel de administración** para el propietario: gestión completa de citas (alta, edición, cancelación, control de
+   asistencia), servicios, profesionales, horarios, excepciones y bloqueos.
+5. **Web pública personalizable** por negocio: inicio, servicios y precios, sobre nosotros, galería, reseñas,
+   ubicación, contacto, preguntas frecuentes y páginas legales.
+6. **Notificaciones por SMS** al cliente en los eventos clave de su cita (confirmación y cancelación), con enlace de
+   cancelación mediante token de un solo uso.
+7. **Multi-tenancy**: cada negocio dispone de identidad, branding, contenidos y datos propios, con aislamiento
+   estricto entre negocios.
+8. **Activación modular por negocio** (*feature flags*): reserva online, galería, reseñas, SMS y modo mantenimiento
+   se habilitan de forma independiente para cada tenant.
+9. **Cuadro de mando con gráficos** para el propietario: volumen de citas, tasa de cancelación, distribución por
+   servicio y franjas horarias de mayor ocupación.
+
+### Objetivos técnicos
+
+Desde el punto de vista técnico, el trabajo consiste en sustituir por completo la plataforma propietaria *Backend as
+a Service* sobre la que hoy se apoya la aplicación por un **backend propio desarrollado con NestJS y MongoDB**, que
+exponga una **API REST** documentada y versionada, y en dotar al proyecto de todo el instrumental de un desarrollo
+profesional: pruebas automatizadas en sus tres niveles, integración y despliegue continuos, contenerización y
+despliegue en la nube. La arquitectura limpia de la aplicación existente permite acotar la migración a la capa de
+infraestructura, lo que convierte esta sustitución tecnológica en una demostración práctica del valor del desacoplamiento
+por capas.
+
+1. **Backend NestJS** estructurado en capas desacopladas `controller → service → repository`, sin acceso directo del
+   controlador a la persistencia.
+2. **MongoDB** como base de datos, con modelo documental multi-tenant (discriminación por campo `tenantId` e índices
+   compuestos) y datos de ejemplo cargados mediante *seed*.
+3. **API REST** bajo `/api/v1`, con recursos en plural, uso correcto de verbos y códigos de estado HTTP, cabecera
+   `Location` en las creaciones, filtrado por parámetros de consulta y paginación en todos los listados.
+4. **Documentación OpenAPI** generada con `@nestjs/swagger`, adoptada como contrato de referencia entre frontend y
+   backend.
+5. **Autenticación y autorización con JWT**, mediante *guards* de rol y de tenant que garanticen tanto los permisos
+   por tipo de usuario como el aislamiento entre negocios.
+6. **Migración de la capa de infraestructura** del frontend: sustitución de las implementaciones Firebase por
+   implementaciones HTTP contra la nueva API, manteniendo intactas las capas de dominio y aplicación.
+7. **Pruebas automatizadas**: unitarias y de integración con Jest y Supertest, y de sistema sobre la interfaz con
+   Playwright.
+8. **Integración continua** con GitHub Actions (compilación, análisis estático, ejecución de la batería de pruebas en
+   cada *pull request*) y **despliegue continuo** de las versiones publicadas.
+9. **Contenerización con Docker** y orquestación mediante Docker Compose (aplicación + base de datos), con publicación
+   de la imagen y **despliegue en la nube** de la versión final.
+10. **Almacenamiento de imágenes** gestionado por el backend propio (GridFS o MinIO) en sustitución de Firebase
+    Storage.
+
+---
+
+## Metodología
+
+El desarrollo sigue un modelo **iterativo e incremental** organizado en siete fases. Las fases 3, 4 y 5 constituyen
+los ciclos de desarrollo propiamente dichos, y cada una culmina con la publicación de una *release* funcional y
+verificable de la aplicación. El trabajo se gestiona mediante **GitHub Flow**: cada tarea se corresponde con una
+*issue* del repositorio, se desarrolla en una rama independiente y se integra en `main` a través de una *pull
+request* que debe superar los controles automáticos de calidad configurados en la Fase 2.
+
+| Fase | Descripción | Inicio | Fin |
+|---|---|---|---|
+| **1** | **Definición de funcionalidades y pantallas.** Objetivos funcionales y técnicos, funcionalidades detalladas por prioridad, análisis de pantallas, entidades y permisos. Se documenta en este mismo fichero: [Objetivos](#objetivos), [Funcionalidades detalladas](#funcionalidades-detalladas) y [Análisis](#análisis). | 15 jul 2026 | **15 sep 2026** |
+| **2** | **Repositorio, pruebas y CI.** Reestructuración a monorepo, backend NestJS mínimo con una entidad de extremo a extremo, OpenAPI, primeras pruebas, integración continua y Docker básico. | 16 sep 2026 | **15 oct 2026** |
+| **3** | **Versión 0.1 — Funcionalidad básica.** Autenticación JWT, roles, motor de reservas y disponibilidad, imágenes, paginación y contenerización. | 16 oct 2026 | **15 dic 2026** |
+| **4** | **Versión 0.2 — Funcionalidad intermedia.** Panel de administración completo, analítica con gráficos y despliegue en la nube. | 16 dic 2026 | **1 mar 2027** |
+| **5** | **Versión 1.0 — Funcionalidad avanzada.** Notificaciones SMS, multi-tenancy completo, funcionalidades avanzadas y pulido final. | 2 mar 2027 | **15 abr 2027** |
+| **6** | **Escritura de la memoria.** | 16 abr 2027 | **15 may 2027** |
+| **7** | **Preparación de la presentación y defensa.** | 16 may 2027 | **15 jun 2027** |
+
+### Diagrama de Gantt
+
+```mermaid
+gantt
+    title Planificación del TFG — Davidevs Hairdressers
+    dateFormat YYYY-MM-DD
+    axisFormat %b %Y
+    tickInterval 1month
+
+    section Definición
+    Fase 1 · Funcionalidades y pantallas   :f1, 2026-07-15, 2026-09-15
+
+    section Infraestructura
+    Fase 2 · Repositorio, pruebas y CI     :f2, 2026-09-16, 2026-10-15
+
+    section Desarrollo
+    Fase 3 · v0.1 Básica                   :f3, 2026-10-16, 2026-12-15
+    Fase 4 · v0.2 Intermedia               :f4, 2026-12-16, 2027-03-01
+    Fase 5 · v1.0 Avanzada                 :f5, 2027-03-02, 2027-04-15
+
+    section Cierre
+    Fase 6 · Memoria                       :f6, 2027-04-16, 2027-05-15
+    Fase 7 · Presentación y defensa        :f7, 2027-05-16, 2027-06-15
+```
+
+---
+
+## Funcionalidades detalladas
+
+Las funcionalidades se clasifican por prioridad y se indica el tipo de usuario al que van dirigidas.
+
+### Tipos de usuario
+
+| Usuario | Descripción |
+|---|---|
+| 👤 **Anónimo** | Visitante no autenticado. Consulta la web pública del negocio y puede reservar cita aportando únicamente nombre y teléfono. |
+| 🔑 **Registrado** | Cliente con cuenta en la plataforma. Además de lo anterior, dispone de área personal con el historial y la gestión de sus propias citas. |
+| 🛠️ **Administrador** | Propietario o gestor del negocio. Control total sobre la operativa y la configuración de su tenant. |
+
+### Funcionalidad básica
+
+| # | Funcionalidad | Usuario |
+|---|---|---|
+| B1 | Consulta de la web pública: inicio, servicios y precios, sobre nosotros, ubicación, contacto y páginas legales | 👤 Anónimo |
+| B2 | Consulta de la disponibilidad de citas por fecha, servicio y profesional | 👤 Anónimo |
+| B3 | Reserva de cita aportando nombre y teléfono, con confirmación inmediata | 👤 Anónimo |
+| B4 | Cancelación de una cita mediante enlace con token de un solo uso | 👤 Anónimo |
+| B5 | Registro de cuenta e inicio de sesión | 👤 Anónimo → 🔑 Registrado |
+| B6 | Consulta del historial de citas propias y cancelación desde el área de cliente | 🔑 Registrado |
+| B7 | Inicio de sesión en el panel de administración | 🛠️ Administrador |
+| B8 | Gestión de citas: listado por fecha o rango, alta, edición y cancelación | 🛠️ Administrador |
+| B9 | Gestión del catálogo de servicios: nombre, duración y precio | 🛠️ Administrador |
+| B10 | Gestión del equipo de profesionales | 🛠️ Administrador |
+
+### Funcionalidad intermedia
+
+| # | Funcionalidad | Usuario |
+|---|---|---|
+| I1 | Edición del perfil propio y repetición de reservas anteriores en un paso | 🔑 Registrado |
+| I2 | Gestión de horarios de apertura, excepciones de calendario y bloqueos de agenda | 🛠️ Administrador |
+| I3 | Control de asistencia de los clientes a sus citas | 🛠️ Administrador |
+| I4 | Gestión de la galería de imágenes del negocio | 🛠️ Administrador |
+| I5 | Configuración del contenido y los datos del negocio: contacto, redes sociales y textos | 🛠️ Administrador |
+| I6 | Cuadro de mando con gráficos: volumen de citas, cancelaciones, servicios más solicitados y franjas de mayor ocupación | 🛠️ Administrador |
+| I7 | Filtrado y búsqueda avanzada de citas, con listados paginados | 🛠️ Administrador |
+
+### Funcionalidad avanzada
+
+| # | Funcionalidad | Usuario |
+|---|---|---|
+| A1 | Recepción de notificaciones SMS en los eventos clave de la cita | 👤 Anónimo · 🔑 Registrado |
+| A2 | Reserva de varios servicios en una misma sesión, con encadenado automático de duraciones | 👤 Anónimo · 🔑 Registrado |
+| A3 | Personalización del branding del negocio: colores, tipografías, logotipo e imágenes | 🛠️ Administrador |
+| A4 | Activación modular de funcionalidades por negocio y modo mantenimiento (*feature flags*) | 🛠️ Administrador |
+| A5 | Selección de la estrategia de reserva: agenda global o disponibilidad por profesional | 🛠️ Administrador |
+| A6 | Lista de bloqueo de teléfonos para prevenir reservas abusivas | 🛠️ Administrador |
+| A7 | Exportación de los datos del negocio (citas y clientes) | 🛠️ Administrador |
+
+---
+
+## Análisis
+
+### Pantallas y navegación
+
+| Pantalla | Ruta | Descripción | Navega hacia |
+|---|---|---|---|
+| **Inicio** | `/` | Página principal del negocio con su branding. Integra en una única página las secciones de servicios y precios, sobre nosotros, galería, reseñas, preguntas frecuentes, ubicación y contacto, así como el formulario de reserva. | Reserva, Login, Registro, Legales |
+| **Reserva** | `/` (modal) | Flujo de reserva por pasos: selección de servicio, profesional, fecha y hora sobre la disponibilidad real, y confirmación con los datos de contacto. | Confirmación |
+| **Registro / Login** | `/registro`, `/login` | Alta de cuenta de cliente e inicio de sesión. Da acceso al área de cliente y, para el propietario, al panel de administración. | Área de cliente, Panel de administración |
+| **Área de cliente** | `/mis-citas` | Historial de citas del cliente registrado, con detalle, repetición y cancelación. | Reserva |
+| **Panel de administración** | `/admin` | Espacio de trabajo del propietario, organizado en secciones: agenda y gestión de citas, servicios, profesionales, horarios y excepciones, galería, configuración del negocio y cuadro de mando. | Todas las secciones de administración |
+| **Cuadro de mando** | `/admin` (sección) | Visualización gráfica de los indicadores del negocio. | — |
+| **Cancelación por enlace** | `/cancelar/:token` | Confirmación de la cancelación de una cita a partir del enlace recibido por SMS, sin requerir autenticación. | Inicio |
+| **Páginas legales** | `/aviso-legal`, `/politica-privacidad` | Aviso legal y política de privacidad. | Inicio |
+
+### Entidades
+
+El modelo consta de **diez entidades relacionadas**, todas ellas asociadas a un tenant salvo la propia entidad
+`Tenant`.
+
+| Entidad | Atributos principales | Relaciones |
+|---|---|---|
+| **User** | `email`, `passwordHash`, `name`, `phone`, `role`, `tenantId` | Pertenece a un `Tenant`; tiene muchas `Appointment` |
+| **Tenant** | `name`, `branding` (colores, tipografías, logotipo), `contact`, `socialLinks`, `featureFlags`, `smsSender` | Tiene muchos `User`, `Service`, `Barber`, `Appointment` |
+| **Appointment** | `startAt`, `endAt`, `customerName`, `customerPhone`, `status`, `attendance`, `cancelToken`, `createdAt` | Pertenece a un `Tenant`, un `Service`, un `Barber` y, opcionalmente, un `User` |
+| **Service** | `name`, `description`, `durationMin`, `price`, `isActive` | Pertenece a un `Tenant`; aparece en muchas `Appointment` |
+| **Barber** | `name`, `photo`, `isAvailable`, `schedule` | Pertenece a un `Tenant`; atiende muchas `Appointment` |
+| **Schedule** | `dayOfWeek`, `openTime`, `closeTime`, `isClosed` | Pertenece a un `Tenant` y, opcionalmente, a un `Barber` |
+| **ScheduleException** | `date`, `reason`, `isClosed`, `customHours` | Pertenece a un `Tenant` |
+| **ReservedSlot** | `startAt`, `endAt`, `reason`, `barberId` (nulo = bloqueo global) | Pertenece a un `Tenant` y, opcionalmente, a un `Barber` |
+| **GalleryPhoto** | `imageRef`, `caption`, `order` | Pertenece a un `Tenant` |
+| **BlockedPhone** | `phone`, `reason`, `blockedAt` | Pertenece a un `Tenant` |
+
+```mermaid
+erDiagram
+    TENANT   ||--o{ USER            : "agrupa"
+    TENANT   ||--o{ SERVICE         : "ofrece"
+    TENANT   ||--o{ BARBER          : "emplea"
+    TENANT   ||--o{ APPOINTMENT     : "registra"
+    TENANT   ||--o{ SCHEDULE        : "define"
+    TENANT   ||--o{ SCHEDULEEXCEPTION : "define"
+    TENANT   ||--o{ RESERVEDSLOT    : "bloquea"
+    TENANT   ||--o{ GALLERYPHOTO    : "publica"
+    TENANT   ||--o{ BLOCKEDPHONE    : "veta"
+    USER     ||--o{ APPOINTMENT     : "reserva"
+    SERVICE  ||--o{ APPOINTMENT     : "se presta en"
+    BARBER   ||--o{ APPOINTMENT     : "atiende"
+    BARBER   ||--o{ SCHEDULE        : "tiene"
+    BARBER   ||--o{ RESERVEDSLOT    : "tiene"
+```
+
+### Permisos de usuario
+
+| Acción | 👤 Anónimo | 🔑 Registrado | 🛠️ Administrador |
+|---|:---:|:---:|:---:|
+| Consultar la web pública y los servicios | ✅ | ✅ | ✅ |
+| Consultar disponibilidad y reservar cita | ✅ | ✅ | ✅ |
+| Cancelar una cita mediante token recibido por SMS | ✅ | ✅ | ✅ |
+| Registrarse e iniciar sesión | ✅ | — | — |
+| Consultar y gestionar **las citas propias** | ❌ | ✅ | ✅ |
+| Editar el perfil propio | ❌ | ✅ | ✅ |
+| Consultar y gestionar **las citas de todo el negocio** | ❌ | ❌ | ✅ |
+| Gestionar servicios, profesionales, horarios y bloqueos | ❌ | ❌ | ✅ |
+| Gestionar la galería y la configuración del negocio | ❌ | ❌ | ✅ |
+| Consultar el cuadro de mando y exportar datos | ❌ | ❌ | ✅ |
+
+El acceso a los datos está sujeto a dos controles acumulativos: el **rol** determina qué operaciones puede ejecutar el
+usuario, y el **tenant** determina sobre qué conjunto de datos las ejecuta. Un usuario registrado sólo puede operar
+sobre las citas de las que es propietario (*ownership*), y ningún usuario —administrador incluido— puede acceder a
+datos pertenecientes a otro negocio.
+
+### Imágenes
+
+Tres entidades llevan imágenes asociadas:
+
+- **GalleryPhoto** — varias imágenes por negocio, subidas y ordenadas por el administrador, que componen la galería
+  de la web pública.
+- **Tenant** — logotipo e imagen de cabecera que definen la identidad visual del negocio.
+- **Barber** — una fotografía de perfil por profesional, mostrada durante la selección en el flujo de reserva.
+
+Las imágenes se almacenarán en el backend propio mediante **GridFS**, sustituyendo al servicio de almacenamiento
+externo utilizado actualmente.
+
+### Gráficos
+
+El cuadro de mando del administrador presentará la siguiente información:
+
+| Información | Tipo de gráfico |
+|---|---|
+| Evolución del número de citas a lo largo del tiempo | Líneas |
+| Citas confirmadas, canceladas y no atendidas por periodo | Barras apiladas |
+| Distribución de reservas por servicio | Tarta |
+| Ocupación por franja horaria y día de la semana | Barras / mapa de calor |
+| Reparto de la carga de trabajo entre profesionales | Barras horizontales |
+
+Los datos se obtendrán mediante consultas de agregación sobre MongoDB, sin recuperar los documentos completos para
+procesarlos en memoria.
+
+### Tecnología complementaria
+
+**Notificaciones por SMS** mediante la integración con una pasarela externa de mensajería (Mocean / GatewayAPI). El
+sistema envía un mensaje al cliente al confirmarse su cita —incluyendo un enlace de cancelación con token de un solo
+uso— y ante los cambios que le afectan. La integración se resuelve con el **patrón Adapter**, de modo que el proveedor
+de SMS resulta intercambiable sin modificar la lógica de negocio.
+
+### Algoritmo o consulta avanzada
+
+**Cálculo de disponibilidad multi-profesional.** Dado un servicio, una fecha y, opcionalmente, un profesional
+concreto, el algoritmo determina el conjunto de huecos reservables combinando:
+
+- el horario de apertura del negocio y el horario particular de cada profesional,
+- las excepciones de calendario (festivos, cierres puntuales, jornadas con horario especial),
+- los bloqueos de agenda, tanto globales como individuales,
+- las citas ya existentes y la duración específica del servicio solicitado,
+- y la **estrategia de reserva** configurada por el negocio: *agenda global*, en la que basta con que algún
+  profesional esté libre, o *por profesional*, en la que se calcula la disponibilidad individual de cada uno.
+
+Ambas estrategias se implementan mediante el **patrón Strategy**, lo que permite añadir nuevas políticas de reserva
+sin alterar el motor de disponibilidad. El algoritmo debe además resolver la **concurrencia**: dos clientes que
+intentan reservar simultáneamente el mismo hueco. Esta garantía se abordará mediante un índice único sobre la
+combinación de negocio, profesional e instante de inicio.
+
+---
+
+## Seguimiento
+
+| Recurso | Enlace |
+|---|---|
+| **Blog de desarrollo** | 🚧 Pendiente de publicar. Se anunciará en él cada versión publicada al cierre de las fases 3, 4 y 5. |
+| **GitHub Project (Kanban)** | 🚧 Pendiente de configurar en la Fase 2. Recogerá las tareas del proyecto organizadas por fase. |
+
+---
+
+## Autor
+
+Esta aplicación se desarrolla en el contexto del **Trabajo de Fin de Grado** de la titulación de
+**[⚠️ PENDIENTE: titulación]** en la **Escuela Técnica Superior de Ingeniería Informática (ETSII)** de la
+**Universidad Rey Juan Carlos**.
+
+| | |
+|---|---|
+| **Alumno** | Álvaro Fuente García |
+| **Tutor** | **[⚠️ PENDIENTE: nombre del tutor]** |
+| **Curso académico** | 2026 / 2027 |
+
+---
+
+## Tecnologías
+
+### Situación actual
+
+| Ámbito | Tecnología |
+|---|---|
+| Frontend | Angular 19 · TypeScript · SCSS |
+| Arquitectura | Clean Architecture (dominio · aplicación · infraestructura · presentación) |
+| Backend | Firebase (Firestore · Authentication · Storage · Cloud Functions) |
+
+### Situación objetivo
+
+| Ámbito | Tecnología |
+|---|---|
+| Frontend | Angular (última versión estable) · TypeScript · SCSS |
+| Backend | NestJS · TypeScript |
+| Base de datos | MongoDB |
+| Autenticación | JWT |
+| Documentación de la API | OpenAPI (`@nestjs/swagger`) |
+| Pruebas | Jest · Supertest · Playwright |
+| Calidad | ESLint · Prettier · análisis estático |
+| CI/CD | GitHub Actions |
+| Contenerización | Docker · Docker Compose |
+
+---
+
+## Licencia
+
+Distribuido bajo licencia **Apache 2.0**. Véase el fichero [`LICENSE`](LICENSE).

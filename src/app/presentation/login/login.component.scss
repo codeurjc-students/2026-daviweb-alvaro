@@ -1,0 +1,357 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+@use '../../../styles/functions' as *;
+
+.login-container {
+  min-height: 100svh;
+  height: 100svh;
+  background: linear-gradient(135deg, $primary-lighter 0%, alpha($primary-light, 0.3) 50%, $white 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  margin: 0px;
+  font-family: $font-primary;
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  line-height: 1.6;
+  overflow: hidden;
+  box-sizing: border-box;
+  touch-action: none;
+}
+
+.login-card {
+  background: $white;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px alpha($primary, 0.15);
+  width: 100%;
+  max-width: 380px;
+  min-width: 280px;
+  overflow: hidden;
+  position: relative;
+  margin: auto;
+  border: 1px solid alpha($primary, 0.1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, $primary 0%, $accent 100%);
+  }
+}
+
+.login-header {
+  background: linear-gradient(135deg, alpha($primary, 0.08) 0%, alpha($accent, 0.05) 100%);
+  padding: 30px 25px 20px;
+  text-align: center;
+  border-bottom: 2px solid alpha($primary, 0.15);
+
+  .scissors-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    color: $primary;
+  }
+
+  h2 {
+    color: $text-dark;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    letter-spacing: 0.5px;
+  }
+
+  p {
+    color: $text-pink;
+    font-size: 0.85rem;
+    margin: 0;
+    font-weight: 500;
+  }
+}
+
+.login-form {
+  padding: 25px 25px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0px
+}
+
+.form-group {
+  margin-bottom: 20px;
+
+  label {
+    display: block;
+    color: $text-dark;
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+  }
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.form-input {
+  width: 100%;
+  padding: 14px 16px;
+  padding-right: 45px;
+  border: 2px solid $border-color;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background: $white;
+  box-sizing: border-box;
+  color: $text-dark;
+
+  &:focus {
+    outline: none;
+    border-color: $primary;
+    box-shadow: 0 0 0 3px alpha($primary, 0.1);
+  }
+
+  &::placeholder {
+    color: $text-gray;
+    font-size: 0.9rem;
+  }
+
+  &.error {
+    border-color: $danger-red;
+    box-shadow: 0 0 0 3px rgba($danger-red, 0.1);
+  }
+}
+
+.input-icon {
+  position: absolute;
+  right: 16px;
+  font-size: 1.1rem;
+  color: $text-dark;
+  pointer-events: none;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 11px;
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  color: $text-dark;
+
+  &:hover {
+    background-color: alpha($primary, 0.1);
+  }
+}
+
+.error-message {
+  color: $danger-red;
+  font-size: 0.75rem;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, $primary 0%, $accent 100%);
+  color: $white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 15px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px alpha($primary, 0.3);
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px alpha($primary, 0.4);
+    background: linear-gradient(135deg, $accent 0%, $primary 100%);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  &.loading {
+    background: linear-gradient(135deg, alpha($primary, 0.7) 0%, alpha($accent, 0.7) 100%);
+  }
+}
+
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid alpha($white, 0.3);
+  border-top: 2px solid $white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.forgot-password-btn {
+  background: none;
+  border: none;
+  color: $primary;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-decoration: underline;
+  width: auto;
+  padding: 6px;
+  transition: color 0.3s ease;
+  font-weight: 700;
+  margin: 0 auto;
+
+  &:hover {
+    color: $primary-dark;
+  }
+}
+
+.login-footer {
+  background: linear-gradient(135deg, alpha($primary, 0.08) 0%, alpha($accent, 0.05) 100%);
+  padding: 15px 25px;
+  text-align: center;
+  border-top: 2px solid alpha($primary, 0.15);
+
+  p {
+    color: $text-pink;
+    font-size: 0.75rem;
+    margin: 0;
+  }
+}
+
+// Responsive design para móviles pequeños
+@media (max-width: 480px) {
+  .login-container {
+    padding: 15px;
+    align-items: center; 
+    padding-top: 20px; 
+    height: 100svh; 
+    overflow: hidden; 
+  }
+
+  .login-card {
+    margin: 0;
+    max-width: 100%;
+    border-radius: 14px;
+    max-height: 100svh;
+  }
+
+  .login-header {
+    padding: 25px 20px 15px;
+
+    .scissors-icon {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+    }
+
+    p {
+      font-size: 0.8rem;
+    }
+  }
+
+  .login-form {
+    padding: 20px 20px 15px;
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+
+  .form-input {
+    padding: 12px 14px;
+    padding-right: 40px;
+    font-size: 0.9rem;
+    color: $black;
+  }
+
+  .input-icon,
+  .password-toggle {
+    font-size: 1rem;
+    right: 14px;
+  }
+
+  .login-btn {
+    padding: 12px;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+  }
+
+  .forgot-password-btn {
+    font-size: 0.8rem;
+  }
+
+  .login-footer {
+    padding: 12px 20px;
+    
+    p {
+      font-size: 0.7rem;
+    }
+  }
+}
+
+// Para pantallas muy pequeñas (menos de 350px)
+@media (max-width: 350px) {
+  .login-container {
+    padding: 10px;
+    padding-top: 30px;
+  }
+
+  .login-header {
+    padding: 20px 15px 12px;
+    
+    h2 {
+      font-size: 1.2rem;
+    }
+  }
+
+  .login-form {
+    padding: 15px 15px 12px;
+  }
+}
+
+// Animaciones
+.login-card {
+  animation: slideIn 0.6s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

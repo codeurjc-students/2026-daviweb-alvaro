@@ -1,0 +1,28 @@
+<div class="admin-container">
+  <!-- Header del panel de administración -->
+  <app-admin-header (logout)="onLogout()"></app-admin-header>
+
+  <!-- Navegación de pestañas -->
+  <app-admin-nav [activeTab]="activeTab" (tabChange)="onTabChange($event)">
+  </app-admin-nav>
+
+  <!-- Contenido principal (landmark secundario para el panel de administración) -->
+  <div role="region" aria-labelledby="admin-content-heading" class="admin-content">
+    <h2 id="admin-content-heading" class="sr-only">Contenido del panel de administración</h2>
+    <!-- Sección: Galería de Fotos -->
+    <app-gallery-management *ngIf="activeTab === 'gallery'"></app-gallery-management>
+
+    <!-- Sección: Servicios y Precios -->
+    <app-services-management *ngIf="activeTab === 'services'"></app-services-management>
+
+    <!-- Sección: Información General -->
+    <app-info-management *ngIf="activeTab === 'info'"></app-info-management>
+
+    <!-- Sección: Estadísticas -->
+    <app-appointment-management *ngIf="activeTab === 'appointment'"></app-appointment-management>
+
+    <!-- Sección: Blacklist -->
+    <app-blacklist-management *ngIf="activeTab === 'blacklist'"></app-blacklist-management>
+
+  </div>
+</div>

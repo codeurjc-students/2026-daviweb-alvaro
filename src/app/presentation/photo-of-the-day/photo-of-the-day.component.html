@@ -1,0 +1,82 @@
+<div class="photo-of-the-day" id="photo-of-the-day" aria-label="Fotos del día">
+  <div class="heading">Fotos del día</div>
+  <div class="description">Algunos de los trabajos más recientes realizados en nuestra peluquería.</div>
+
+  <!-- Loading state -->
+  @if (isLoading()) {
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Cargando galería...</p>
+    </div>
+  }
+
+  <!-- No images state -->
+  @if (!isLoading() && totalSlides() === 0) {
+    <div class="no-images-container">
+      <div class="no-images-icon">📷</div>
+      <p>No hay fotos disponibles en este momento</p>
+      <small>Las fotos aparecerán aquí cuando sean añadidas desde el panel de administración</small>
+    </div>
+  }
+
+  <!-- Single image state -->
+  @if (!isLoading() && totalSlides() === 1) {
+    <div class="single-image-container">
+      <div class="single-image-wrapper">
+        <!-- width/height reflejan la ratio intrínseca (ej. 1024x1024). priority porque es LCP -->
+        <img [ngSrc]="carouselItems()[0].url!" [alt]="getAltText(carouselItems()[0].displayName )" width="1024" height="1024" priority
+          decoding="async" class="single-image">
+        <div class="image-caption">
+          <span>{{ formatCaption(carouselItems()[0].displayName) }}</span>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Carousel for multiple images -->
+  @if (!isLoading() && totalSlides() > 1) {
+    <div class="photo-carousel" role="region" aria-roledescription="carrusel de imágenes" aria-label="Fotos del día">
+      <!-- Contenedor de imágenes -->
+      <div class="carousel-container">
+        <div class="carousel-track" [style.width]="(totalSlides() * 100) + '%'"
+          [style.transform]="'translateX(-' + (currentSlide() * (100 / totalSlides())) + '%)'">
+          @for (item of carouselItems(); track i; let i = $index) {
+            <div class="carousel-slide"
+              [style.width]="(100 / totalSlides()) + '%'" 
+              [style.--bg]="'url(' + item.url + ')'">
+              <img [ngSrc]="item.url!" [alt]="getAltText(item.displayName)" fill class="carousel-image"
+                [attr.priority]="i === currentSlide() ? '' : null" [attr.loading]="i === currentSlide() ? null : 'lazy'"
+                decoding="async">
+              <div class="carousel-caption">
+                <span>{{ formatCaption(item.displayName) }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Botones de navegación -->
+      <button class="carousel-btn carousel-btn-prev" (click)="prevSlide()" type="button" [disabled]="totalSlides() <= 1" aria-label="Imagen anterior">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 18L9 12L15 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+
+      <button class="carousel-btn carousel-btn-next" (click)="nextSlide()" type="button" [disabled]="totalSlides() <= 1" aria-label="Imagen siguiente">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 18L15 12L9 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+
+      <!-- Indicadores -->
+      <div class="carousel-indicators" role="tablist" aria-label="Indicadores del carrusel">
+        @for (item of carouselItems(); track i; let i = $index) {
+          <button class="indicator"
+            [class.active]="i === currentSlide()" (click)="goToSlide(i)" type="button" role="tab"
+            [attr.aria-selected]="i === currentSlide()" [attr.aria-controls]="'carousel-slide-' + i" [attr.aria-label]="'Ir a la imagen ' + (i+1)">
+          </button>
+        }
+      </div>
+    </div>
+  }
+</div>

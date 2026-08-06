@@ -1,0 +1,53 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+html {
+  scroll-behavior: smooth;
+  // height: 100%; // Eliminamos altura fija para evitar conflictos de scroll
+}
+
+body {
+  min-height: 100vh; // Aseguramos que cubra la pantalla
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  // overflow-y: auto; // ELIMINADO: Dejamos que el navegador gestione el scroll nativo
+  background-color: $background-primary;
+  font-family: $font-primary;
+  font-size: $font-size-base;
+  color: $black;
+  line-height: 1.6;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: $background-secondary;
+  // overflow-y: auto; // ELIMINADO: Causa del bug de doble scroll y glitches visuales
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Helpers accesibilidad */
+.sr-only,
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+// Scrollbar global
+html {
+  @include custom-scrollbar();
+}

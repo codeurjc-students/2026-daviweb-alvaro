@@ -1,0 +1,75 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// Opinions adaptado a la nueva paleta
+.opinions {
+  padding: 48px 24px;
+  box-sizing: border-box;
+  background: $background-section; // igual que otras secciones
+  color: $text-dark;
+  border-radius: $border-radius-xl;
+  box-shadow: $shadow-md;
+  min-height: 500px; /* Coincide con skeleton desktop */
+  @include section;
+
+  @include mobile {
+    min-height: 1200px; /* Coincide con skeleton móvil */
+  }
+}
+
+// Título y subtítulo consistentes con otras secciones
+.section-title {
+  color: $text-dark;
+  font-family: $font-primary;
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-bold;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.section-subtitle {
+  color: $text-dark;
+  font-family: $font-mono;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-normal;
+  text-align: center;
+  margin: 0 auto 28px auto;
+  max-width: 700px;
+}
+
+.opinions-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+.more-reviews {
+  text-align: center;
+  margin-top: 36px;
+  margin-bottom: 10px;
+}
+
+.more-reviews-text {
+  color: $primary;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.more-reviews-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 8px;
+  stroke: $primary;
+  transition: transform 0.3s ease;
+}
+
+.more-reviews:hover .more-reviews-icon {
+  transform: translateX(4px);
+}

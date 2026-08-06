@@ -1,0 +1,47 @@
+<footer class="footer">
+  <div class="footer-container">
+    <div class="info">
+      <div class="container-column">
+        <h3 class="heading">Enlaces</h3>
+        <div class="container-column">
+          <button type="button" class="text button" (click)="scrollToSection('photo-of-the-day'); $event.preventDefault()">Nuestros Cortes</button>
+          <button type="button" class="text button" (click)="scrollToSection('services'); $event.preventDefault()">Servicios y Precios</button>
+          <button type="button" class="text button" (click)="scrollToSection('appointments'); $event.preventDefault()">Reservar Cita</button>
+          <a class="text" routerLink="/aviso-legal">Aviso Legal</a>
+          <a class="text" routerLink="/politica-privacidad">Política de Privacidad</a>
+          <a class="text" [routerLink]="'admin'">Sección de administrador</a>
+        </div>
+      </div>
+      <div class="container-column">
+        <h3 class="heading">Contacto</h3>
+        <div class="container-row">
+          <i class="bi bi-geo-alt-fill" [attr.aria-hidden]="true"></i>
+          <div class="text">{{state.contactInfo().address}}</div>
+        </div>
+        <div class="container-row">
+          <i class="bi bi-telephone-fill" [attr.aria-hidden]="true"></i>
+          <div class="text">{{state.contactInfo().phone}}</div>
+        </div>
+      </div>
+      <div class="container-column">
+        <h3 class="heading">Horario</h3>
+        <div class="container-column">
+          @for (item of state.formattedSchedule(); track $index) {
+            <span class="text">{{item}}</span>
+          }
+        </div>
+      </div>
+      <div class="container-column">
+        <h3 class="heading">Síguenos</h3>
+        <div class="container-column">
+          <a href="https://www.instagram.com/{{saasConfig.instagram}}" target="_blank" rel="noopener noreferrer" class="icon-link" aria-label="Instagram del dueño">
+            <i class="bi bi-instagram" [attr.aria-hidden]="true"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      <span class="text">© 2025 {{saasConfig.name}}. Todos los derechos reservados.</span>
+    </div>
+  </div>
+</footer>

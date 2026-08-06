@@ -1,0 +1,85 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.root {
+  padding: 16px 10px;
+  box-sizing: border-box;
+  background: $background-grey;
+  font-family: 'Inter', sans-serif;
+  color: $text-dark;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 9px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.root_property1Default {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.root_property1Deployed {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 10px;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  width: 100%;
+}
+
+.text {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 423px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: $text-dark;
+  text-align: left;
+}
+
+// Contenedor de la respuesta
+.answer-container {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.4s ease-in-out;
+  transform: translateY(-10px);
+}
+
+.answer-container.answer-visible {
+  max-height: 200px; // Ajusta según tu contenido máximo
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.answer {
+  border-top: 2px solid $text-gray;
+}
+
+.bi {
+  transition: transform 0.3s ease-in-out;
+  font-size: 16px;
+  display: inline-block;
+}
+.bi-chevron-down {
+  transform: rotate(0deg);
+}
+.bi-chevron-down.rotated {
+  transform: rotate(-90deg);
+}
+

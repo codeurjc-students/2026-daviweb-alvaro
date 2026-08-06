@@ -1,0 +1,40 @@
+<div class="opinions">
+  <h2 class="section-title">Opiniones</h2>
+  <p class="section-subtitle">
+    Nos esforzamos por ofrecer la mejor experiencia a quienes entran por nuestra puerta.
+    Esto es lo que opinan de nosotros.
+  </p>
+  <div class="opinions-list" role="list">
+  <app-opinion role="listitem"
+    platform="Google"
+    userName="Elena Smith Pablos"
+    opinionText="Una profesional increíble!! Te escucha y entiende perfectamente lo que quieres además de que te advierte de cómo puede quedar, los cuidados que conllevará etc, no se pasa de lo que le pides.
+
+Es mi sitio de confianza. 100% recomendado y pedir cita con antelación.">
+  </app-opinion>
+  <app-opinion role="listitem"
+    platform="Google"
+    userName="Carmen Retamosa"
+    opinionText="Todo un descubrimiento. Me ha encantado el resultado, muy buena  profesional, me ha asesorado muy bien respecto al corte, el color ha quedado ideal. Me encanta el resultado. Y una excelente relación calidad/precio. Sin duda totalmente recomendable. Mi peluquería de confianza!!!">
+  </app-opinion>
+  <app-opinion role="listitem"
+    platform="Google"
+    userName="Charoaf Af"
+    opinionText="Estupenda profesional. Te asesora con total confianza y siempre con muchísimo acierto. Yo estoy encantada. Es mi peluquera desde hace 20 años y no la cambio por otra. Espero que lo siga siendo otros 20 más.">
+  </app-opinion>
+  </div>
+  <div class="more-reviews">
+    <a
+      class="more-reviews-container"
+      href="{{saasConfig.opinionsUrl}}"
+      target="_blank"
+      rel="noopener"
+      [attr.aria-label]="'Ver más reseñas en Google de Ro\'s Peluqueros'"
+    >
+      <span class="more-reviews-text">Ver más reseñas en Google</span>
+      <div class="more-reviews-icon">
+        <!-- SVG aquí -->
+      </div>
+    </a>
+  </div>
+</div>

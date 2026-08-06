@@ -1,0 +1,2846 @@
+@use "sass:color";
+
+@use "../../../../../styles/variables" as *;
+@use "../../../../../styles/mixins" as *;
+@use "../../../../../styles/functions" as *;
+
+.content-section {
+    width: 100%;
+    height: auto; // no forzar 100% de altura del contenedor
+    max-width: 100%;
+    overflow: visible; // restaurar overflow previo
+    display: flex;
+    flex-direction: column;
+
+    // En móvil evitamos forzar alturas o scrolls internos para prevenir "espacios en rosa"
+    @include mobile {
+        height: auto;
+        min-height: auto; // no forzar 100dvh aquí
+        overflow: visible; // dejar que el scroll lo gestione .admin-content
+        padding: 0;
+    }
+}
+
+.section-header {
+    margin-bottom: 20px;
+    font-family: $font-primary;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-normal;
+    color: $text-dark;
+}
+
+.appointment-grid {
+    display: grid;
+    grid-template-columns: 40% 1fr;
+    gap: 2rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    height: auto; // evitar forzar altura del grid
+
+    @include mobile {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        height: auto;
+        min-height: auto;
+        overflow: visible;
+    }
+}
+
+.panel-header {
+    margin-bottom: 10px;
+
+    h3 {
+        margin-bottom: 5px;
+    }
+
+    small {
+        margin-left: 3px;
+        margin-top: -10px;
+    }
+}
+
+.filters-container {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+
+    .search-group {
+        position: relative;
+        width: 100%;
+
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-dark);
+            font-size: 0.9rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding-left: 32px; // espacio para icono
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            font-size: 0.9rem;
+            height: 38px;
+            box-sizing: border-box;
+
+            &:focus {
+                border-color: $primary;
+                box-shadow: 0 0 0 2px alpha($primary, 0.1);
+                outline: none;
+            }
+        }
+    }
+
+    .filter-row {
+        display: flex;
+        gap: 0.5rem;
+
+        select {
+            flex: 1;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: $text-gray;
+            padding: 4px 8px;
+            min-width: 0; // Prevent overflow
+            background-color: #fff;
+
+            &:focus {
+                border-color: $primary;
+                outline: none;
+            }
+        }
+    }
+
+    .btn-link-reset {
+        background: none;
+        border: none;
+        color: $primary;
+        font-size: 0.8rem;
+        cursor: pointer;
+        padding: 0;
+        text-align: right;
+        align-self: flex-end;
+        text-decoration: underline;
+
+        &:hover {
+            color: $primary-dark;
+        }
+
+        i {
+            margin-right: 4px;
+        }
+    }
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    text-align: center;
+    color: $color-muted;
+    opacity: 0.7;
+
+    i {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        color: $text-gray-light;
+    }
+
+    p {
+        font-size: 0.95rem;
+        margin: 0;
+    }
+}
+
+/* Left panel - Lista de citas mejorada */
+.left-panel {
+    @include card-style;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: fit-content; // Cambiar a fit-content
+    min-height: 600px; // Altura mínima
+    max-height: 1254px;
+    background: $white;
+    border: 1px solid alpha($primary, 0.1);
+    box-shadow: 0 4px 20px alpha($primary, 0.1);
+
+    @include mobile {
+        max-height: 50vh; // Limitar altura en móvil
+        min-height: auto; // no forzar 600px en móvil
+        margin-top: 0;
+        padding: 1rem;
+        order: 1; // Debe ir primero en móvil
+    }
+}
+
+.list {
+    overflow-y: auto;
+    padding-right: .5rem;
+    padding-top: 5px;
+    flex: 1; // Hacer que ocupe el espacio disponible
+    max-height: none !important; // Eliminar max-height fijo
+    overflow-x: hidden;
+
+    @include mobile {
+        max-height: 40vh; // Altura controlada
+        overflow-y: auto;
+        padding-right: 0;
+    }
+
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: alpha($primary, 0.1);
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: alpha($primary, 0.3);
+        border-radius: 4px;
+
+        &:hover {
+            background: alpha($primary, 0.5);
+        }
+    }
+}
+
+.appointment-card {
+    border-radius: 16px;
+    padding: 1.25rem;
+    margin-left: 5px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid alpha($primary, 0.15);
+    background: $white;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 2px 10px alpha($primary, 0.1);
+
+    @include mobile {
+        border-radius: 10px;
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+        margin-left: 0;
+        margin-right: 0;
+        // Asegurar que el contenido no cause overflow
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+
+        // Reducir efectos en mobile para mejor performance
+        &:hover {
+            transform: none;
+            box-shadow: 0 4px 15px alpha($primary, 0.2);
+        }
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 100%;
+        background: linear-gradient(180deg, $primary, $secondary);
+        transform: scaleY(0);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, alpha($primary, 0.3));
+        transform: scaleX(0);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: right;
+    }
+
+    &:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 8px 30px alpha($primary, 0.25);
+        border-color: alpha($primary, 0.4);
+
+        &::before {
+            transform: scaleY(1);
+        }
+
+        &::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+    }
+
+    &.active {
+        background: alpha($primary, 0.05);
+        border-color: $primary;
+        box-shadow: 0 6px 25px alpha($primary, 0.3);
+        transform: translateY(-2px);
+
+        @include mobile {
+            transform: none;
+            box-shadow: 0 4px 15px alpha($primary, 0.2);
+        }
+
+        &::before {
+            transform: scaleY(1);
+        }
+
+        &::after {
+            transform: scaleX(1);
+        }
+
+        .card-title {
+            color: $primary;
+            font-weight: 700;
+        }
+    }
+
+    .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 0.75rem;
+        gap: 1rem;
+
+        @include mobile {
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: stretch;
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    .card-title {
+        font-weight: 600;
+        font-size: 1.15rem;
+        color: $text-dark;
+        transition: all 0.3s ease;
+        line-height: 1.3;
+
+        @include mobile {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+    }
+
+    .card-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        align-items: flex-end;
+
+        @include mobile {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .date {
+            background: alpha($primary, 0.1);
+            color: $primary;
+            padding: 3px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+
+            @include mobile {
+                padding: 2px 8px;
+                font-size: 0.85rem;
+                flex: 1;
+                text-align: center;
+            }
+        }
+
+        .hour-time {
+            display: flex;
+            gap: 4px;
+
+            @include mobile {
+                flex-wrap: wrap;
+                gap: 3px;
+                flex: 1;
+                justify-content: flex-end;
+            }
+
+            .time {
+                background: alpha($secondary, 0.15);
+                color: $text-dark;
+                font-size: 0.85rem;
+                font-weight: 700;
+                padding: 2px 6px;
+                border-radius: 6px;
+
+                @include mobile {
+                    font-size: 0.75rem;
+                    padding: 2px 4px;
+                }
+            }
+        }
+    }
+
+    .card-body {
+        color: $text-dark;
+        font-size: 0.85rem;
+        line-height: 1.4;
+
+        @include mobile {
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        div {
+            margin-bottom: 0.3rem;
+            padding-left: 0.4rem;
+            border-left: 2px solid alpha($primary, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+
+            @include mobile {
+                margin-bottom: 0.3rem;
+                padding-left: 0.4rem;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.25rem;
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        strong {
+            color: $text-dark;
+            font-weight: 600;
+            margin-right: 0.5rem;
+
+            @include mobile {
+                min-width: fit-content;
+                margin-right: 0.3rem;
+            }
+        }
+    }
+
+    .card-indicator {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        font-size: 0.9rem;
+        opacity: 0.8;
+
+        @include mobile {
+            top: 0.5rem;
+            right: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        i {
+            color: $primary
+        }
+    }
+}
+
+/* Right panel - Calendario mejorado */
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+
+    @include mobile {
+        gap: 1rem;
+        padding: 0;
+        min-width: 0;
+        order: 2; // Debe ir después de la lista en móvil
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.calendar-header {
+    @include card-style;
+    background: $background-primary;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, $primary, $secondary);
+    position: relative;
+    overflow: hidden;
+
+    @include mobile {
+        padding: 1rem;
+        flex-direction: row;
+        gap: 1rem;
+        justify-content: center;
+        padding: 0.75rem 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        margin-bottom: 0;
+    }
+
+    .calendar-nav {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        position: relative;
+        z-index: 1;
+
+        @include mobile {
+            gap: 0.25rem;
+        }
+    }
+
+    .btn.nav-btn {
+        background: alpha($white, 0.2);
+        border: 2px solid alpha($white, 0.3);
+        color: $white;
+        padding: 10px 14px;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        font-weight: 600;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        height: 44px;
+        backdrop-filter: blur(10px);
+
+        @include mobile {
+            min-width: 36px;
+            height: 36px;
+            padding: 8px 10px;
+            font-size: 1rem;
+        }
+
+        &:hover {
+            background: alpha($white, 0.3);
+            border-color: alpha($white, 0.6);
+            transform: scale(1.1) translateY(-1px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+
+            @include mobile {
+                transform: scale(1.05);
+            }
+        }
+
+        &:active {
+            transform: scale(0.95);
+        }
+    }
+
+    .btn.today-btn {
+        background: alpha($white, 0.9);
+        border: 2px solid alpha($white, 0.3);
+        color: $text-dark;
+        padding: 8px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+
+        @include mobile {
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            letter-spacing: 0.3px;
+            order: -1;
+            margin-top: 0.5rem;
+            width: 100%;
+        }
+
+        &:hover {
+            background: $white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+
+            @include mobile {
+                transform: none;
+            }
+        }
+    }
+
+    .calendar-title {
+        color: $white;
+        font-weight: 700;
+        font-size: 1.4rem;
+        text-transform: capitalize;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        flex: 1;
+        text-align: center;
+        margin: 0 1rem;
+        position: relative;
+        z-index: 1;
+
+        @include mobile {
+            font-size: 1.2rem;
+            margin: 0;
+            width: 100%;
+            order: -2;
+        }
+    }
+
+    // Contenedor de navegación principal para mobile
+    @include mobile {
+        .navigation-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            order: 2;
+
+            .nav-group {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .nav-group.left {
+                order: 1;
+            }
+
+            .nav-group.center {
+                order: 2;
+                flex: 1;
+                justify-content: center;
+            }
+
+            .nav-group.right {
+                order: 3;
+            }
+        }
+
+        .btn.today-btn {
+            order: 3;
+            margin-top: 0.5rem;
+            width: 100%;
+        }
+    }
+}
+
+.day-summary {
+    background: linear-gradient(135deg, alpha($primary, 0.1), alpha($secondary, 0.05));
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    border: 1px solid alpha($primary, 0.2);
+    display: flex;
+    align-items: end;
+    gap: 10px;
+
+    @include mobile {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .summary-text {
+        color: $text-dark;
+        font-weight: 600;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    i {
+        color: $primary
+    }
+}
+
+.calendar-body {
+    @include card-style;
+    max-height: 60vh;
+    overflow-y: auto;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+
+    @include mobile {
+        max-height: 50vh; // Altura controlada
+        overflow-y: auto;
+        overflow-x: hidden !important;
+    }
+
+    &::-webkit-scrollbar {
+        width: 8px;
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &::-webkit-scrollbar-track {
+        background: alpha($primary, 0.05);
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, alpha($primary, 0.4), alpha($primary, 0.6));
+        border-radius: 4px;
+
+        &:hover {
+            background: linear-gradient(180deg, alpha($primary, 0.6), alpha($primary, 0.8));
+        }
+    }
+
+    .empty-day {
+        @include mobile {
+            padding: 2rem 1rem;
+
+            .empty-icon {
+                font-size: 2.5rem;
+            }
+
+            h3 {
+                font-size: 1.2rem;
+            }
+        }
+
+        &.day-closed {
+            background: linear-gradient(135deg,
+                    alpha($text-gray, 0.05),
+                    alpha($text-gray, 0.02));
+
+            .empty-icon {
+                color: $text-gray;
+                opacity: 0.4;
+            }
+
+            h3 {
+                color: $text-gray;
+                opacity: 0.7;
+            }
+
+            p {
+                color: $text-gray;
+                opacity: 0.6;
+            }
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                width: 20px;
+                height: 20px;
+                background: alpha($text-gray, 0.3);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.8rem;
+                color: $white;
+            }
+        }
+    }
+}
+
+.hours {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    @include mobile {
+        gap: 0.75rem;
+    }
+}
+
+.hour-row {
+    display: flex;
+    gap: 1rem;
+    align-items: stretch;
+    padding: 0.75rem;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    min-height: 70px;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    @include mobile {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0.75rem;
+        min-height: auto;
+        flex-direction: column;
+        min-width: 0;
+        border: none;
+        margin-bottom: 0.5rem;
+        background: alpha($white, 0.8);
+        border-radius: 12px;
+        box-shadow: 0 2px 8px alpha($primary, 0.05);
+        border: 1px solid alpha($primary, 0.1);
+    }
+
+    &:hover {
+        background: $light-gray;
+    }
+
+    &.has-appointment {
+        background: $white;
+
+        @include mobile {
+            background: alpha($primary, 0.08);
+            box-shadow: 0 3px 12px alpha($primary, 0.15);
+        }
+
+        .hour-label {
+            background: alpha($primary, 0.15);
+            color: $primary;
+            font-weight: 700;
+            width: 80px;
+            padding: 10px 8px;
+            font-size: 0.85rem;
+
+            @include mobile {
+                width: 100%;
+                padding: 8px;
+                font-size: 0.8rem;
+                order: -1;
+            }
+        }
+    }
+
+    .slot {
+        flex: 1;
+        padding-left: 1rem;
+
+        @include mobile {
+            padding-left: 0;
+            padding-top: 0.5rem;
+            border-left: none;
+            border-top: 1px solid alpha($primary, 0.1);
+        }
+    }
+}
+
+.hour-label {
+    width: 85px;
+    color: $text-gray;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    background: $light-gray;
+    padding: 12px 8px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    border: 1px solid alpha($primary, 0.1);
+
+    @include mobile {
+        width: 100%;
+        padding: 8px;
+        font-size: 0.85rem;
+        border-radius: 8px;
+    }
+}
+
+.slot {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    border-left: 3px solid alpha($primary, 0.1);
+    padding-left: 1rem;
+    position: relative;
+
+    @include mobile {
+        border-left: none;
+        border-top: 2px solid alpha($primary, 0.1);
+        padding-left: 0;
+        padding-top: 0.5rem;
+    }
+}
+
+.reservation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-radius: 16px;
+    background: linear-gradient(135deg,
+            alpha($primary, 0.12),
+            alpha($secondary, 0.08));
+    border: 2px solid alpha($primary, 0.25);
+    box-shadow: 0 4px 15px alpha($primary, 0.15);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    flex: 1;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+
+
+    @include mobile {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0.6rem 0.75rem;
+        border-radius: 10px;
+        gap: 0.5rem;
+        flex-direction: column;
+        // Prevenir que el contenido se expanda demasiado
+        min-width: 0;
+
+        &:hover {
+            transform: none;
+            box-shadow: 0 4px 12px alpha($primary, 0.2);
+        }
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, $primary, $secondary);
+        transform: scaleX(0);
+        transition: transform 0.4s ease;
+    }
+
+    &:hover {
+        transform: translateX(8px) translateY(-2px);
+        box-shadow: 0 8px 25px alpha($primary, 0.25);
+        border-color: $primary;
+
+        &::before {
+            transform: scaleX(1);
+        }
+
+        .appointment-actions {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    &.selected {
+        background: linear-gradient(135deg,
+                alpha($primary, 0.2),
+                alpha($secondary, 0.15));
+        border-color: $primary;
+        box-shadow: 0 6px 20px alpha($primary, 0.3);
+
+        @include mobile {
+            box-shadow: 0 4px 15px alpha($primary, 0.25);
+        }
+
+        &::before {
+            transform: scaleX(1);
+        }
+    }
+
+    &.highlighted {
+        animation: highlightPulse 2s ease-in-out;
+    }
+
+    .reservation-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+        min-width: 0; // Esto es clave
+    }
+
+    .res-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.25rem;
+
+        @include mobile {
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+    }
+
+    .res-time {
+        font-weight: 700;
+        font-size: 1rem;
+        color: $primary;
+        background: alpha($white, 0.9);
+        padding: 4px 8px;
+        border-radius: 8px;
+        min-width: 60px;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+        @include mobile {
+            font-size: 0.9rem;
+            padding: 3px 6px;
+            min-width: 50px;
+        }
+    }
+
+    .res-duration {
+        font-size: 0.75rem;
+        color: $text-gray;
+        background: alpha($white, 0.6);
+        padding: 1px 6px;
+        border-radius: 12px;
+        font-weight: 600;
+
+        @include mobile {
+            font-size: 0.75rem;
+            padding: 1px 4px;
+        }
+    }
+
+    .res-name {
+        color: $text-dark;
+        font-size: 1rem;
+        font-weight: 700;
+        line-height: 1.3;
+
+        @include mobile {
+            font-size: 0.9rem;
+            width: 100%;
+        }
+    }
+
+    .res-contact {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: 0.25rem;
+
+        @include mobile {
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .contact-item {
+            font-size: 0.75rem;
+            color: $text-gray;
+            background: alpha($white, 0.7);
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-weight: 500;
+            width: 100%;
+            box-sizing: border-box;
+            // Asegurar que el texto largo se rompa
+            word-break: break-word;
+            overflow-wrap: break-word;
+
+            @include mobile {
+                font-size: 0.8rem;
+                padding: 3px 6px;
+                display: flex;
+                align-items: center;
+                gap: 0.25rem;
+            }
+
+            &.barber-info {
+                background: alpha($secondary, 0.15) !important;
+                color: $secondary !important;
+                font-weight: 600;
+
+                @include mobile {
+                    margin-top: 0.25rem;
+                }
+
+                i {
+                    color: $secondary !important;
+                }
+            }
+        }
+
+        i {
+            color: $primary
+        }
+    }
+
+    .appointment-actions {
+        opacity: 0;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        @include mobile {
+            opacity: 1;
+            flex-direction: row;
+            justify-content: flex-end;
+            margin-top: 0.5rem;
+        }
+
+        .action-btn {
+            background: alpha($primary, 0.2);
+            border: none;
+            border-radius: 8px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+
+            @include mobile {
+                padding: 6px 8px;
+                font-size: 0.9rem;
+            }
+
+            &:hover {
+                background: alpha($primary, 0.3);
+                transform: scale(1.1);
+
+                @include mobile {
+                    transform: scale(1.05);
+                }
+            }
+        }
+
+        i {
+            color: $text-dark;
+        }
+    }
+}
+
+.empty-slot {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border-radius: 12px;
+    border: 2px dashed alpha($primary, 0.2);
+    background: $white;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    gap: 0.5rem;
+    min-height: 80px;
+
+    @include mobile {
+        padding: 0.6rem;
+        min-height: 50px;
+        border-radius: 8px;
+        // Centrar mejor en mobile
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &:hover:not(.disabled) {
+        border-color: alpha($primary, 0.6);
+        background: $white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px alpha($primary, 0.2);
+
+        @include mobile {
+            transform: none;
+            box-shadow: 0 2px 8px alpha($primary, 0.15);
+        }
+
+        .availability-text {
+            color: $primary;
+            font-weight: 600;
+        }
+
+        .create-appointment-btn {
+            opacity: 1;
+            transform: translateY(0);
+            padding: 0.4rem 0.75rem;
+            font-size: 0.75rem;
+            min-width: auto;
+        }
+    }
+
+    &.disabled {
+        border-color: alpha($text-gray, 0.2);
+        background: alpha($text-gray, 0.05);
+        cursor: not-allowed;
+        opacity: 0.6;
+
+        .availability-text {
+            color: $text-gray;
+            font-style: italic;
+        }
+    }
+
+    .availability-text {
+        font-size: 0.9rem;
+        color: alpha($primary, 0.7);
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-align: center;
+
+        @include mobile {
+            font-size: 0.85rem;
+        }
+    }
+
+    .create-appointment-btn {
+        background: linear-gradient(135deg, $primary, $secondary);
+        color: $white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        opacity: 0.8;
+        transform: translateY(2px);
+        min-width: 100px;
+        justify-content: center;
+
+        @include mobile {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8rem;
+            min-width: 90px;
+            opacity: 1;
+            transform: none;
+            // Asegurar centrado
+            margin: 0 auto;
+        }
+
+        &:hover {
+            background: linear-gradient(135deg,
+                    color-mix(in srgb, var(--color-primary), black 5%),
+                    color-mix(in srgb, var(--color-secondary), black 5%));
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px alpha($primary, 0.4);
+
+            @include mobile {
+                transform: none;
+                box-shadow: 0 3px 10px alpha($primary, 0.3);
+            }
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        i {
+            font-size: 1rem;
+
+            @include mobile {
+                font-size: 0.9rem;
+            }
+        }
+
+        span {
+            white-space: nowrap;
+        }
+    }
+}
+
+.empty-day {
+    @include card-style;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    text-align: center;
+    background: $light-gray;
+
+    @include mobile {
+        padding: 2rem 1rem;
+    }
+
+    .empty-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.6;
+
+        @include mobile {
+            font-size: 2.5rem;
+        }
+    }
+
+    h3 {
+        color: $text-dark;
+        margin: 0 0 0.5rem 0;
+        font-weight: 600;
+        font-size: 1.3rem;
+
+        @include mobile {
+            font-size: 1.2rem;
+        }
+    }
+
+    p {
+        color: $text-gray;
+        margin: 0;
+        font-size: 1rem;
+
+        @include mobile {
+            font-size: 0.9rem;
+        }
+    }
+}
+
+.selected-detail {
+    @include card-style;
+    border: 2px solid alpha($primary, 0.3);
+    background: $white;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    @include mobile {
+        margin-top: 1rem;
+        border-radius: 12px;
+        width: 100%;
+        position: sticky;
+        bottom: 0;
+        z-index: 99;
+        margin-top: 1rem;
+        border-radius: 12px 12px 0 0;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, $primary, $secondary);
+    }
+
+    .detail-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-top: 0.5rem;
+
+        @include mobile {
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        h4 {
+            margin: 0;
+            color: $text-dark;
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+
+            @include mobile {
+                font-size: 1.2rem;
+                gap: 0.5rem;
+            }
+        }
+
+        .close-btn {
+            background: alpha($primary, 0.1);
+            border: 2px solid alpha($primary, 0.2);
+            color: $primary;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+
+            @include mobile {
+                width: 32px;
+                height: 32px;
+                font-size: 1.3rem;
+            }
+
+            &:hover {
+                background: alpha($primary, 0.2);
+                transform: scale(1.1) rotate(90deg);
+
+                @include mobile {
+                    transform: scale(1.05) rotate(90deg);
+                }
+            }
+        }
+    }
+
+    .detail-content {
+        margin-bottom: 1.5rem;
+
+        @include mobile {
+            margin-bottom: 1rem;
+            max-height: 40vh;
+            overflow-y: auto;
+        }
+    }
+
+    .detail-content::-webkit-scrollbar {
+        display: none;
+        width: 0px;
+    }
+
+    .detail-item {
+        margin-bottom: 0.75rem;
+        padding: 0.6rem;
+        border-radius: 12px;
+        background: alpha($white, 0.8);
+        border: 1px solid alpha($primary, 0.1);
+        font-size: 0.9rem;
+        line-height: 1.5;
+        transition: all 0.3s ease;
+        width: 100%;
+        box-sizing: border-box;
+        // Asegurar que el texto largo se ajuste
+        word-break: break-word;
+        overflow-wrap: break-word;
+
+        @include mobile {
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        &:hover {
+            background: alpha($primary, 0.05);
+            border-color: alpha($primary, 0.2);
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        strong {
+            color: $primary;
+            font-weight: 700;
+            display: inline-block;
+            min-width: 100px;
+            margin-right: 0.75rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+
+            @include mobile {
+                min-width: auto;
+                margin-right: 0;
+                font-size: 0.8rem;
+                margin-bottom: 0.25rem;
+            }
+        }
+
+        span {
+            color: $text-dark;
+            font-weight: 500;
+        }
+    }
+
+    .detail-actions {
+        display: flex;
+        gap: 0.75rem;
+        padding-top: 1rem;
+        border-top: 2px solid alpha($primary, 0.1);
+
+        @include mobile {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+
+            @include mobile {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+                border-radius: 8px;
+            }
+
+            &.action-primary {
+                background: linear-gradient(135deg, $primary, $secondary);
+                color: $white;
+                border: none;
+
+                &:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 25px alpha($primary, 0.3);
+
+                    @include mobile {
+                        transform: translateY(-1px);
+                        box-shadow: 0 4px 15px alpha($primary, 0.25);
+                    }
+                }
+            }
+
+            &.action-secondary {
+                background: alpha($primary, 0.1);
+                color: $primary;
+                border: 2px solid alpha($primary, 0.3);
+
+                &:hover {
+                    background: alpha($primary, 0.2);
+                    transform: translateY(-2px);
+                    box-shadow: 0 5px 15px alpha($primary, 0.2);
+
+                    @include mobile {
+                        transform: translateY(-1px);
+                        box-shadow: 0 3px 10px alpha($primary, 0.15);
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* Formulario de edición responsive */
+.edit-form-container {
+    @include card-style;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    background: $white;
+    border: 2px solid alpha($primary, 0.2);
+
+    @include mobile {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 12px;
+    }
+
+    .edit-form-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid alpha($primary, 0.1);
+
+        @include mobile {
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        h3 {
+            margin: 0;
+            color: $text-dark;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+
+            @include mobile {
+                font-size: 1.1rem;
+            }
+
+            i {
+                color: $primary;
+            }
+        }
+
+        .back-btn {
+            background: alpha($primary, 0.1);
+            border: 2px solid alpha($primary, 0.2);
+            color: $primary;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+
+            @include mobile {
+                width: 32px;
+                height: 32px;
+            }
+
+            &:hover {
+                background: alpha($primary, 0.2);
+                transform: scale(1.1);
+
+                @include mobile {
+                    transform: scale(1.05);
+                }
+            }
+        }
+    }
+}
+
+
+.edit-form {
+    color: $true-black !important;
+
+    .form-row {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.25rem;
+        width: 100%;
+
+        @include mobile {
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        // Asegurar que los campos en fila tengan el mismo tamaño
+        .form-group {
+            flex: 1;
+            min-width: 0; // Previene que los campos se salgan del contenedor
+
+            // Campos de fecha y hora más compactos
+            &:has(input[type="date"]),
+            &:has(input[type="time"]) {
+                flex: 0.6; // Menor tamaño para campos de fecha/hora
+            }
+        }
+    }
+
+    #name-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        position: relative;
+        margin-bottom: 0;
+
+        &.full-width {
+            flex: 0 0 100% !important;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: $text-dark;
+            font-size: 0.9rem;
+
+            @include mobile {
+                font-size: 0.85rem;
+                margin-bottom: 0.4rem;
+            }
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid alpha($primary, 0.2);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background: $white;
+            color: $true-black;
+            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
+
+            @include mobile {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.9rem;
+                border-radius: 8px;
+            }
+
+            &:focus {
+                outline: none;
+                border-color: $primary;
+                box-shadow: 0 0 0 3px alpha($primary, 0.15);
+                transform: translateY(-1px);
+            }
+
+            &:hover {
+                border-color: alpha($primary, 0.4);
+            }
+
+            // Placeholder styling
+            &::placeholder {
+                color: alpha($text-gray, 0.6);
+                font-weight: 400;
+            }
+        }
+
+        // Estilos específicos para selects
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http:/www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23b8860b'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 16px;
+            padding-right: 2.5rem;
+            color: $true-black;
+
+            @include mobile {
+                background-position: right 0.8rem center;
+                background-size: 14px;
+                padding-right: 2.2rem;
+            }
+        }
+
+        // Estilos específicos para textarea
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+            line-height: 1.4;
+
+            @include mobile {
+                min-height: 70px;
+            }
+        }
+
+        // Campos de fecha y hora más compactos
+        input[type="date"],
+        input[type="time"] {
+            padding: 0.7rem 0.8rem;
+            font-size: 0.9rem;
+
+            @include mobile {
+                padding: 0.6rem 0.7rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        .error-message {
+            color: $danger-red-bright;
+            font-size: 0.75rem;
+            margin-top: 0.4rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+
+            @include mobile {
+                font-size: 0.7rem;
+                margin-top: 0.3rem;
+            }
+
+            &::before {
+                content: '⚠';
+                font-size: 0.7rem;
+            }
+        }
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 2px solid alpha($primary, 0.1);
+
+        @include mobile {
+            flex-direction: column;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+            font-size: 0.95rem;
+            border: none;
+            text-transform: none;
+            letter-spacing: normal;
+
+            @include mobile {
+                min-width: auto;
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+                border-radius: 8px;
+                width: 100%;
+            }
+
+            &.btn-primary {
+                background: linear-gradient(135deg, $primary, $secondary);
+                color: $white;
+
+                &:hover:not(:disabled) {
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 20px alpha($primary, 0.35);
+
+                    @include mobile {
+                        transform: translateY(-1px);
+                        box-shadow: 0 4px 12px alpha($primary, 0.3);
+                    }
+                }
+
+                &:active:not(:disabled) {
+                    transform: translateY(0);
+                }
+            }
+
+            &.btn-secondary {
+                background: alpha($primary, 0.08);
+                color: $primary;
+                border: 2px solid alpha($primary, 0.3);
+
+                &:hover:not(:disabled) {
+                    background: alpha($primary, 0.15);
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px alpha($primary, 0.2);
+
+                    @include mobile {
+                        transform: translateY(-1px);
+                    }
+                }
+            }
+
+            &:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+                transform: none !important;
+                box-shadow: none !important;
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .edit-form {
+        .form-row {
+            .form-group {
+                // En móvil, todos los campos ocupan el 100%
+                flex: 0 0 100% !important;
+            }
+        }
+    }
+}
+
+// Ajustes para campos requeridos
+.form-group:has(input:required),
+.form-group:has(select:required) {
+    label::after {
+        content: ' *';
+        color: $danger-red-bright;
+        font-weight: 700;
+    }
+}
+
+/* Animaciones optimizadas para mobile */
+@keyframes highlightPulse {
+    0% {
+        box-shadow: 0 6px 20px alpha($primary, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 10px 30px alpha($primary, 0.6), 0 0 20px alpha($primary, 0.4);
+    }
+
+    100% {
+        box-shadow: 0 6px 20px alpha($primary, 0.3);
+    }
+}
+
+@include mobile {
+    @keyframes highlightPulse {
+        0% {
+            box-shadow: 0 4px 15px alpha($primary, 0.25);
+        }
+
+        50% {
+            box-shadow: 0 6px 20px alpha($primary, 0.4), 0 0 15px alpha($primary, 0.3);
+        }
+
+        100% {
+            box-shadow: 0 4px 15px alpha($primary, 0.25);
+        }
+    }
+}
+
+/* Mejoras adicionales para muy pequeñas pantallas */
+@media (max-width: 360px) {
+    .appointment-grid {
+        gap: 0.5rem;
+    }
+
+    .appointment-card {
+        padding: 0.75rem;
+
+        .card-title {
+            font-size: 1rem;
+        }
+
+        .card-meta .date,
+        .card-meta .time {
+            padding: 2px 6px;
+            font-size: 0.8rem;
+        }
+
+        .card-body {
+            font-size: 0.8rem;
+        }
+    }
+
+    .calendar-header {
+        padding: 0.5rem;
+
+        .calendar-title {
+            font-size: 1rem;
+        }
+
+        .btn.nav-btn {
+            min-width: 32px;
+            height: 32px;
+            font-size: 0.9rem;
+        }
+
+        .btn.today-btn {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+        }
+    }
+
+    .hour-row {
+        padding: 0.5rem;
+    }
+
+    .reservation {
+        padding: 0.5rem;
+
+        .res-time {
+            font-size: 0.9rem;
+            padding: 3px 6px;
+        }
+
+        .res-name {
+            font-size: 0.95rem;
+        }
+
+        .res-contact .contact-item {
+            font-size: 0.75rem;
+        }
+    }
+
+    .edit-form-container {
+        padding: 0.75rem;
+    }
+
+    .edit-form {
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .form-actions .btn {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.85rem;
+        }
+    }
+}
+
+@include mobile {
+
+    // Asegurar que todos los elementos usen box-sizing border-box
+    * {
+        box-sizing: border-box;
+    }
+
+    // Prevenir overflow horizontal en todos los elementos
+    .appointment-grid,
+    .left-panel,
+    .right-panel,
+    .calendar-header,
+    .calendar-body,
+    .appointment-card,
+    .reservation,
+    .empty-slot,
+    .selected-detail,
+    .edit-form-container {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    // Ajustar elementos específicos que podrían causar overflow
+    .card-meta {
+        flex-wrap: wrap;
+        justify-content: flex-start !important;
+
+        .date,
+        .hour-time {
+            width: 100%;
+            justify-content: flex-start !important;
+            margin-top: 0.25rem;
+        }
+    }
+
+    .res-contact {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+
+        .contact-item {
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .hour-row {
+        flex-direction: column;
+        padding: 0.75rem;
+
+        .hour-label {
+            width: 100% !important;
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    // Ajustar botones y elementos interactivos
+    .btn,
+    .action-btn,
+    .create-appointment-btn {
+        touch-action: manipulation; // Mejorar respuesta táctil
+    }
+
+    // Asegurar que los textos largos no causen overflow
+    .card-title,
+    .res-name,
+    .res-time {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+}
+
+// Estructura mejorada para el header del calendario en móvil
+.calendar-header {
+    @include mobile {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem;
+
+        .navigation-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            order: 1;
+
+            .nav-group {
+                display: flex;
+                align-items: center;
+
+                &.left,
+                &.right {
+                    flex: 0 0 auto;
+                }
+
+                &.center {
+                    flex: 1;
+                    text-align: center;
+                    justify-content: center;
+                }
+            }
+
+            .calendar-title {
+                margin: 0;
+                font-size: 1.2rem;
+                order: 2;
+            }
+        }
+
+        .day-navigation-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+            order: 2;
+
+            .nav-group {
+                display: flex;
+
+                .nav-btn {
+                    min-width: 36px;
+                    height: 36px;
+                    padding: 0;
+                    font-size: 1rem;
+                }
+            }
+
+            .nav-spacer {
+                width: 10px;
+            }
+        }
+
+        .today-button-container {
+            width: 100%;
+            order: 3;
+            margin-top: 0.5rem;
+
+            .today-btn {
+                width: 100%;
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+        }
+    }
+}
+
+// Prevenir doble scroll en móvil
+@include mobile {
+    .content-section {
+        height: auto;
+        min-height: auto; // no forzar viewport height
+        overflow: visible; // que herede el scroll del padre
+    }
+
+    .appointment-grid {
+        height: auto;
+        overflow: visible;
+    }
+
+    .left-panel,
+    .right-panel {
+        overflow: visible;
+        max-height: none;
+    }
+
+    .list,
+    .calendar-body {
+        overflow-y: visible;
+        max-height: none;
+    }
+}
+
+// Ajustes adicionales para pantallas muy pequeñas
+@media (max-width: 360px) {
+    .calendar-header {
+        padding: 0.75rem !important;
+
+        .navigation-container {
+            .calendar-title {
+                font-size: 1.1rem;
+            }
+
+            .nav-btn {
+                min-width: 32px !important;
+                height: 32px !important;
+                font-size: 0.9rem !important;
+            }
+        }
+
+        .day-navigation-container {
+            gap: 0.25rem;
+
+            .nav-btn {
+                min-width: 30px !important;
+                height: 30px !important;
+            }
+        }
+    }
+}
+
+// Clases de utilidad para mostrar/ocultar elementos
+.desktop-only {
+    @include mobile {
+        display: none !important;
+    }
+}
+
+.mobile-only {
+    display: none !important;
+
+    @include mobile {
+        display: block !important;
+    }
+}
+
+// Estructura mejorada para el header del calendario en móvil
+.calendar-header {
+    @include mobile {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem;
+
+        .mobile-nav-container {
+            width: 100%;
+        }
+
+        .navigation-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 0.75rem;
+
+            .nav-group {
+                display: flex;
+                align-items: center;
+
+                &.left,
+                &.right {
+                    flex: 0 0 auto;
+                }
+
+                &.center {
+                    flex: 1;
+                    text-align: center;
+                    justify-content: center;
+                }
+            }
+
+            .calendar-title-mobile {
+                color: $white;
+                font-weight: 700;
+                font-size: 1.2rem;
+                text-transform: capitalize;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        .day-navigation-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+            margin-bottom: 0.75rem;
+
+            .nav-group {
+                display: flex;
+
+                .nav-btn {
+                    min-width: 36px;
+                    height: 36px;
+                    padding: 0;
+                    font-size: 1rem;
+                    background: alpha($white, 0.2);
+                    border: 2px solid alpha($white, 0.3);
+                    color: $white;
+                    border-radius: 12px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    backdrop-filter: blur(10px);
+
+                    &:hover {
+                        background: alpha($white, 0.3);
+                        border-color: alpha($white, 0.6);
+                    }
+                }
+            }
+
+            .nav-spacer {
+                width: 10px;
+            }
+        }
+
+        .today-button-container {
+            width: 100%;
+
+            .today-btn {
+                width: 100%;
+                padding: 0.5rem;
+                font-size: 0.9rem;
+                background: alpha($white, 0.9);
+                border: 2px solid alpha($white, 0.3);
+                color: $primary;
+                border-radius: 20px;
+                cursor: pointer;
+                font-weight: 700;
+                transition: all 0.3s ease;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+
+                &:hover {
+                    background: $white;
+                }
+            }
+        }
+    }
+}
+
+// Prevenir doble scroll en móvil (bloque duplicado)
+@include mobile {
+    .content-section {
+        height: auto;
+        min-height: auto; // no forzar viewport height
+        overflow: visible; // sin scroll interno
+    }
+
+    .appointment-grid {
+        height: auto;
+        overflow: visible;
+    }
+
+    .left-panel,
+    .right-panel {
+        overflow: visible;
+        max-height: none;
+    }
+
+    .list,
+    .calendar-body {
+        overflow-y: visible;
+        max-height: none;
+    }
+}
+
+// Ajustes adicionales para pantallas muy pequeñas
+@media (max-width: 360px) {
+    .calendar-header {
+        padding: 0.75rem !important;
+
+        .navigation-container {
+            .calendar-title-mobile {
+                font-size: 1.1rem;
+            }
+
+            .nav-btn {
+                min-width: 32px !important;
+                height: 32px !important;
+                font-size: 0.9rem !important;
+            }
+        }
+
+        .day-navigation-container {
+            gap: 0.25rem;
+
+            .nav-btn {
+                min-width: 30px !important;
+                height: 30px !important;
+            }
+        }
+    }
+}
+
+// Mantener el diseño original de desktop
+.calendar-header {
+    // Estilos originales de desktop se mantienen aquí
+    // ...
+
+    @include mobile {
+        // Los estilos móviles ya están definidos arriba
+    }
+}
+
+.hour-row.has-break {
+    .break-slot-available {
+        background: linear-gradient(135deg,
+                alpha($success-green, 0.05),
+                alpha($white, 0.8));
+        border: 2px solid alpha($success-green, 0.3);
+        border-radius: 16px;
+        padding: 1rem 1.25rem;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 8px alpha($success-green, 0.1);
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        &:hover {
+            background: linear-gradient(135deg,
+                    alpha($success-green, 0.1),
+                    alpha($white, 0.9));
+            border-color: $success-green;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px alpha($success-green, 0.2);
+        }
+
+        &.connected-top {
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            margin-top: 2px;
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: -4px;
+                left: 20%;
+                right: 20%;
+                height: 4px;
+                background: linear-gradient(90deg,
+                        transparent,
+                        $primary,
+                        transparent);
+                border-radius: 2px;
+            }
+        }
+
+        &.connected-bottom {
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            margin-bottom: 2px;
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -4px;
+                left: 20%;
+                right: 20%;
+                height: 4px;
+                background: linear-gradient(90deg,
+                        transparent,
+                        $primary,
+                        transparent);
+                border-radius: 2px;
+            }
+        }
+    }
+
+    .break-connection-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
+
+        .break-owner {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: $text-gray;
+            font-weight: 600;
+            white-space: nowrap;
+            background: alpha($primary, 0.1);
+            padding: 0.25rem 0.5rem;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            // Forzar que el texto se ajuste
+            white-space: normal !important; // Cambiar de nowrap a normal
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            text-align: center;
+            padding: 0.5rem 0.75rem;
+
+            i {
+                color: $primary;
+            }
+
+            span {
+                display: block;
+                width: 100%;
+                // Limitar el texto largo
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+    }
+
+    .break-availability {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        text-align: center;
+
+        .availability-text {
+            color: $success-green;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .break-duration {
+            background: alpha($success-green, 0.15);
+            color: $success-green;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border: 1px solid alpha($success-green, 0.3);
+        }
+
+        .create-appointment-btn {
+            background: linear-gradient(135deg, $success-green, #27ae60);
+            color: $white;
+            border: none;
+            padding: 0.6rem 1.25rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 8px alpha($success-green, 0.3);
+
+            &:hover {
+                background: linear-gradient(135deg,
+                        color.adjust($success-green, $lightness: -8%),
+                        #219653);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px alpha($success-green, 0.4);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+        }
+    }
+}
+
+/* Indicador pequeño de breaks en la info de segmentos */
+.break-indicator-small {
+    background: alpha($text-gray, 0.1);
+    color: $text-gray;
+    padding: 0.1rem 0.4rem;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    margin-left: 0.25rem;
+}
+
+/* Responsive */
+@include mobile {
+    .break-slot-available {
+        padding: 0.75rem !important;
+        border-radius: 12px !important;
+        width: 100%;
+        box-sizing: border-box;
+        // Asegurar que el texto largo se ajuste
+        word-break: break-word;
+        overflow-wrap: break-word;
+
+        .break-connection-info {
+            flex-direction: column;
+            gap: 0.5rem;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+            // Asegurar que el texto largo se ajuste
+            word-break: break-word;
+            overflow-wrap: break-word;
+
+            .break-owner {
+                font-size: 0.75rem;
+                padding: 0.2rem 0.4rem;
+                width: 100%;
+                box-sizing: border-box;
+                // Asegurar que el texto largo se ajuste
+                word-break: break-word;
+                overflow-wrap: break-word;
+            }
+        }
+
+        .break-availability {
+            gap: 0.5rem;
+
+            .availability-text {
+                font-size: 0.85rem;
+                width: 100%;
+                box-sizing: border-box;
+                // Asegurar que el texto largo se ajuste
+                word-break: break-word;
+                overflow-wrap: break-word;
+            }
+
+            .break-duration {
+                font-size: 0.75rem;
+                padding: 0.3rem 0.8rem;
+            }
+
+            .create-appointment-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+    }
+
+}
+
+.service-name {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding: 0.3rem 0.6rem;
+    background: alpha($primary, 0.08);
+    border-radius: 8px;
+    border: 1px solid alpha($primary, 0.15);
+    font-size: 0.8rem;
+    color: $primary;
+    font-weight: 600;
+
+    @include mobile {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        margin-bottom: 0.4rem;
+    }
+
+    i {
+        font-size: 0.9rem;
+    }
+}
+
+.extra-space {
+    height: 100px;
+}
+
+@include mobile {
+
+    // Prevenir scroll horizontal
+    * {
+        max-width: 100vw;
+        box-sizing: border-box;
+    }
+
+    // Scroll suave
+    .content-section {
+        scroll-behavior: smooth;
+    }
+
+    // Mejorar áreas táctiles
+    .btn,
+    .action-btn,
+    .appointment-card {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    // Optimizar textos largos
+    .card-title,
+    .res-name,
+    .contact-item {
+        word-break: break-word;
+        overflow-wrap: break-word;
+    }
+}
+
+/* Reordenación móvil: citas -> información -> calendario */
+@media (max-width: 768px) {
+    .right-panel {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .right-panel .selected-detail {
+        order: 1;
+    }
+
+    .right-panel .edit-form-container {
+        order: 2;
+    }
+
+    .right-panel .calendar-header {
+        order: 3;
+    }
+
+    .right-panel .calendar-body,
+    .right-panel .empty-day {
+        order: 4;
+    }
+}
+
+/* Overrides específicos para esta pantalla en móvil para evitar espacio extra al final */
+@include mobile {
+
+    // No usar sticky en header/detalle dentro de esta sección para evitar que el documento "crezca"
+    .appointment-section {
+        .calendar-header {
+            position: static !important;
+            top: auto !important;
+        }
+
+        .selected-detail {
+            position: static !important;
+            bottom: auto !important;
+        }
+
+        // Asegurar que el grid no reserve altura adicional
+        .appointment-grid {
+            height: auto !important;
+            min-height: auto !important;
+        }
+
+        // Panel izquierdo sin restricciones de altura en móvil
+        .left-panel {
+            min-height: auto !important;
+            max-height: none !important;
+        }
+    }
+}
+
+// --- Quick Actions Modal Styles --- (Added for Blacklist/No-Show Integration)
+
+.action-warning {
+    background-color: #ffc107 !important;
+    color: #212529 !important;
+    border: none;
+    
+    &:hover {
+        background-color: #e0a800 !important;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 9999; // High z-index to be on top of everything
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(2px);
+}
+
+.modal-content.small-modal {
+    background: #ffffff; // Hardcoded white to ensure contrast
+    width: 90%;
+    max-width: 400px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    overflow: hidden;
+    animation: fadeIn 0.2s ease-out;
+
+    .modal-header {
+        padding: 15px;
+        background: #f8f9fa;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #dee2e6;
+
+        h3 { margin: 0; font-size: 1.1rem; color: #333; font-weight: 600; }
+        .close-btn { 
+            background: none; 
+            border: none; 
+            font-size: 1.5rem; 
+            cursor: pointer; 
+            color: #666; 
+            padding: 0 5px;
+            &:hover { color: #000; }
+        }
+    }
+
+    .modal-body {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        .user-info {
+            text-align: center;
+            margin-bottom: 5px;
+            color: #555;
+            font-size: 0.95rem;
+
+            strong { color: #000; }
+        }
+
+        .quick-action-btn {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            gap: 15px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+
+            i { font-size: 1.5rem; }
+
+            .btn-text {
+                display: flex;
+                flex-direction: column;
+                
+                .main { font-weight: bold; font-size: 1rem; margin-bottom: 2px; }
+                .sub { font-size: 0.8rem; opacity: 0.8; }
+            }
+
+            &.warning {
+                background-color: #fff3cd;
+                color: #856404;
+                border: 1px solid #ffeeba;
+                i { color: #856404; }
+                &:hover { 
+                    background-color: #ffeeba; 
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                }
+            }
+
+            &.danger {
+                background-color: #f8d7da;
+                color: #721c24;
+                border: 1px solid #f5c6cb;
+                i { color: #721c24; }
+                &:hover { 
+                    background-color: #f5c6cb; 
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                }
+            }
+        }
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

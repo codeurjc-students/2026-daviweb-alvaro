@@ -1,0 +1,80 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+// Opinion adaptado a la nueva paleta
+.opinion {
+  background-color: $white; // tarjeta clara y limpia
+  border: 1px solid $border-color;
+  border-radius: $border-radius-xl;
+  padding: 20px 20px 16px 20px;
+  box-shadow: $shadow-sm;
+  color: $text-dark;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.opinion-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.avatar {
+  width: 43px;
+  height: 43px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: $primary-light;
+}
+
+.opinion-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.platform {
+  font-weight: 600;
+  font-size: 13px;
+  color: $primary;
+}
+
+.user-name {
+  font-weight: 700;
+  font-size: 16px;
+  color: $text-dark;
+  margin-top: 2px;
+}
+
+.rating {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.opinion-text {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: $text-dark;
+  text-align: left;
+  /* Mostrar saltos de línea ("\n") del texto */
+  white-space: pre-line;
+}
+
+.rating app-star {
+  width: 20px;
+  height: 20px;
+}
+
+.opinion:hover {
+  transform: translateY(-2px);
+  box-shadow: $shadow-md;
+}

@@ -1,0 +1,67 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+@use '../../../styles/functions' as *;
+
+.admin-container {
+  // Evitar problemas de viewport móvil: usar min-height en vez de height fija
+  height: auto;
+  min-height: 100dvh;
+  background: linear-gradient(135deg, $primary-lighter 0%, alpha($primary-light, 0.2) 50%, alpha($white, 0.9) 100%);
+  font-family: $font-primary;
+  display: flex;
+  flex-direction: column;
+  // No ocultar overflow general, que el scroll lo maneje el contenedor natural
+  overflow: visible;
+}
+
+.admin-content {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: $spacing-xl $spacing-lg;
+  // Evitar scroll anidado que pueda dejar “huecos” con fondos del layout
+  overflow-y: visible;
+  overflow-x: hidden;
+  @include custom-scrollbar();
+
+  @include mobile {
+    padding: $spacing-lg $spacing-md;
+    overflow: visible; // que fluya de forma natural en móvil
+  }
+}
+
+.content-section {
+  @include fade-in();
+  min-height: 100%;
+}
+
+.section-header {
+  margin-bottom: $spacing-xl;
+
+  h2 {
+    color: $text-dark;
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+    font-family: $font-primary;
+    margin: 0 0 10px 0;
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+
+    i {
+      color: $primary;
+    }
+
+    @include mobile {
+      font-size: $font-size-2xl;
+    }
+  }
+
+  p {
+    color: $text-dark;
+    font-size: $font-size-lg;
+    font-family: $font-primary;
+    margin: 0;
+  }
+}
