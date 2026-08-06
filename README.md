@@ -9,15 +9,15 @@ de cada profesional, y notifica a los clientes por SMS los eventos relevantes de
 
 ---
 
-## ⚠️ Punto de partida y alcance del Trabajo de Fin de Grado
+## Punto de partida y alcance del Trabajo de Fin de Grado
 
 > **Este apartado delimita con precisión qué se ha desarrollado con anterioridad y qué constituye el trabajo evaluable
 > de este TFG. Léase antes que cualquier otra sección.**
 
-Este TFG **no parte de cero**. Existe una aplicación previa, funcional y en uso, desarrollada **fuera del marco de
-este trabajo** y con anterioridad a su inicio: un SaaS de reservas construido con **Angular 19 + Firebase**
-(Firestore, Authentication, Storage y Cloud Functions), cuyo historial de desarrollo completo permanece públicamente
-consultable en el repositorio original:
+Este TFG **no parte de cero**, y así ha sido planteado y acordado con la tutoría del trabajo. Existe una aplicación
+previa, funcional y en uso, desarrollada **fuera del marco de este trabajo** y con anterioridad a su inicio: un SaaS
+de reservas construido con **Angular 19 + Firebase** (Firestore, Authentication, Storage y Cloud Functions), cuyo
+historial de desarrollo completo permanece públicamente consultable en el repositorio original:
 
 📦 **Repositorio de origen (trabajo previo, 206 commits):**
 [`DaviDevs-org/ProyectoWebPeluqueros`](https://github.com/DaviDevs-org/ProyectoWebPeluqueros)
@@ -33,9 +33,14 @@ este repositorio a partir de aquí corresponde al trabajo realizado durante el T
 
 ### Qué **SÍ** constituye el TFG
 
+Partir de una base existente se compensa **ampliando el trabajo evaluable**: además de sustituir íntegramente la
+plataforma de backend, se acomete la **modernización del frontend heredado**, de modo que al término del trabajo no
+quede ninguna de las dos mitades de la aplicación en su estado original.
+
 | Objetivo del TFG | Estado |
 |---|---|
 | **Backend propio con NestJS + MongoDB** sustituyendo por completo a Firebase | No iniciado |
+| **Modernización del frontend**: actualización de Angular a la última versión estable y adopción de sus APIs actuales (*signals*, nuevo control de flujo, `inject()`) | No iniciado |
 | **API REST** `/api/v1` documentada con OpenAPI (contract-first) | No iniciado |
 | **Autenticación propia con JWT** y sistema de **3 roles** (anónimo / registrado / administrador) | No iniciado |
 | **Rol de usuario registrado**, inexistente hoy: área de cliente con historial y gestión de sus citas | No iniciado |
@@ -101,9 +106,10 @@ Desde el punto de vista técnico, el trabajo consiste en sustituir por completo 
 a Service* sobre la que hoy se apoya la aplicación por un **backend propio desarrollado con NestJS y MongoDB**, que
 exponga una **API REST** documentada y versionada, y en dotar al proyecto de todo el instrumental de un desarrollo
 profesional: pruebas automatizadas en sus tres niveles, integración y despliegue continuos, contenerización y
-despliegue en la nube. La arquitectura limpia de la aplicación existente permite acotar la migración a la capa de
-infraestructura, lo que convierte esta sustitución tecnológica en una demostración práctica del valor del desacoplamiento
-por capas.
+despliegue en la nube. En paralelo se moderniza el frontend heredado, actualizándolo a la última versión estable del
+framework y a sus APIs actuales. La arquitectura limpia de la aplicación existente permite acotar la migración a la
+capa de infraestructura, lo que convierte esta sustitución tecnológica en una demostración práctica del valor del
+desacoplamiento por capas.
 
 1. **Backend NestJS** estructurado en capas desacopladas `controller → service → repository`, sin acceso directo del
    controlador a la persistencia.
@@ -117,13 +123,17 @@ por capas.
    por tipo de usuario como el aislamiento entre negocios.
 6. **Migración de la capa de infraestructura** del frontend: sustitución de las implementaciones Firebase por
    implementaciones HTTP contra la nueva API, manteniendo intactas las capas de dominio y aplicación.
-7. **Pruebas automatizadas**: unitarias y de integración con Jest y Supertest, y de sistema sobre la interfaz con
+7. **Modernización del frontend**: actualización de Angular a la última versión estable y adopción de sus APIs
+   actuales —*signals* para la gestión de estado reactivo, nuevo bloque de control de flujo en plantillas e inyección
+   de dependencias mediante `inject()`—, con la consiguiente reducción de la dependencia de RxJS heredada del modelo
+   de suscripciones en tiempo real de Firestore.
+8. **Pruebas automatizadas**: unitarias y de integración con Jest y Supertest, y de sistema sobre la interfaz con
    Playwright.
-8. **Integración continua** con GitHub Actions (compilación, análisis estático, ejecución de la batería de pruebas en
+9. **Integración continua** con GitHub Actions (compilación, análisis estático, ejecución de la batería de pruebas en
    cada *pull request*) y **despliegue continuo** de las versiones publicadas.
-9. **Contenerización con Docker** y orquestación mediante Docker Compose (aplicación + base de datos), con publicación
-   de la imagen y **despliegue en la nube** de la versión final.
-10. **Almacenamiento de imágenes** gestionado por el backend propio (GridFS o MinIO) en sustitución de Firebase
+10. **Contenerización con Docker** y orquestación mediante Docker Compose (aplicación + base de datos), con
+    publicación de la imagen y **despliegue en la nube** de la versión final.
+11. **Almacenamiento de imágenes** gestionado por el backend propio (GridFS o MinIO) en sustitución de Firebase
     Storage.
 
 ---
@@ -136,15 +146,20 @@ verificable de la aplicación. El trabajo se gestiona mediante **GitHub Flow**: 
 *issue* del repositorio, se desarrolla en una rama independiente y se integra en `main` a través de una *pull
 request* que debe superar los controles automáticos de calidad configurados en la Fase 2.
 
+Dado que el proyecto parte de una aplicación ya funcional, el objetivo de las fases de desarrollo (3, 4 y 5) no es
+construir la funcionalidad desde cero, sino **alcanzar la paridad funcional sobre la nueva arquitectura**: cada
+*release* incorpora un conjunto de funcionalidades plenamente operativas contra el backend propio, con sus pruebas,
+su documentación de API y su despliegue.
+
 | Fase | Descripción | Inicio | Fin |
 |---|---|---|---|
-| **1** | **Definición de funcionalidades y pantallas.** Objetivos funcionales y técnicos, funcionalidades detalladas por prioridad, análisis de pantallas, entidades y permisos. Se documenta en este mismo fichero: [Objetivos](#objetivos), [Funcionalidades detalladas](#funcionalidades-detalladas) y [Análisis](#análisis). | 15 jul 2026 | **15 sep 2026** |
-| **2** | **Repositorio, pruebas y CI.** Reestructuración a monorepo, backend NestJS mínimo con una entidad de extremo a extremo, OpenAPI, primeras pruebas, integración continua y Docker básico. | 16 sep 2026 | **15 oct 2026** |
-| **3** | **Versión 0.1 — Funcionalidad básica.** Autenticación JWT, roles, motor de reservas y disponibilidad, imágenes, paginación y contenerización. | 16 oct 2026 | **15 dic 2026** |
-| **4** | **Versión 0.2 — Funcionalidad intermedia.** Panel de administración completo, analítica con gráficos y despliegue en la nube. | 16 dic 2026 | **1 mar 2027** |
-| **5** | **Versión 1.0 — Funcionalidad avanzada.** Notificaciones SMS, multi-tenancy completo, funcionalidades avanzadas y pulido final. | 2 mar 2027 | **15 abr 2027** |
-| **6** | **Escritura de la memoria.** | 16 abr 2027 | **15 may 2027** |
-| **7** | **Preparación de la presentación y defensa.** | 16 may 2027 | **15 jun 2027** |
+| **1** | **Definición de funcionalidades y pantallas.** Objetivos funcionales y técnicos, funcionalidades detalladas por prioridad, análisis de pantallas, entidades y permisos. Se documenta en este mismo fichero: [Objetivos](#objetivos), [Funcionalidades detalladas](#funcionalidades-detalladas) y [Análisis](#análisis). | 15 jul 2026 | **31 ago 2026** |
+| **2** | **Repositorio, pruebas, CI y modernización del frontend.** Reestructuración a monorepo, actualización de Angular a la última versión estable y adopción de sus APIs actuales, backend NestJS mínimo con una entidad de extremo a extremo, OpenAPI, primeras pruebas, integración continua y Docker básico. | 1 sep 2026 | **30 sep 2026** |
+| **3** | **Versión 0.1 — Funcionalidad básica operativa sobre el backend propio.** Autenticación JWT y sistema de roles, motor de reservas y cálculo de disponibilidad, gestión de imágenes, paginación y contenerización. | 1 oct 2026 | **31 oct 2026** |
+| **4** | **Versión 0.2 — Funcionalidad intermedia operativa sobre el backend propio.** Panel de administración completo, analítica con gráficos y despliegue en la nube. | 1 nov 2026 | **30 nov 2026** |
+| **5** | **Versión 1.0 — Funcionalidad avanzada operativa sobre el backend propio.** Notificaciones SMS, multi-tenancy completo, funcionalidades avanzadas y pulido final. | 1 dic 2026 | **22 dic 2026** |
+| **6** | **Escritura de la memoria.** | 7 ene 2027 | **31 ene 2027** |
+| **7** | **Preparación de la presentación y defensa.** | 1 feb 2027 | *Convocatoria oficial* |
 
 ### Diagrama de Gantt
 
@@ -156,20 +171,23 @@ gantt
     tickInterval 1month
 
     section Definición
-    Fase 1 · Funcionalidades y pantallas   :f1, 2026-07-15, 2026-09-15
+    Fase 1 · Funcionalidades y pantallas   :f1, 2026-07-15, 2026-08-31
 
     section Infraestructura
-    Fase 2 · Repositorio, pruebas y CI     :f2, 2026-09-16, 2026-10-15
+    Fase 2 · Repo, CI y modernización      :f2, 2026-09-01, 2026-09-30
 
     section Desarrollo
-    Fase 3 · v0.1 Básica                   :f3, 2026-10-16, 2026-12-15
-    Fase 4 · v0.2 Intermedia               :f4, 2026-12-16, 2027-03-01
-    Fase 5 · v1.0 Avanzada                 :f5, 2027-03-02, 2027-04-15
+    Fase 3 · v0.1 Básica                   :f3, 2026-10-01, 2026-10-31
+    Fase 4 · v0.2 Intermedia               :f4, 2026-11-01, 2026-11-30
+    Fase 5 · v1.0 Avanzada                 :f5, 2026-12-01, 2026-12-22
 
     section Cierre
-    Fase 6 · Memoria                       :f6, 2027-04-16, 2027-05-15
-    Fase 7 · Presentación y defensa        :f7, 2027-05-16, 2027-06-15
+    Fase 6 · Memoria                       :f6, 2027-01-07, 2027-01-31
+    Fase 7 · Presentación y defensa        :f7, 2027-02-01, 2027-02-28
 ```
+
+> La fecha de la Fase 7 es orientativa: la defensa queda sujeta a las convocatorias oficiales establecidas por la
+> Universidad Rey Juan Carlos.
 
 ---
 
@@ -185,44 +203,49 @@ Las funcionalidades se clasifican por prioridad y se indica el tipo de usuario a
 | 🔑 **Registrado** | Cliente con cuenta en la plataforma. Además de lo anterior, dispone de área personal con el historial y la gestión de sus propias citas. |
 | 🛠️ **Administrador** | Propietario o gestor del negocio. Control total sobre la operativa y la configuración de su tenant. |
 
+La columna **Estado** distingue tres situaciones: *base previa* — funcionalidad ya operativa en la aplicación de
+partida, que deberá reconstruirse sobre el backend propio para darse por completada; *nueva* — funcionalidad que no
+existe y se desarrolla íntegramente durante el TFG; y *completada* — funcionalidad ya operativa sobre la arquitectura
+objetivo. Ninguna se encuentra aún en este último estado.
+
 ### Funcionalidad básica
 
-| # | Funcionalidad | Usuario |
-|---|---|---|
-| B1 | Consulta de la web pública: inicio, servicios y precios, sobre nosotros, ubicación, contacto y páginas legales | 👤 Anónimo |
-| B2 | Consulta de la disponibilidad de citas por fecha, servicio y profesional | 👤 Anónimo |
-| B3 | Reserva de cita aportando nombre y teléfono, con confirmación inmediata | 👤 Anónimo |
-| B4 | Cancelación de una cita mediante enlace con token de un solo uso | 👤 Anónimo |
-| B5 | Registro de cuenta e inicio de sesión | 👤 Anónimo → 🔑 Registrado |
-| B6 | Consulta del historial de citas propias y cancelación desde el área de cliente | 🔑 Registrado |
-| B7 | Inicio de sesión en el panel de administración | 🛠️ Administrador |
-| B8 | Gestión de citas: listado por fecha o rango, alta, edición y cancelación | 🛠️ Administrador |
-| B9 | Gestión del catálogo de servicios: nombre, duración y precio | 🛠️ Administrador |
-| B10 | Gestión del equipo de profesionales | 🛠️ Administrador |
+| # | Funcionalidad | Usuario | Estado |
+|---|---|---|---|
+| B1 | Consulta de la web pública: inicio, servicios y precios, sobre nosotros, ubicación, contacto y páginas legales | 👤 Anónimo | Base previa |
+| B2 | Consulta de la disponibilidad de citas por fecha, servicio y profesional | 👤 Anónimo | Base previa |
+| B3 | Reserva de cita aportando nombre y teléfono, con confirmación inmediata | 👤 Anónimo | Base previa |
+| B4 | Cancelación de una cita mediante enlace con token de un solo uso | 👤 Anónimo | Base previa |
+| B5 | Registro de cuenta e inicio de sesión | 👤 Anónimo → 🔑 Registrado | **Nueva** |
+| B6 | Consulta del historial de citas propias y cancelación desde el área de cliente | 🔑 Registrado | **Nueva** |
+| B7 | Inicio de sesión en el panel de administración | 🛠️ Administrador | Base previa |
+| B8 | Gestión de citas: listado por fecha o rango, alta, edición y cancelación | 🛠️ Administrador | Base previa |
+| B9 | Gestión del catálogo de servicios: nombre, duración y precio | 🛠️ Administrador | Base previa |
+| B10 | Gestión del equipo de profesionales | 🛠️ Administrador | Base previa |
 
 ### Funcionalidad intermedia
 
-| # | Funcionalidad | Usuario |
-|---|---|---|
-| I1 | Edición del perfil propio y repetición de reservas anteriores en un paso | 🔑 Registrado |
-| I2 | Gestión de horarios de apertura, excepciones de calendario y bloqueos de agenda | 🛠️ Administrador |
-| I3 | Control de asistencia de los clientes a sus citas | 🛠️ Administrador |
-| I4 | Gestión de la galería de imágenes del negocio | 🛠️ Administrador |
-| I5 | Configuración del contenido y los datos del negocio: contacto, redes sociales y textos | 🛠️ Administrador |
-| I6 | Cuadro de mando con gráficos: volumen de citas, cancelaciones, servicios más solicitados y franjas de mayor ocupación | 🛠️ Administrador |
-| I7 | Filtrado y búsqueda avanzada de citas, con listados paginados | 🛠️ Administrador |
+| # | Funcionalidad | Usuario | Estado |
+|---|---|---|---|
+| I1 | Edición del perfil propio y repetición de reservas anteriores en un paso | 🔑 Registrado | **Nueva** |
+| I2 | Gestión de horarios de apertura, excepciones de calendario y bloqueos de agenda | 🛠️ Administrador | Base previa |
+| I3 | Control de asistencia de los clientes a sus citas | 🛠️ Administrador | Base previa |
+| I4 | Gestión de la galería de imágenes del negocio | 🛠️ Administrador | Base previa |
+| I5 | Configuración del contenido y los datos del negocio: contacto, redes sociales y textos | 🛠️ Administrador | Base previa |
+| I6 | Cuadro de mando con gráficos: volumen de citas, cancelaciones, servicios más solicitados y franjas de mayor ocupación | 🛠️ Administrador | **Nueva** |
+| I7 | Filtrado y búsqueda avanzada de citas, con listados paginados | 🛠️ Administrador | Base previa · paginación **nueva** |
 
 ### Funcionalidad avanzada
 
-| # | Funcionalidad | Usuario |
-|---|---|---|
-| A1 | Recepción de notificaciones SMS en los eventos clave de la cita | 👤 Anónimo · 🔑 Registrado |
-| A2 | Reserva de varios servicios en una misma sesión, con encadenado automático de duraciones | 👤 Anónimo · 🔑 Registrado |
-| A3 | Personalización del branding del negocio: colores, tipografías, logotipo e imágenes | 🛠️ Administrador |
-| A4 | Activación modular de funcionalidades por negocio y modo mantenimiento (*feature flags*) | 🛠️ Administrador |
-| A5 | Selección de la estrategia de reserva: agenda global o disponibilidad por profesional | 🛠️ Administrador |
-| A6 | Lista de bloqueo de teléfonos para prevenir reservas abusivas | 🛠️ Administrador |
-| A7 | Exportación de los datos del negocio (citas y clientes) | 🛠️ Administrador |
+| # | Funcionalidad | Usuario | Estado |
+|---|---|---|---|
+| A1 | Recepción de notificaciones SMS en los eventos clave de la cita | 👤 Anónimo · 🔑 Registrado | Base previa |
+| A2 | Reserva de varios servicios en una misma sesión, con encadenado automático de duraciones | 👤 Anónimo · 🔑 Registrado | **Nueva** |
+| A3 | Personalización del branding del negocio: colores, tipografías, logotipo e imágenes | 🛠️ Administrador | Base previa |
+| A4 | Activación modular de funcionalidades por negocio y modo mantenimiento (*feature flags*) | 🛠️ Administrador | Base previa |
+| A5 | Selección de la estrategia de reserva: agenda global o disponibilidad por profesional | 🛠️ Administrador | Base previa |
+| A6 | Lista de bloqueo de teléfonos para prevenir reservas abusivas | 🛠️ Administrador | Base previa |
+| A7 | Exportación de los datos del negocio (citas y clientes) | 🛠️ Administrador | **Nueva** |
 
 ---
 
@@ -361,14 +384,13 @@ combinación de negocio, profesional e instante de inicio.
 
 ## Autor
 
-Esta aplicación se desarrolla en el contexto del **Trabajo de Fin de Grado** de la titulación de
-**[⚠️ PENDIENTE: titulación]** en la **Escuela Técnica Superior de Ingeniería Informática (ETSII)** de la
-**Universidad Rey Juan Carlos**.
+Esta aplicación se desarrolla en el contexto del **Trabajo de Fin de Grado** del **Grado en Ingeniería del Software**
+en la **Escuela Técnica Superior de Ingeniería Informática (ETSII)** de la **Universidad Rey Juan Carlos**.
 
 | | |
 |---|---|
-| **Alumno** | Álvaro Fuente García |
-| **Tutor** | **[⚠️ PENDIENTE: nombre del tutor]** |
+| **Alumno** | Álvaro Fuente González |
+| **Tutores** | Óscar Soto Sánchez · Natalia Madrueño Sierro |
 | **Curso académico** | 2026 / 2027 |
 
 ---

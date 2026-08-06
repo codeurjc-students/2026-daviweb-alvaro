@@ -30,18 +30,23 @@ Arquitectura objetivo: **monolito con API REST + SPA que la consume + Docker**. 
 [`arquitectura-objetivo.md`](arquitectura-objetivo.md).
 
 ## 3. Fases y fechas límite
+**Calendario comprimido** (acordado 2026-08-06): el desarrollo se cierra en **diciembre de 2026**, no en abril de 2027.
+
 | Fase | Descripción | Fecha límite |
 |---|---|---|
-| 1 | Definición de funcionalidades y pantallas | 15 sep |
-| 2 | Repositorio, pruebas y CI | 15 oct |
-| 3 | Versión 0.1 — Funcionalidad básica y Docker (MVP) | 15 dic |
-| 4 | Versión 0.2 — Funcionalidad intermedia + despliegue | 1 mar |
-| 5 | Versión 1.0 — Funcionalidad avanzada | 15 abr |
-| 6 | Memoria (primer borrador) | 15 may |
-| 7 | Defensa | 15 jun |
+| 1 | Definición de funcionalidades y pantallas | 31 ago 2026 |
+| 2 | Repositorio, pruebas, CI **y modernización de Angular** | 30 sep 2026 |
+| 3 | Versión 0.1 — Funcionalidad básica operativa sobre el backend propio + Docker | 31 oct 2026 |
+| 4 | Versión 0.2 — Funcionalidad intermedia + despliegue cloud | 30 nov 2026 |
+| 5 | Versión 1.0 — Funcionalidad avanzada | 22 dic 2026 |
+| 6 | Memoria | 31 ene 2027 |
+| 7 | Defensa | *convocatoria oficial URJC* |
 
-> Las fechas son del calendario del curso; **confirma el año académico exacto con tu tutor** (arranque en jul-2026 →
-> curso 2026/2027). No se pueden superar salvo fuerza mayor. Estado real por fase en [`seguimiento.md`](seguimiento.md).
+> **Reenfoque:** como el proyecto parte de una app funcional (aceptado por la tutoría), el objetivo de las fases 3-5
+> **no** es crear funcionalidad, sino alcanzar **paridad funcional sobre la nueva arquitectura**. La compensación en
+> trabajo nuevo es la **modernización de Angular** en Fase 2.
+>
+> Margen escaso: no se pueden superar salvo fuerza mayor. Estado real por fase en [`seguimiento.md`](seguimiento.md).
 
 ## 4. Partes optativas (mínimo 3 puntos) — **elegidas**
 - ✅ **Pruebas unitarias y de integración (2 pts)** — back y front, además de las E2E/sistema obligatorias.
@@ -68,8 +73,9 @@ Arquitectura objetivo: **monolito con API REST + SPA que la consume + Docker**. 
 - **Paginación** (10 + "más resultados") en listados. ❌ Implementar en API y UI.
 
 ## 6. Proceso y herramientas
-- **GitHub Flow:** `main` estable (nunca commits directos), ramas `feature/*` y `fix/*` en inglés, integración por
-  **Pull Request**. Mensajes de commit en inglés y descriptivos.
+- **GitHub Flow:** `main` estable (**nunca commits directos**), integración por **Pull Request**. Nombres de rama
+  cortos, descriptivos, en inglés y **sin prefijo de carpeta**: `add-login-page`, `fix-booking-overlap` — así lo
+  ejemplifica el enunciado (§2.4.1), **no** `feature/*`. Mensajes de commit en inglés y descriptivos.
 - **GitHub Issues** por fase; **GitHub Projects** con vista **Kanban**.
 - **Blog (Medium):** una entrada por avance/release; **inglés recomendado** (practicar idioma + promoción). Avisar al
   tutor por email al publicar.

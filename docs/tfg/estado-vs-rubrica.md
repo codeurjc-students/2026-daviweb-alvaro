@@ -23,15 +23,16 @@ que ya se cumplen requisitos "difíciles" (algoritmo avanzado, tecnología compl
 | OpenAPI en `docs/api/` | 2 | ❌ | Generar con `@nestjs/swagger`. |
 | Datos de ejemplo (seed) | 3 | ❌ | Seed de Mongo con peluquería demo. |
 | Paginación (10 + más) | 3 | ❌ | API + UI. |
-| README + docs/ (estructura rúbrica) | 1-5 | 🟡 | **README de Fase 1 publicado** (11 apartados del enunciado, Gantt Mermaid, ER, matriz de permisos). Pendiente: wireframes, `docs/api/`, titulación y tutor. |
+| README + docs/ (estructura rúbrica) | 1-5 | 🟡 | **README de Fase 1 publicado** (11 apartados del enunciado, Gantt Mermaid, ER, matriz de permisos, estado por funcionalidad, autoría). Pendiente: wireframes, índice a `docs/`, `docs/api/`, vídeo por release. |
 | Gráficos (charts) — *definición* | 1 | ✅ | 5 gráficos especificados en README con su tipo. Implementación en Fase 4. |
 | Blog (Medium, EN) | 3-5 | ❌ | Una entrada por release. |
 | Gantt + horas reales | 1-6 | ❌ | Empezar registro en `seguimiento.md`. |
-| GitHub Flow + Issues + Projects (Kanban) | 2 | 🟡 | **Repo del TFG operativo** (`codeurjc-students/2026-daviweb-alvaro`, commit `a2109d5`). Falta Projects/Issues formal por fase. |
+| GitHub Flow + Issues + Projects (Kanban) | 2 | 🟡 | **Repo del TFG operativo** (`codeurjc-students/2026-daviweb-alvaro`). Regla de ramas `add-x`/`fix-x` + PR ya en `CLAUDE.md`. Falta Projects/Issues formal por fase. |
 
 ## Optativas elegidas
 | Parte | Pts | Fase | Estado | Notas |
 |---|---|---|---|---|
+| **Modernización de Angular** (última estable + signals, nuevo control de flujo, `inject()`) | — | 2 | ❌ | **Compensación acordada** por partir de app preexistente. No puntúa como optativa de rúbrica, pero es trabajo nuevo evaluable y argumento de memoria. Hoy Angular 19 congelado desde feb-2026. |
 | Pruebas unit + integración | 2 | 2→ | ❌ | Hoy 0 tests (skipTests). |
 | Responsive móvil | 1 | 3 | 🟡 | App ya mobile-first; validar y documentar. |
 | Despliegue continuo + cloud | 1-2 | 4-5 | ❌ | Elegir plataforma (VM/PaaS/K8s). |
