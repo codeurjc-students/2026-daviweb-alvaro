@@ -1,4 +1,4 @@
-# Davidevs Hairdressers
+# Daviweb
 
 Aplicación web **SaaS multi-tenant** de gestión de reservas para peluquerías y barberías. Cada negocio (*tenant*)
 dispone de su propia web pública personalizada —branding, servicios, horarios y contenidos propios— desde la que sus
@@ -63,9 +63,78 @@ en los [objetivos técnicos](#objetivos-técnicos).
 
 ## Bocetos de pantalla
 
-> 🚧 **Pendiente de incorporar.** Se añadirán en esta sección las capturas de la aplicación actual junto con los
-> wireframes de las pantallas nuevas previstas (área de cliente registrado y dashboard de analítica), elaborados con
-> Figma.
+El diseño de pantallas se documenta con dos tipos de material, según el estado de cada una:
+
+- **Capturas** de las pantallas que ya existen en la aplicación de partida. Al estar maquetadas y en uso, la captura
+  refleja el diseño real con mayor fidelidad que un boceto.
+- **Wireframes** de las pantallas que aún no existen y se desarrollarán durante el TFG. Son las que requieren
+  validación previa por parte de la tutoría, y por tanto se han bocetado antes de escribir una sola línea de código.
+
+### Pantallas existentes · web pública
+
+| | |
+|:---:|:---:|
+| ![Portada](docs/tfg/images/hero.png) | ![Servicios y precios](docs/tfg/images/services.png) |
+| **Portada.** Presentación del negocio con su branding y llamada a la acción hacia la reserva. | **Servicios y precios.** Catálogo con duración y precio de cada servicio. |
+| ![Equipo de profesionales](docs/tfg/images/barbers.png) | ![Sobre nosotros](docs/tfg/images/about-us.png) |
+| **Equipo de profesionales.** Ficha de cada profesional del negocio. | **Sobre nosotros.** Texto de presentación e imagen del local. |
+| ![Reseñas](docs/tfg/images/opinions.png) | ![Preguntas frecuentes](docs/tfg/images/faq.png) |
+| **Reseñas.** Opiniones de clientes; sección activable por *feature flag*. | **Preguntas frecuentes.** Dudas habituales en formato desplegable. |
+| ![Ubicación y contacto](docs/tfg/images/location-and-contact.png) | ![Pie de página](docs/tfg/images/footer.png) |
+| **Ubicación y contacto.** Dirección, horario y vías de contacto. | **Pie de página.** Redes sociales y acceso a las páginas legales. |
+
+**Flujo de reserva**
+
+![Flujo de reserva](docs/tfg/images/reservation.png)
+
+Calendario de selección de día, que muestra en blanco las fechas con disponibilidad real y en color las cerradas o
+completas. Es el punto de entrada del [algoritmo de cálculo de disponibilidad](#algoritmo-o-consulta-avanzada).
+
+### Pantallas existentes · panel de administración
+
+| | |
+|:---:|:---:|
+| ![Gestión de citas](docs/tfg/images/dates-dashboard.png) | ![Servicios y precios](docs/tfg/images/services-dashboard.png) |
+| **Gestión de citas.** Listado completo con búsqueda y filtros por servicio y profesional, junto a la vista de calendario diario sobre la que se crean citas hueco a hueco. | **Servicios y precios.** Alta, edición y baja de los servicios del catálogo. |
+| ![Galería de fotos](docs/tfg/images/galery-dashboard.png) | ![Información general](docs/tfg/images/information-dashboard.png) |
+| **Galería de fotos.** Subida y ordenación de las imágenes de la web pública. | **Información general.** Datos del negocio, contacto, redes sociales y horarios. |
+| ![Lista negra](docs/tfg/images/blacklist-dashboard.png) | |
+| **Lista negra.** Bloqueo de números de teléfono para prevenir reservas abusivas. | |
+
+### Pantallas nuevas · wireframes
+
+Las cuatro pantallas siguientes **no existen en la aplicación actual** y constituyen parte del trabajo del TFG.
+
+**Registro e inicio de sesión**
+
+![Wireframe de registro e inicio de sesión](docs/tfg/images/login-register-wireframe.png)
+
+Un único punto de autenticación para ambos roles: el rol codificado en el JWT decide el destino tras el acceso
+—área de cliente o panel de administración—. En el registro, el teléfono actúa como nexo con las citas anónimas
+previas, lo que permite vincular al historial del cliente las reservas que hizo antes de tener cuenta.
+
+**Área de cliente**
+
+![Wireframe del área de cliente](docs/tfg/images/registered-user-wireframe.png)
+
+Historial completo de citas con búsqueda, filtros por servicio y estado, y **paginación de 10 resultados con carga
+incremental**. El detalle de cada cita expone las acciones disponibles según su estado y su propiedad: repetir,
+modificar y cancelar solo se ofrecen sobre citas futuras del propio usuario.
+
+**Repetición y cancelación de una cita**
+
+![Wireframe de repetición y cancelación](docs/tfg/images/cancel-repeat-date-wireframe.png)
+
+La repetición reutiliza servicio y profesional de la reserva anterior y propone el primer hueco disponible,
+apoyándose de nuevo en el cálculo de disponibilidad. La cancelación replica la confirmación de la cancelación por
+enlace, pero autenticada: al conocerse la identidad del usuario, no requiere token de un solo uso.
+
+**Cuadro de mando de analítica**
+
+![Wireframe del cuadro de mando](docs/tfg/images/analytics-dahsboard-wireframe.png)
+
+Nueva sección del panel de administración, con selector de periodo, cuatro indicadores principales —citas, tasa de
+cancelación, ausencias y ocupación media— y las visualizaciones descritas en el apartado de [gráficos](#gráficos).
 
 ---
 
@@ -253,16 +322,16 @@ objetivo. Ninguna se encuentra aún en este último estado.
 
 ### Pantallas y navegación
 
-| Pantalla | Ruta | Descripción | Navega hacia |
-|---|---|---|---|
-| **Inicio** | `/` | Página principal del negocio con su branding. Integra en una única página las secciones de servicios y precios, sobre nosotros, galería, reseñas, preguntas frecuentes, ubicación y contacto, así como el formulario de reserva. | Reserva, Login, Registro, Legales |
-| **Reserva** | `/` (modal) | Flujo de reserva por pasos: selección de servicio, profesional, fecha y hora sobre la disponibilidad real, y confirmación con los datos de contacto. | Confirmación |
-| **Registro / Login** | `/registro`, `/login` | Alta de cuenta de cliente e inicio de sesión. Da acceso al área de cliente y, para el propietario, al panel de administración. | Área de cliente, Panel de administración |
-| **Área de cliente** | `/mis-citas` | Historial de citas del cliente registrado, con detalle, repetición y cancelación. | Reserva |
-| **Panel de administración** | `/admin` | Espacio de trabajo del propietario, organizado en secciones: agenda y gestión de citas, servicios, profesionales, horarios y excepciones, galería, configuración del negocio y cuadro de mando. | Todas las secciones de administración |
-| **Cuadro de mando** | `/admin` (sección) | Visualización gráfica de los indicadores del negocio. | — |
-| **Cancelación por enlace** | `/cancelar/:token` | Confirmación de la cancelación de una cita a partir del enlace recibido por SMS, sin requerir autenticación. | Inicio |
-| **Páginas legales** | `/aviso-legal`, `/politica-privacidad` | Aviso legal y política de privacidad. | Inicio |
+| Pantalla | Ruta | Boceto | Descripción | Navega hacia |
+|---|---|---|---|---|
+| **Inicio** | `/` | [Capturas](#pantallas-existentes--web-pública) | Página principal del negocio con su branding. Integra en una única página las secciones de servicios y precios, sobre nosotros, galería, reseñas, preguntas frecuentes, ubicación y contacto, así como el formulario de reserva. | Reserva, Login, Registro, Legales |
+| **Reserva** | `/` (modal) | [Captura](#pantallas-existentes--web-pública) | Flujo de reserva por pasos: selección de servicio, profesional, fecha y hora sobre la disponibilidad real, y confirmación con los datos de contacto. | Confirmación |
+| **Registro / Login** | `/registro`, `/login` | [Wireframe](#pantallas-nuevas--wireframes) | Alta de cuenta de cliente e inicio de sesión. Da acceso al área de cliente y, para el propietario, al panel de administración. | Área de cliente, Panel de administración |
+| **Área de cliente** | `/mis-citas` | [Wireframe](#pantallas-nuevas--wireframes) | Historial de citas del cliente registrado, con detalle, repetición y cancelación. | Reserva |
+| **Panel de administración** | `/admin` | [Capturas](#pantallas-existentes--panel-de-administración) | Espacio de trabajo del propietario, organizado en secciones: agenda y gestión de citas, servicios, profesionales, horarios y excepciones, galería, configuración del negocio y cuadro de mando. | Todas las secciones de administración |
+| **Cuadro de mando** | `/admin` (sección) | [Wireframe](#pantallas-nuevas--wireframes) | Visualización gráfica de los indicadores del negocio. | — |
+| **Cancelación por enlace** | `/cancelar/:token` | [Wireframe](#pantallas-nuevas--wireframes) | Confirmación de la cancelación de una cita a partir del enlace recibido por SMS, sin requerir autenticación. | Inicio |
+| **Páginas legales** | `/aviso-legal`, `/politica-privacidad` | — | Aviso legal y política de privacidad. | Inicio |
 
 ### Entidades
 
@@ -334,14 +403,17 @@ externo utilizado actualmente.
 
 ### Gráficos
 
-El cuadro de mando del administrador presentará la siguiente información:
+El cuadro de mando del administrador —cuyo diseño se recoge en el [wireframe correspondiente](#pantallas-nuevas--wireframes)—
+se articula en torno a un selector de periodo (7 días, 30 días, trimestre o año) que gobierna todas las
+visualizaciones, cuatro indicadores numéricos de cabecera (citas del periodo, tasa de cancelación, ausencias y
+ocupación media) y los siguientes gráficos:
 
 | Información | Tipo de gráfico |
 |---|---|
-| Evolución del número de citas a lo largo del tiempo | Líneas |
+| Evolución del número de citas, comparada con el periodo anterior | Líneas |
 | Citas confirmadas, canceladas y no atendidas por periodo | Barras apiladas |
+| Ocupación por franja horaria y día de la semana | Mapa de calor |
 | Distribución de reservas por servicio | Tarta |
-| Ocupación por franja horaria y día de la semana | Barras / mapa de calor |
 | Reparto de la carga de trabajo entre profesionales | Barras horizontales |
 
 Los datos se obtendrán mediante consultas de agregación sobre MongoDB, sin recuperar los documentos completos para

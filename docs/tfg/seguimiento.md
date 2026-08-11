@@ -16,7 +16,7 @@
 
 | Fase | Descripción | Fecha límite | Estado |
 |---|---|---|---|
-| 1 | Definición de funcionalidades y pantallas | 31 ago 2026 | 🟡 README publicado y datos de autoría cerrados; **falta solo wireframes** |
+| 1 | Definición de funcionalidades y pantallas | 31 ago 2026 | 🟡 README completo con bocetos y wireframes. Falta: **estado del arte**, GitHub Project + Issues, índice a `docs/` y blog |
 | 2 | Repositorio, pruebas, CI **y modernización de Angular** | 30 sep 2026 | ❌ |
 | 3 | v0.1 — Básica sobre backend propio + Docker | 31 oct 2026 | ❌ |
 | 4 | v0.2 — Intermedia + despliegue cloud | 30 nov 2026 | ❌ |
@@ -41,9 +41,10 @@
 ## Registro de horas (para el Gantt)
 | Fecha | Fase | Tarea | Horas |
 |---|---|---|---|
-| 2026-07-23 | 0 | Setup asistente multi-modo + docs TFG | — |
-| 2026-08-06 | 1 | Creación del repo del TFG + README de Fase 1 (objetivos, Gantt, entidades, permisos, análisis) | — |
-| 2026-08-06 | 1 | Reenfoque de fases, calendario comprimido y GitHub Flow como regla del agente | — |
+| 2026-07-23 | 0 | Setup asistente multi-modo + docs TFG | 3 |
+| 2026-08-06 | 1 | Creación del repo del TFG + README de Fase 1 (objetivos, Gantt, entidades, permisos, análisis) | 2 |
+| 2026-08-06 | 1 | Reenfoque de fases, calendario comprimido y GitHub Flow como regla del agente | 2 |
+| 2026-08-11 | 1 | Capturas y wireframes (Figma) + redacción de bocetos de pantalla en el README | 3 |
 
 ## Riesgos
 | Riesgo | Impacto | Mitigación |

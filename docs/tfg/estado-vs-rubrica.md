@@ -19,7 +19,7 @@ que ya se cumplen requisitos "difíciles" (algoritmo avanzado, tecnología compl
 | Gráficos (charts) | 4 | ❌ | Implementar dashboard de analítica (KPIs día/hora). |
 | Tecnología complementaria | 3-5 | ✅ | SMS (Mocean) ya cuenta. |
 | Algoritmo / consulta avanzada | 3 | ✅ | Disponibilidad multi-barbero (Strategy). Documentar. |
-| Wireframes (Figma) | 1 | ❌ | **Único bloqueante de Fase 1.** Capturas de la app actual + wireframes de las pantallas nuevas (área de cliente, dashboard). Sección ya reservada en el README. |
+| Wireframes (Figma) | 1 | ✅ | **Hecho 2026-08-11.** 14 capturas de la app actual + 4 wireframes de las pantallas nuevas (login/registro, área de cliente, repetir/cancelar, cuadro de mando) en `docs/tfg/images/`, integrados en el README y enlazados desde la tabla de pantallas. Falta que la tutoría los valide. |
 | OpenAPI en `docs/api/` | 2 | ❌ | Generar con `@nestjs/swagger`. |
 | Datos de ejemplo (seed) | 3 | ❌ | Seed de Mongo con peluquería demo. |
 | Paginación (10 + más) | 3 | ❌ | API + UI. |
