@@ -65,6 +65,7 @@ Matiz importante para quitarte la sensación de "no tiene todo el contexto":
 | `/informe [feature]` | Informe técnico corto de una feature (semilla de memoria). |
 | `/blog [tema]` | Borrador de post de Medium (EN) del avance reciente. |
 | `/memoria [sección]` | Redacta/expande una sección de la memoria (ES). |
+| `/commit-msg [pista]` | Propone 2-3 mensajes de commit según tus cambios y el estilo del repo (sin `Co-Authored-By`). |
 
 ---
 
@@ -82,7 +83,7 @@ Matiz importante para quitarte la sensación de "no tiene todo el contexto":
 | `output-styles/tfg-advisor.md` | Persona del **Asesor**. | Al activar ese modo. |
 | `output-styles/tfg-redaccion.md` | Persona del **Redactor**. | Al activar ese modo. |
 | `output-styles/tfg-engineer.md` | Alias explícito del Ingeniero (**redundante con el default**; borrable). | Al activar ese modo. |
-| `commands/*.md` | Los 6 comandos de arriba. | Al invocar el comando. |
+| `commands/*.md` | Los 7 comandos de arriba. | Al invocar el comando. |
 
 ### `docs/tfg/` — base de conocimiento del TFG (bajo demanda)
 | Fichero | Qué es | Quién lo usa |

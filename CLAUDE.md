@@ -62,7 +62,7 @@ Arquitecto senior, mentor **duro, directo y sin peloteo**. Objetivo: que Álvaro
 - **`/output-style tfg-advisor`** — Asesor del TFG: proceso, prioridades, planificación, preparar tutorías.
 - **`/output-style tfg-redaccion`** — Redacción: memoria (ES), blog (EN), README/docs.
 - Volver a ingeniero: `/output-style default`. *(Existe un `tfg-engineer` opcional idéntico al default.)*
-- **Comandos:** `/tfg-estado`, `/tfg-fase`, `/rest-audit`, `/informe`, `/blog`, `/memoria` (funcionan en cualquier modo).
+- **Comandos:** `/tfg-estado`, `/tfg-fase`, `/rest-audit`, `/informe`, `/commit-msg`, `/blog`, `/memoria` (funcionan en cualquier modo).
 
 ## Índice de conocimiento
 `docs/tfg/` → **`guia-asistente.md`** (cómo funciona todo), spec de rúbrica, arquitectura objetivo, estándares técnicos, estado vs rúbrica, seguimiento, glosario
