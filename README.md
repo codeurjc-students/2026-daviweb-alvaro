@@ -138,6 +138,53 @@ cancelación, ausencias y ocupación media— y las visualizaciones descritas en
 
 ---
 
+## Estado del arte
+
+Antes de fijar las funcionalidades se han estudiado nueve aplicaciones del sector para obtener ideas y detectar
+posibles mejoras. El estudio completo, con las fuentes y su fecha de consulta, está en
+**[`docs/tfg/estado-del-arte.md`](docs/tfg/estado-del-arte.md)**; aquí se resumen sus conclusiones.
+
+El mercado se organiza en cinco familias, y esa división —que responde al modelo de negocio, no a la funcionalidad—
+explica casi todas las diferencias observadas:
+
+| Familia | Qué vende | Productos analizados |
+|---|---|---|
+| **A. Marketplace + software** | Clientes nuevos; el software es el gancho para poblar el portal | Booksy · Fresha · Treatwell/Uala |
+| **B. Software vertical de gestión** | Gestión integral del salón: agenda, caja, inventario, fidelización | Koibox (España) · Squire (barberías) |
+| **C. Plataforma horizontal de reservas** | Un motor de citas configurable para decenas de sectores | SimplyBook.me |
+| **D. *Scheduling* genérico** | Coordinación de reuniones, no negocio de servicios presencial | Cal.com / Cal.diy |
+| **E. Autoalojado / código abierto** | Nada: se instala y se mantiene | Easy!Appointments |
+
+Los tres marketplaces cobran por el cliente que presentan —Booksy un 30 % de la primera visita si se activa *Boost*,
+Fresha un 20 %, Treatwell en torno al 25 %— sobre una cuota mensual que en España ronda los 15 € (Koibox) a 35 €
+(Booksy). Fresha, significativamente, **no cobra comisión por los clientes que llegan desde la web propia del
+negocio**: la propia plataforma reconoce el valor del canal propio, que es precisamente lo que este proyecto entrega
+por defecto.
+
+### Carencias detectadas y decisiones de diseño
+
+| Carencia observada | Decisión de diseño | Funcionalidad |
+|---|---|---|
+| **El cliente final debe crear cuenta** en la plataforma para reservar (Booksy, Fresha, Treatwell) | Reserva anónima con nombre y teléfono; la cuenta es opcional y aporta historial y repetición, no es un peaje | `B3`, `B5`, `B6` |
+| **Comisión sobre el cliente nuevo**, que puede acabar siendo recurrente del negocio | El negocio opera su propio canal: no hay intermediación posible por diseño | *Modelo de producto* |
+| **La marca de la reserva es la del intermediario**, no la del salón | Multi-tenancy *white-label*: branding, contenidos y datos propios de cada negocio, con aislamiento estricto | `A3`, `A4` |
+| Lo que se ofrece es un **widget de reservas**, no presencia web: el salón sigue pagando una web aparte | La web pública completa forma parte del producto | `B1`, `I4`, `I5` |
+| **Los datos del negocio viven en la plataforma** y salir de ella es costoso | Exportación de citas y clientes como funcionalidad de primera clase, sobre base de datos propia | `A7` |
+| **Motor de reserva genérico**: las plataformas horizontales no modelan la doble política de asignación de profesional ni el encadenado de servicios de una sesión | Motor de disponibilidad vertical y configurable mediante el patrón *Strategy*, y reserva multi-servicio | `A5`, `A2` |
+
+El estudio ha aportado además dos mejoras que no figuraban en el alcance inicial: **distinguir el origen de la reserva**
+como métrica del cuadro de mando —Fresha factura en función de ese dato— y sustituir el aviso único por una **secuencia
+de recordatorios** antes de la cita, práctica que las referencias del sector asocian a reducciones sustanciales de las
+ausencias. Quedan expresamente fuera del alcance los pagos y depósitos online, el TPV, la facturación fiscal, el
+inventario y la creación de un marketplace propio, este último por contradecir la tesis del producto.
+
+**Posicionamiento.** Ninguno de los productos analizados combina web pública completa por negocio, reserva sin registro
+previo, multi-tenancy *white-label* sin comisión y motor de disponibilidad configurable. El proyecto no compite en
+captación de clientes ni en gestión integral del salón: se dirige al negocio que ya tiene su clientela y quiere
+presencia web propia con reserva online, sin pagar comisión por sus propios clientes ni diluir su marca.
+
+---
+
 ## Objetivos
 
 ### Objetivos funcionales

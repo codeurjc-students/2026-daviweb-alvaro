@@ -1,7 +1,7 @@
 # Estado vs rúbrica (gap analysis vivo)
 
 > **Memoria de trabajo del proyecto.** Léelo al empezar cada sesión para orientarte barato; **actualízalo al terminar**.
-> Estados: ❌ no hecho · 🟡 parcial / en curso · ✅ hecho. Última actualización: **2026-08-06** (repo del TFG creado + README de Fase 1).
+> Estados: ❌ no hecho · 🟡 parcial / en curso · ✅ hecho. Última actualización: **2026-08-14** (estado del arte).
 
 ## Resumen rápido
 El SaaS funcional está muy avanzado (Angular + Firebase), pero **el TFG exige lo que aún no hay**: backend propio
@@ -19,6 +19,7 @@ que ya se cumplen requisitos "difíciles" (algoritmo avanzado, tecnología compl
 | Gráficos (charts) | 4 | ❌ | Implementar dashboard de analítica (KPIs día/hora). |
 | Tecnología complementaria | 3-5 | ✅ | SMS (Mocean) ya cuenta. |
 | Algoritmo / consulta avanzada | 3 | ✅ | Disponibilidad multi-barbero (Strategy). Documentar. |
+| **Estado del arte** (estudio de apps similares) | 1 | ✅ | **Hecho 2026-08-14.** `docs/tfg/estado-del-arte.md`: 9 productos en 5 familias, comparativa por 11 criterios, 6 carencias → decisiones de diseño trazadas a las funcionalidades del README, ideas incorporadas y descartadas, fuentes con fecha. Resumen en el README. Materia prima directa del capítulo homónimo de la memoria. |
 | Wireframes (Figma) | 1 | ✅ | **Hecho 2026-08-11.** 14 capturas de la app actual + 4 wireframes de las pantallas nuevas (login/registro, área de cliente, repetir/cancelar, cuadro de mando) en `docs/tfg/images/`, integrados en el README y enlazados desde la tabla de pantallas. Falta que la tutoría los valide. |
 | OpenAPI en `docs/api/` | 2 | ❌ | Generar con `@nestjs/swagger`. |
 | Datos de ejemplo (seed) | 3 | ❌ | Seed de Mongo con peluquería demo. |

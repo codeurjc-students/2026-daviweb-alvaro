@@ -7,6 +7,7 @@ Verdad única que leen los modos del asistente (ver `CLAUDE.md` en la raíz). **
 | [`guia-asistente.md`](guia-asistente.md) | **Cómo funciona el asistente + mapa de todos los ficheros** (empieza aquí) | Álvaro |
 | [`tfg-spec.md`](tfg-spec.md) | Rúbrica destilada: fases, fechas, optativas, requisitos, doc exigida | Asesor / Redacción |
 | [`enunciado-tfg-web.md`](enunciado-tfg-web.md) | Enunciado oficial completo (fuente autoritativa; consulta puntual) | (fuente) |
+| [`estado-del-arte.md`](estado-del-arte.md) | Estudio de mercado (Fase 1): comparativa de 9 productos, carencias detectadas e ideas incorporadas | Redacción / Asesor |
 | [`arquitectura-objetivo.md`](arquitectura-objetivo.md) | Objetivo NestJS/Mongo + plan de migración Firebase→Node | Ingeniero |
 | [`estandares-tecnicos.md`](estandares-tecnicos.md) | Buenas prácticas por tecnología + reglas evaluables | Ingeniero |
 | [`estado-vs-rubrica.md`](estado-vs-rubrica.md) | **Gap analysis vivo** (memoria de trabajo) | Todos (leer al empezar) |

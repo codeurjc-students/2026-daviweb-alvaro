@@ -1,7 +1,7 @@
 # Seguimiento del TFG (fases, horas, riesgos, decisiones)
 
 > **Memoria de trabajo** + fuente para el capítulo de metodología de la memoria y el Gantt. Actualízalo al cerrar cada
-> sesión relevante. Última actualización: **2026-08-06** (repo del TFG creado + README de Fase 1).
+> sesión relevante. Última actualización: **2026-08-14** (estado del arte de la Fase 1).
 
 > **Repositorio del TFG:** [`codeurjc-students/2026-daviweb-alvaro`](https://github.com/codeurjc-students/2026-daviweb-alvaro)
 > — commit inicial `a2109d5`. Historial previo (206 commits) en el repo público
@@ -16,7 +16,7 @@
 
 | Fase | Descripción | Fecha límite | Estado |
 |---|---|---|---|
-| 1 | Definición de funcionalidades y pantallas | 31 ago 2026 | 🟡 README completo con bocetos y wireframes. Falta: **estado del arte**, GitHub Project + Issues, índice a `docs/` y blog |
+| 1 | Definición de funcionalidades y pantallas | 31 ago 2026 | 🟡 README completo con bocetos, wireframes y estado del arte. Falta: GitHub Project + Issues, índice a `docs/` y blog |
 | 2 | Repositorio, pruebas, CI **y modernización de Angular** | 30 sep 2026 | ❌ |
 | 3 | v0.1 — Básica sobre backend propio + Docker | 31 oct 2026 | ❌ |
 | 4 | v0.2 — Intermedia + despliegue cloud | 30 nov 2026 | ❌ |
@@ -45,6 +45,7 @@
 | 2026-08-06 | 1 | Creación del repo del TFG + README de Fase 1 (objetivos, Gantt, entidades, permisos, análisis) | 2 |
 | 2026-08-06 | 1 | Reenfoque de fases, calendario comprimido y GitHub Flow como regla del agente | 2 |
 | 2026-08-11 | 1 | Capturas y wireframes (Figma) + redacción de bocetos de pantalla en el README | 3 |
+| 2026-08-14 | 1 | Estado del arte: estudio de 9 productos del sector, comparativa, carencias e ideas incorporadas | 4 |
 
 ## Riesgos
 | Riesgo | Impacto | Mitigación |
@@ -71,6 +72,8 @@
 | 9 | 2026-08-06 | **Calendario comprimido: desarrollo cerrado en dic-2026** (v1.0 el 22 dic) en lugar de abr-2027 | Decisión del alumno. Memoria en enero y defensa en convocatoria oficial. |
 | 10 | 2026-08-06 | **Modernizar Angular en Fase 2** (última versión estable + signals, nuevo control de flujo, `inject()`) | Compensación en trabajo nuevo por partir de una app preexistente: al terminar, ninguna de las dos mitades queda en su estado original. |
 | 11 | 2026-08-06 | **GitHub Flow estricto**, con la regla elevada a `CLAUDE.md` | Vivía solo en `tfg-spec.md` (carga bajo demanda) y por eso se commiteó directo a `main` el 6-ago. Ramas `add-x`/`fix-x` **sin prefijo `feature/`**, según el ejemplo del enunciado §2.4.1. |
+| 12 | 2026-08-14 | **No construir marketplace ni pagos online**; el producto se posiciona como canal propio del negocio | Conclusión del estado del arte: un marketplace contradice la tesis del producto (el negocio deja de ser dueño de su cliente) y los pagos añaden pasarela, conciliación y responsabilidad económica que el calendario de dic-2026 no soporta. |
+| 13 | 2026-08-14 | **Recordatorio SMS previo a la cita** como mejora candidata de la Fase 5 (hoy solo se notifica confirmación y cancelación) | El estado del arte sitúa la secuencia confirmación + recordatorio en reducciones del 25-40 % de ausencias. Sujeta al coste por SMS: se evaluará antes de comprometerla. |
 
 ## Índice de posts del blog (Medium, EN)
 | Fecha | Título | URL | Release |
