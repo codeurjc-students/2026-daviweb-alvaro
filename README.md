@@ -46,13 +46,15 @@ quede ninguna de las dos mitades de la aplicación en su estado original.
 | **Rol de usuario registrado**, inexistente hoy: área de cliente con historial y gestión de sus citas | No iniciado |
 | **Batería de pruebas** unitarias, de integración y de sistema (Jest, Supertest, Playwright) | No iniciado |
 | **Integración y despliegue continuos** (GitHub Actions) y **contenerización** con Docker | No iniciado |
+| **Orquestación con Kubernetes** y despliegue del sistema en un clúster en la nube | No iniciado |
 | **Dashboard de analítica con gráficos** para el propietario del negocio | No iniciado |
 | **Paginación** en todos los listados de la API y de la interfaz | No iniciado |
-| **Despliegue en la nube** de la versión final | No iniciado |
+| **Despliegue en la nube** de las versiones publicadas, sobre Kubernetes | No iniciado |
 
-> **Estado actual del proyecto:** finalizando la **Fase 1**. A día de hoy se han definido los objetivos funcionales y
-> técnicos, el modelo de entidades, los permisos y el plan de trabajo aquí recogidos, pero **no se ha comenzado la
-> implementación de ninguno de los objetivos del TFG listados en la tabla anterior.**
+> **Estado actual del proyecto:** **Fase 1 cerrada el 8 de septiembre de 2026**; en curso la **Fase 2**. Se han
+> definido los objetivos funcionales y técnicos, el modelo de entidades, los permisos y el plan de trabajo aquí
+> recogidos, pero **no se ha comenzado la implementación de ninguno de los objetivos del TFG listados en la tabla
+> anterior.**
 
 La viabilidad de esta migración se sustenta en que la aplicación existente está construida siguiendo **Clean
 Architecture**: las capas de dominio y de aplicación son independientes de la tecnología de persistencia, por lo que
@@ -222,7 +224,7 @@ Desde el punto de vista técnico, el trabajo consiste en sustituir por completo 
 a Service* sobre la que hoy se apoya la aplicación por un **backend propio desarrollado con NestJS y MongoDB**, que
 exponga una **API REST** documentada y versionada, y en dotar al proyecto de todo el instrumental de un desarrollo
 profesional: pruebas automatizadas en sus tres niveles, integración y despliegue continuos, contenerización y
-despliegue en la nube. En paralelo se moderniza el frontend heredado, actualizándolo a la última versión estable del
+despliegue en la nube sobre un clúster de Kubernetes. En paralelo se moderniza el frontend heredado, actualizándolo a la última versión estable del
 framework y a sus APIs actuales. La arquitectura limpia de la aplicación existente permite acotar la migración a la
 capa de infraestructura, lo que convierte esta sustitución tecnológica en una demostración práctica del valor del
 desacoplamiento por capas.
@@ -232,24 +234,26 @@ desacoplamiento por capas.
 2. **MongoDB** como base de datos, con modelo documental multi-tenant (discriminación por campo `tenantId` e índices
    compuestos) y datos de ejemplo cargados mediante *seed*.
 3. **API REST** bajo `/api/v1`, con recursos en plural, uso correcto de verbos y códigos de estado HTTP, cabecera
-   `Location` en las creaciones, filtrado por parámetros de consulta y paginación en todos los listados.
-4. **Documentación OpenAPI** generada con `@nestjs/swagger`, adoptada como contrato de referencia entre frontend y
-   backend.
-5. **Autenticación y autorización con JWT**, mediante *guards* de rol y de tenant que garanticen tanto los permisos
+   `Location` en las creaciones, filtrado por parámetros de consulta y paginación en todos los listados, documentada
+   con **OpenAPI** mediante `@nestjs/swagger` y adoptada como contrato de referencia entre frontend y backend.
+4. **Autenticación y autorización con JWT**, mediante *guards* de rol y de tenant que garanticen tanto los permisos
    por tipo de usuario como el aislamiento entre negocios.
-6. **Migración de la capa de infraestructura** del frontend: sustitución de las implementaciones Firebase por
+5. **Migración de la capa de infraestructura** del frontend: sustitución de las implementaciones Firebase por
    implementaciones HTTP contra la nueva API, manteniendo intactas las capas de dominio y aplicación.
-7. **Modernización del frontend**: actualización de Angular a la última versión estable y adopción de sus APIs
+6. **Modernización del frontend**: actualización de Angular a la última versión estable y adopción de sus APIs
    actuales —*signals* para la gestión de estado reactivo, nuevo bloque de control de flujo en plantillas e inyección
    de dependencias mediante `inject()`—, con la consiguiente reducción de la dependencia de RxJS heredada del modelo
    de suscripciones en tiempo real de Firestore.
-8. **Pruebas automatizadas**: unitarias y de integración con Jest y Supertest, y de sistema sobre la interfaz con
+7. **Pruebas automatizadas**: unitarias y de integración con Jest y Supertest, y de sistema sobre la interfaz con
    Playwright.
-9. **Integración continua** con GitHub Actions (compilación, análisis estático, ejecución de la batería de pruebas en
+8. **Integración continua** con GitHub Actions (compilación, análisis estático, ejecución de la batería de pruebas en
    cada *pull request*) y **despliegue continuo** de las versiones publicadas.
-10. **Contenerización con Docker** y orquestación mediante Docker Compose (aplicación + base de datos), con
-    publicación de la imagen y **despliegue en la nube** de la versión final.
-11. **Almacenamiento de imágenes** gestionado por el backend propio (GridFS o MinIO) en sustitución de Firebase
+9. **Contenerización y despliegue en la nube**: imagen Docker publicada en un registro público y orquestada con
+    Docker Compose en desarrollo, y **desplegada sobre un clúster de Kubernetes** en producción, con manifiestos
+    versionados en el repositorio, exposición mediante *Ingress* con HTTPS y certificado emitido automáticamente,
+    configuración y credenciales externalizadas en *ConfigMaps* y *Secrets*, y sondas de vida y disponibilidad que
+    permitan actualizar la aplicación sin cortes de servicio.
+10. **Almacenamiento de imágenes** gestionado por el backend propio (GridFS o MinIO) en sustitución de Firebase
     Storage.
 
 ---
@@ -267,15 +271,15 @@ construir la funcionalidad desde cero, sino **alcanzar la paridad funcional sobr
 *release* incorpora un conjunto de funcionalidades plenamente operativas contra el backend propio, con sus pruebas,
 su documentación de API y su despliegue.
 
-| Fase | Descripción | Inicio | Fin |
-|---|---|---|---|
-| **1** | **Definición de funcionalidades y pantallas.** Objetivos funcionales y técnicos, funcionalidades detalladas por prioridad, análisis de pantallas, entidades y permisos. Se documenta en este mismo fichero: [Objetivos](#objetivos), [Funcionalidades detalladas](#funcionalidades-detalladas) y [Análisis](#análisis). | 15 jul 2026 | **31 ago 2026** |
-| **2** | **Repositorio, pruebas, CI y modernización del frontend.** Reestructuración a monorepo, actualización de Angular a la última versión estable y adopción de sus APIs actuales, backend NestJS mínimo con una entidad de extremo a extremo, OpenAPI, primeras pruebas, integración continua y Docker básico. | 1 sep 2026 | **30 sep 2026** |
-| **3** | **Versión 0.1 — Funcionalidad básica operativa sobre el backend propio.** Autenticación JWT y sistema de roles, motor de reservas y cálculo de disponibilidad, gestión de imágenes, paginación y contenerización. | 1 oct 2026 | **31 oct 2026** |
-| **4** | **Versión 0.2 — Funcionalidad intermedia operativa sobre el backend propio.** Panel de administración completo, analítica con gráficos y despliegue en la nube. | 1 nov 2026 | **30 nov 2026** |
-| **5** | **Versión 1.0 — Funcionalidad avanzada operativa sobre el backend propio.** Notificaciones SMS, multi-tenancy completo, funcionalidades avanzadas y pulido final. | 1 dic 2026 | **22 dic 2026** |
-| **6** | **Escritura de la memoria.** | 7 ene 2027 | **31 ene 2027** |
-| **7** | **Preparación de la presentación y defensa.** | 1 feb 2027 | *Convocatoria oficial* |
+| Fase | Descripción | Inicio previsto | Fin previsto | Cierre real |
+|---|---|---|---|---|
+| **1** | **Definición de funcionalidades y pantallas.** Objetivos funcionales y técnicos, funcionalidades detalladas por prioridad, análisis de pantallas, entidades y permisos. Se documenta en este mismo fichero: [Objetivos](#objetivos), [Funcionalidades detalladas](#funcionalidades-detalladas) y [Análisis](#análisis). | 15 jul 2026 | **31 ago 2026** | **8 sep 2026** |
+| **2** | **Repositorio, pruebas, CI y modernización del frontend.** Reestructuración a monorepo, actualización de Angular a la última versión estable y adopción de sus APIs actuales, backend NestJS mínimo con una entidad de extremo a extremo, OpenAPI, primeras pruebas, integración continua y Docker básico. | 1 sep 2026 | **30 sep 2026** | — |
+| **3** | **Versión 0.1 — Funcionalidad básica operativa sobre el backend propio.** Autenticación JWT y sistema de roles, motor de reservas y cálculo de disponibilidad, gestión de imágenes, paginación y contenerización. | 1 oct 2026 | **31 oct 2026** | — |
+| **4** | **Versión 0.2 — Funcionalidad intermedia operativa sobre el backend propio.** Panel de administración completo, analítica con gráficos y despliegue de la *release* en un clúster de Kubernetes en la nube. | 1 nov 2026 | **30 nov 2026** | — |
+| **5** | **Versión 1.0 — Funcionalidad avanzada operativa sobre el backend propio.** Notificaciones SMS, multi-tenancy completo, funcionalidades avanzadas, despliegue continuo al clúster y pulido final. | 1 dic 2026 | **22 dic 2026** | — |
+| **6** | **Escritura de la memoria.** | 7 ene 2027 | **31 ene 2027** | — |
+| **7** | **Preparación de la presentación y defensa.** | 1 feb 2027 | *Convocatoria oficial* | — |
 
 ### Diagrama de Gantt
 
@@ -302,8 +306,11 @@ gantt
     Fase 7 · Presentación y defensa        :f7, 2027-02-01, 2027-02-28
 ```
 
-> La fecha de la Fase 7 es orientativa: la defensa queda sujeta a las convocatorias oficiales establecidas por la
-> Universidad Rey Juan Carlos.
+> Las fechas de la tabla y del diagrama corresponden a la **planificación prevista**. La columna *Cierre real* recoge
+> la fecha efectiva de finalización de cada fase y se completa a medida que el trabajo avanza, de modo que la
+> desviación entre lo planificado y lo ejecutado quede documentada y pueda analizarse en la memoria. La fecha de la
+> Fase 7 es orientativa: la defensa queda sujeta a las convocatorias oficiales establecidas por la Universidad Rey
+> Juan Carlos.
 
 ---
 
@@ -496,8 +503,14 @@ combinación de negocio, profesional e instante de inicio.
 
 | Recurso | Enlace |
 |---|---|
-| **Blog de desarrollo** | 🚧 Pendiente de publicar. Se anunciará en él cada versión publicada al cierre de las fases 3, 4 y 5. |
-| **GitHub Project (Kanban)** | 🚧 Pendiente de configurar en la Fase 2. Recogerá las tareas del proyecto organizadas por fase. |
+| **Blog de desarrollo** (Medium, inglés) | [Phase 1: defining the product and studying the competition](https://medium.com/@alvarofuenteg/phase-1-defining-the-product-and-studying-the-competition-641178c6dedd) — se publicará una entrada por fase y por versión liberada. |
+| **GitHub Project (Kanban)** | [Tablero del proyecto](https://github.com/orgs/codeurjc-students/projects) — gestión de las tareas del TFG organizadas por fase. |
+
+<!-- TODO: sustituir el enlace del Project por su URL directa (github.com/orgs/codeurjc-students/projects/<n>)
+     en cuanto la tutoría la facilite; ahora apunta al listado de la organización. -->
+
+Además, el estado detallado del trabajo —fases, registro de horas, riesgos y decisiones técnicas— se mantiene
+actualizado en [`docs/tfg/seguimiento.md`](docs/tfg/seguimiento.md).
 
 ---
 
@@ -537,6 +550,7 @@ en la **Escuela Técnica Superior de Ingeniería Informática (ETSII)** de la **
 | Calidad | ESLint · Prettier · análisis estático |
 | CI/CD | GitHub Actions |
 | Contenerización | Docker · Docker Compose |
+| Orquestación y despliegue | Kubernetes (Ingress NGINX · cert-manager) en un proveedor cloud |
 
 ---
 

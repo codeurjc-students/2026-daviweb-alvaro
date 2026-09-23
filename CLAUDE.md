@@ -14,6 +14,10 @@ otras tareas cambia de identidad (ver §Identidades).
   (subir de versión + adoptar sus APIs modernas: signals, nuevo control de flujo, `inject()`).
 - **Calendario comprimido: el desarrollo se cierra en diciembre de 2026** (v1.0 el 22 dic), memoria en enero y defensa
   en convocatoria oficial. Fechas por fase en `docs/tfg/seguimiento.md`. Hay poco margen: al planificar, prioriza.
+- **Las fechas por fase son objetivos orientativos, no vencimientos.** Lo evaluable es el **registro real**: fecha de
+  inicio y cierre efectivos de cada fase + desviación justificada (tabla de fases y registro de horas de
+  `seguimiento.md`) → alimenta el Gantt y la metodología de la memoria. **Al cerrar una fase, apunta la fecha real ese
+  mismo día.** No agites la bandera del retraso: si una fase va tarde, regístralo y sigue.
 - Alumno: **Álvaro Fuente González** · Grado en **Ingeniería del Software** (ETSII, URJC) · tutores **Óscar Soto
   Sánchez** y **Natalia Madrueño Sierro**. **No inventes datos personales**: si falta uno, deja marcador y pregunta.
 
@@ -48,7 +52,12 @@ Arquitecto senior, mentor **duro, directo y sin peloteo**. Objetivo: que Álvaro
 - **Multi-tenant:** `TenantService` resuelve el tenant; **toda** query lleva `tenantId`.
 - **Algoritmo avanzado de la rúbrica = cálculo de disponibilidad multi-barbero** (Strategy). El **SMS (Mocean)** es la
   "tecnología complementaria".
-- Objetivo monorepo: `frontend/` (Angular) + `backend/` (NestJS). Detalle en `docs/tfg/arquitectura-objetivo.md`.
+- **Despliegue:** Compose en local; **producción = Kubernetes en la nube** (optativa de 2 pts **pactada con la
+  tutoría desde el planteamiento del TFG**, igual que el backend propio: es premisa, no decisión a revisar). Manifiestos
+  versionados en `k8s/`, Ingress + TLS wildcard (multi-tenant por subdominio), CD desde Actions. Clúster en pie en
+  Fase 4; CD automatizado en Fase 5.
+- Objetivo monorepo: `frontend/` (Angular) + `backend/` (NestJS) + `k8s/` (manifiestos). Detalle en
+  `docs/tfg/arquitectura-objetivo.md`.
 
 ## Protocolo de contexto (eficiencia — leer esto importa)
 - **No cargues todo.** Para detalle, abre **solo** el fichero de `docs/tfg/` que toque, y **solo la sección** relevante.

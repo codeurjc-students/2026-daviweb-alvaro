@@ -1,9 +1,10 @@
 # Arquitectura objetivo y plan de migración (Firebase → NestJS + MongoDB)
 
-> Cómo pasamos del SaaS actual (Angular + Firebase) al objetivo del TFG (SPA + **API REST propia** + Docker), tocando
-> lo mínimo. Léelo bajo demanda. Reglas técnicas concretas en [`estandares-tecnicos.md`](estandares-tecnicos.md).
+> Cómo pasamos del SaaS actual (Angular + Firebase) al objetivo del TFG (SPA + **API REST propia** + Docker +
+> **Kubernetes en la nube**), tocando lo mínimo. Léelo bajo demanda. Reglas técnicas concretas en
+> [`estandares-tecnicos.md`](estandares-tecnicos.md).
 
-## 1. Arquitectura de despliegue objetivo
+## 1. Arquitectura lógica objetivo
 ```
 [ Navegador ]
    │  HTTPS
@@ -16,6 +17,41 @@
 ```
 - **Monolito con API REST** + **SPA que la consume** + **Docker/Compose**. Imagen **única**: Nest sirve el build de
   Angular como estático (la rúbrica lo pide así). Ver §7 sobre SSR.
+
+## 1-bis. Arquitectura de despliegue: Kubernetes en la nube
+La parte optativa de despliegue es **Kubernetes en la nube (2 pts)**, acordada con la tutoría desde el planteamiento
+del TFG junto con el resto del stack. Docker Compose se queda como entorno de desarrollo local; **producción es un
+clúster**.
+
+```
+        *.dominio (DNS wildcard)
+              │  HTTPS/443
+              ▼
+   ┌───────────── clúster K8s (namespace daviweb-prod) ─────────────┐
+   │  [ Ingress NGINX ] ── TLS wildcard ← [ cert-manager ] (DNS-01) │
+   │        │ /  y  /api/v1                                         │
+   │        ▼                                                       │
+   │  [ Service ClusterIP ] ──► [ Deployment app (N réplicas) ]     │
+   │                              imagen única Nest+Angular         │
+   │                              probes → /api/v1/health           │
+   │                              env ← ConfigMap + Secret          │
+   │                                   │                            │
+   │                                   ▼                            │
+   │                        [ Service mongo ] ──► [ StatefulSet     │
+   │                                                MongoDB + PVC ] │
+   └────────────────────────────────────────────────────────────────┘
+              ▲                                    ▲
+   [ DockerHub: imagen por tag ]        [ GitHub Actions: CD ]
+```
+- **Un solo `Deployment`** para la app (la imagen única de la rúbrica) + **`StatefulSet` con PVC** para Mongo, o base
+  de datos **gestionada** si se prefiere externalizar el estado (decisión abierta, §7).
+- **Manifiestos versionados** en `k8s/` (Kustomize `base/` + `overlays/dev|prod`). El clúster se reconstruye desde el
+  repositorio; ningún cambio manual.
+- **Multi-tenancy y DNS:** el tenant se resuelve por **subdominio**, así que el `Ingress` necesita host **wildcard** y
+  el certificado, reto **DNS-01**. Es el punto de mayor riesgo del despliegue.
+- **CD:** GitHub Actions publica la imagen con tag inmutable y aplica el despliegue con el `kubeconfig` guardado en un
+  secret; `kubectl rollout status` + smoke test como puerta de calidad.
+- **Material de memoria:** este diagrama es literalmente lo que pide el capítulo *Guía de desarrollo > Despliegue*.
 - **Contract-first:** la **spec OpenAPI** (`docs/api/api-docs.yaml`) es la **verdad compartida**. Como tú y tu compañero
   compartís frontend pero tenéis backends distintos, quien manda es **el contrato**, no la implementación. El front
   habla contra ese contrato; cada backend lo implementa en su tecnología.
@@ -41,7 +77,8 @@ repositorio) **no se tocan**. La migración es:
 | Auth + Custom Claims (`role`, `tenantId`) | **JWT** con payload `{sub, role, tenantId}` + **guards** `JwtAuthGuard`/`RolesGuard`/`TenantGuard` | Contraseña admin en config/env cifrada (lo pide la rúbrica). |
 | Storage (galería, fotos) | **GridFS** (imágenes en Mongo, simple para entornos restringidos) o **MinIO** (SDK S3, para cloud) | La rúbrica sugiere imágenes en BD; MinIO permite migrar a S3 sin cambiar código. |
 | Cloud Function trigger `onCreate(appointment)` → SMS | Servicio Nest: al crear cita, emite evento (`EventEmitter`/cola) → `SmsService` (reusa **MoceanAdapter**) | Mantener el patrón Adapter; SMS sigue siendo intercambiable. |
-| Hosting / SSR | **Docker**: Nest sirve `frontend/dist` estático | Puerto 443 HTTPS. |
+| Hosting / SSR | **Docker**: Nest sirve `frontend/dist` estático, desplegado en **Kubernetes** | HTTPS terminado en el `Ingress` (cert-manager). |
+| Hosting multi-tenant por subdominio (Firebase Hosting) | **Ingress** con host wildcard `*.dominio` + certificado wildcard (DNS-01) | Sin wildcard no hay multi-tenancy en producción. |
 | Security Rules (aislamiento) | `TenantGuard` + filtros por `tenantId` en cada query | Nunca una query sin `tenantId`. |
 
 ## 4. Modelo de datos (colecciones Mongo, todas con `tenantId`)
@@ -80,10 +117,22 @@ features a **básica / intermedia / avanzada** en [`seguimiento.md`](seguimiento
 - **Tiempo real:** las suscripciones live de Firestore (RxJS) se sustituyen por request/response + polling o
   **WebSocket** puntual (p. ej. refresco del calendario admin). No es obligatorio; decidir por coste/beneficio.
 - **Datos de ejemplo:** seed de Mongo con datos representativos (peluquería demo) al arrancar (lo pide la rúbrica).
+- **Dónde vive el clúster:** hace falta un **Kubernetes gestionado barato** (AKS/GKE tienen plano de control gratuito;
+  EKS cobra por clúster) o **k3s sobre una VM** en un proveedor económico. Antes de elegir: **preguntar a los tutores
+  si la URJC facilita créditos cloud** (AWS Academy o similar) — no comprometer gasto propio sin saberlo. *(Pendiente
+  de confirmar; ver riesgo en [`seguimiento.md`](seguimiento.md).)*
+- **Mongo dentro o fuera del clúster:** `StatefulSet` + PVC (todo autocontenido, más trabajo de backup y más riesgo de
+  perder datos en un `rollout` mal hecho) vs **BD gestionada** (Atlas free tier: menos operativa, pero el estado sale
+  del clúster). Decidir en Fase 4, antes de escribir los manifiestos.
+- **Dominio y DNS:** se necesita un dominio propio con **DNS wildcard** y acceso por API al proveedor para el reto
+  DNS-01 de cert-manager. Sin esto, el multi-tenant por subdominio no se puede demostrar en producción.
 
 ## 8. Orden sugerido de migración (encaja con las fases)
 1. **Fase 2:** `backend/` NestJS mínimo + `frontend/` (mover Angular) + 1 entidad end-to-end (p. ej. `services`) leída
    desde Mongo por la SPA + OpenAPI + tests de sistema + CI. Modernizar Angular (`ng update`).
-2. **Fase 3 (0.1):** auth JWT, `appointments` + `availability` (algoritmo), imágenes, paginación, Docker/Compose, CD.
-3. **Fase 4 (0.2):** admin CRUD completo, analítica/gráficos, despliegue cloud.
-4. **Fase 5 (1.0):** SMS, blacklist, features avanzadas, pulido.
+2. **Fase 3 (0.1):** auth JWT, `appointments` + `availability` (algoritmo), imágenes, paginación, Docker/Compose +
+   endpoint `/health` y contenedor no-root (preparar el terreno para K8s).
+3. **Fase 4 (0.2):** admin CRUD completo, analítica/gráficos y **despliegue en Kubernetes**: clúster contratado,
+   manifiestos en `k8s/`, Ingress + TLS, la release 0.2 corriendo en el clúster (despliegue aún manual vale).
+4. **Fase 5 (1.0):** SMS, blacklist, features avanzadas, **CD automatizado a K8s** (pipeline completa build→push→
+   rollout→smoke test) y endurecido (probes, límites de recursos, secretos, backup de Mongo).

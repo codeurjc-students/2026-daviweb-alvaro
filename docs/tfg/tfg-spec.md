@@ -25,8 +25,9 @@
 | Pruebas | JUnit + Selenium + Rest Assured | **Jest + Supertest + Playwright/Cypress** |
 | Repo / CI | GitHub / GitHub Actions | **GitHub / GitHub Actions** ✅ |
 | Empaquetado | Docker | **Docker** ✅ |
+| Despliegue | VM / PaaS / K8s (optativa) | **Kubernetes en la nube** (2 pts) |
 
-Arquitectura objetivo: **monolito con API REST + SPA que la consume + Docker**. Detalle en
+Arquitectura objetivo: **monolito con API REST + SPA que la consume + Docker, desplegado en Kubernetes**. Detalle en
 [`arquitectura-objetivo.md`](arquitectura-objetivo.md).
 
 ## 3. Fases y fechas límite
@@ -37,8 +38,8 @@ Arquitectura objetivo: **monolito con API REST + SPA que la consume + Docker**. 
 | 1 | Definición de funcionalidades y pantallas | 31 ago 2026 |
 | 2 | Repositorio, pruebas, CI **y modernización de Angular** | 30 sep 2026 |
 | 3 | Versión 0.1 — Funcionalidad básica operativa sobre el backend propio + Docker | 31 oct 2026 |
-| 4 | Versión 0.2 — Funcionalidad intermedia + despliegue cloud | 30 nov 2026 |
-| 5 | Versión 1.0 — Funcionalidad avanzada | 22 dic 2026 |
+| 4 | Versión 0.2 — Funcionalidad intermedia + **despliegue en Kubernetes** | 30 nov 2026 |
+| 5 | Versión 1.0 — Funcionalidad avanzada + **despliegue continuo al clúster** | 22 dic 2026 |
 | 6 | Memoria | 31 ene 2027 |
 | 7 | Defensa | *convocatoria oficial URJC* |
 
@@ -46,14 +47,25 @@ Arquitectura objetivo: **monolito con API REST + SPA que la consume + Docker**. 
 > **no** es crear funcionalidad, sino alcanzar **paridad funcional sobre la nueva arquitectura**. La compensación en
 > trabajo nuevo es la **modernización de Angular** en Fase 2.
 >
-> Margen escaso: no se pueden superar salvo fuerza mayor. Estado real por fase en [`seguimiento.md`](seguimiento.md).
+> **Las fechas son objetivos orientativos, no vencimientos** (tutoría, 2026-09-01): sirven para ordenar el trabajo y
+> detectar desvíos pronto. Lo evaluable es el **registro real** —fecha de inicio y de cierre efectivos de cada fase,
+> con la desviación justificada— que alimenta el Gantt y el capítulo de metodología. Se lleva en la tabla de fases y en
+> el registro de horas de [`seguimiento.md`](seguimiento.md). Que sean orientativas no las hace elásticas: el tope duro
+> sigue siendo **diciembre de 2026** para cerrar el desarrollo, y las fases posteriores empujan a las anteriores.
 
 ## 4. Partes optativas (mínimo 3 puntos) — **elegidas**
 - ✅ **Pruebas unitarias y de integración (2 pts)** — back y front, además de las E2E/sistema obligatorias.
 - ✅ **Diseño responsive en móvil (1 pt)** — desde Fase 3 (la app ya es mobile-first).
-- ✅ **Despliegue continuo (1 pt)** + **plataforma cloud** (VM IaaS 0.5 / BD gestionada 1 / PaaS 1 / K8s 2 / integrado
-  S3-RDS 3) — Fases 4-5.
+- ✅ **Despliegue con Kubernetes en la nube (2 pts)** — **pactado con la tutoría al plantear el TFG**, junto con el
+  stack de backend; documentado en el repositorio el 2026-09-01. Descartadas VM IaaS (0.5), BD gestionada (1) y PaaS (1). El enunciado lo sitúa en Fase 5, pero la
+  release 0.2 (Fase 4) ya debe quedar desplegada en un entorno distinto del de desarrollo → **el clúster tiene que
+  estar en pie en Fase 4**.
+- ✅ **Despliegue continuo (1 pt)** — Fase 5: la pipeline despliega sola en el clúster.
 - 💡 *Bonus fácil no elegido:* **Análisis estático (Sonar, 1 pt)** — barato de añadir en CI si quieres subir nota.
+
+**Total elegido: 6 puntos** sobre el mínimo de 3. Es holgura deliberada, no colchón infinito: si el calendario aprieta,
+lo que se recorta primero es el CD automatizado (1 pt) —el despliegue manual documentado sigue valiendo para K8s—, no
+las pruebas.
 
 ## 5. Requisitos obligatorios (checklist) y cómo los cubre el proyecto
 - **≥4 entidades relacionadas, una = Usuario.** ✅ Sobra: `User/Owner`, `Appointment`, `Barber`, `Service`,
