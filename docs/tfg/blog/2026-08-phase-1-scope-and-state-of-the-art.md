@@ -1,0 +1,108 @@
+<!-- Publicado el 2026-09-08 en Medium:
+     https://medium.com/@alvarofuenteg/phase-1-defining-the-product-and-studying-the-competition-641178c6dedd -->
+
+# Phase 1: defining the product and studying the competition
+
+*First post in a series about my final-year project (TFG) at Universidad Rey Juan Carlos. I am migrating a booking
+system for hair salons from Firebase to my own NestJS + MongoDB backend. This one covers Phase 1: scope, screens and
+the state of the art.*
+
+## The project
+
+Davidevs Hairdressers is a multi-tenant booking system for hair salons and barbershops. Each business gets its own
+public website (landing page, services, team, gallery, reviews and legal pages), an online booking flow and an admin
+dashboard. Everything is themed per business and served from its own subdomain.
+
+The application already exists. It is an Angular 19 app built on Clean Architecture and running on Firebase
+(Firestore, Authentication, Storage and Cloud Functions), and I wrote it before the project started.
+
+I put that in the first section of the README instead of leaving it implicit. The repository links to the original
+project with its full commit history, and the README states what the TFG adds on top: a backend of my own with NestJS
+and MongoDB, a documented REST API, automated tests, CI/CD, containerisation, a deployment on Kubernetes, and a
+modernisation pass on the Angular front end.
+
+There is also a technical reason why this fits in one academic year. The application follows Clean Architecture, so
+the domain and application layers do not depend on Firebase. Replacing the backend means reimplementing the
+infrastructure layer: `infrastructure/firebase` becomes `infrastructure/http`, behind the same repository interfaces,
+and `app.config.ts` decides which implementation gets injected. Whether that holds up in practice is something I will
+be able to report on in Phase 3, not now.
+
+## What Phase 1 asked for
+
+There is no code in Phase 1. It is about defining what the product does and drawing its screens, which under a
+deadline is the work that stops you from building the wrong thing. My development window closes in December 2026, so
+the prioritisation matters more than usual.
+
+What came out of it:
+
+- Functional and technical objectives, written as two short lists rather than prose.
+- The feature catalogue, split into basic, intermediate and advanced, with an identifier for each one (`B1`, `I4`,
+  `A5`). It reads bureaucratic, but it lets me point from a test or a design decision back to a specific requirement
+  later on.
+- The entity model and a permission matrix per role (anonymous, registered, administrator).
+- A screen map: screenshots of the current application, plus Figma wireframes for the screens that do not exist yet,
+  such as the customer area, registration and the analytics dashboard.
+- A study of the state of the art.
+
+## Nine products, five families
+
+The brief asks for a study of similar applications "to gather ideas and possible improvements". I set one rule for
+myself: every observation had to end in a decision. Either a feature I could then justify, a gap worth exploiting, or
+an idea discarded on the record.
+
+I looked at nine products across five families: marketplaces that bundle salon software (Booksy, Fresha, Treatwell),
+vertical salon management suites (Koibox, Squire), a horizontal booking platform (SimplyBook.me), a generic scheduling
+engine (Cal.com / Cal.diy) and a self-hosted open-source option (Easy!Appointments). Sorting them by family turned out
+to be more useful than comparing them one by one, because the business model explains most of the functional
+differences.
+
+Four things I took from it:
+
+- Commission on new customers is where the money is in family A. Booksy Boost takes 30% of a new client's first
+  visit, Fresha 20% with a 6 $ minimum, Treatwell around 25% plus VAT. This product cannot charge that, because the
+  business owns the channel and there is nobody in the middle. Fresha does not charge for clients who book through the
+  business's own website either, which is a reasonable indication that the distinction holds commercially.
+- Several platforms require the customer to register before booking. For a 25 € haircut that is friction, and the
+  customer relationship ends up belonging to the intermediary. So booking stays anonymous by default (name and phone
+  number) and the account is optional, worth having only for the history and for repeating an appointment in one step.
+- Squire, which is barbershop-specific, gave me two cheap features I had not planned: putting the professional's photo
+  and profile in the booking flow instead of a dropdown, and repeating your last appointment in a single step.
+  Barbershop clients repeat a lot.
+- In April 2026 Cal.com moved its commercial product to closed source, and the open code was relaunched as `cal.diy`
+  under MIT (previously AGPL-3.0), self-hosting only and without the enterprise modules. It is a recent example of the
+  risk of building on a platform you do not control, which is the same argument behind this project, on a much smaller
+  scale.
+
+The study also discarded things explicitly: online payments and point of sale, Spanish tax compliance, stock and
+payroll, and building a marketplace of my own. The last one is the one worth explaining, because it is the one that
+would have looked most impressive: a marketplace puts an intermediary between the salon and its client, and the whole
+premise of the product is that the business keeps that relationship. The risk of a competitor study is that it turns
+into a wishlist the calendar cannot pay for.
+
+## What it changed on the technical side
+
+Three conclusions ended up shaping the target architecture:
+
+1. Multi-tenancy is structural rather than a feature. SimplyBook.me keeps white-labelling behind its paid tiers, which
+   suggests that doing isolation properly is not cheap. Every query carries a `tenantId`; if that leaks, it is not a
+   UI bug, it is one business seeing another's data.
+2. The availability engine is the part of the product worth defending, and the one place where a vertical product
+   beats a horizontal one: per-professional schedules, variable service durations, chaining several services in one
+   session, and two assignment policies (a single shared agenda or one agenda per professional). That justifies a
+   Strategy pattern and a thorough set of unit tests over the edge cases.
+3. Concurrency has to be handled from the start. Two clients booking the same slot is the most visible failure a
+   booking system can have. The plan is a unique index on `{tenantId, barberId, startAt}`, transactions where needed,
+   and an integration test that actually tries to provoke it.
+
+## Next
+
+Phase 2 is the heavy one and it only has September: restructure the repository into a monorepo, update Angular to the
+latest stable version and adopt signals, the new control flow and `inject()`, stand up a minimal NestJS + MongoDB
+backend with one entity working end to end, publish the OpenAPI contract, write the first system test, and set up
+continuous integration and a basic Docker image.
+
+The next post will be about that first slice through the new backend, including whatever turns out to be wrong with
+the assumption that only the infrastructure layer has to change.
+
+The repository, with the README and the full state-of-the-art study, is at
+[codeurjc-students/2026-daviweb-alvaro](https://github.com/codeurjc-students/2026-daviweb-alvaro).
