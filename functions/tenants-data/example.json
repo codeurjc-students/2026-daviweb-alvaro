@@ -1,25 +1,32 @@
 {
   "business": {
-    "name": "Barbería de Prueba",
-    "ownerName": "Pepe",
-    "instagram": "pepe.barber",
-    "facebook": "pepe.barber",
+    "name": "MI PELUQUERIA",
+    "ownerName": "Admin",
+    "instagram": "mi.peluqueria",
+    "facebook": "mi.peluqueria",
     "currency": "EUR",
     "currencySymbol": "€",
-    "opinionsUrl": "https://google.com/..."
+    "opinionsUrl": "https://www.google.com/search?q=mi+peluquer%C3%ADa+rese%C3%B1as&num=10&client=ubuntu-sn&hs=TLH&sca_esv=f4f4d625b74d76fe&channel=fs&hl=es-ES&biw=1565&bih=778&tbm=lcl&sxsrf=APpeQnvj3cMHyYob8cFx4pGBDG7Rlezuzw%3A1786474328555&ei=WG97atPAIbzWhbIPqoHLoQo&ved=0ahUKEwjTzIO-n5mWAxU8a0EAHarAMqQQ4dUDCAo&uact=5&oq=mi+peluquer%C3%ADa+rese%C3%B1as&gs_lp=Eg1nd3Mtd2l6LWxvY2FsIhdtaSBwZWx1cXVlcsOtYSByZXNlw7FhczIFEAAYgAQyBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB5Iw1NQ_yNY2lFwA3gAkAEAmAGUAaABuxGqAQQxOC42uAEDyAEA-AEBmAIboAKoEsICBBAjGCfCAgUQABjvBcICChAjGPAFGMkCGCfCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIIEAAYgAQYsQPCAgoQIxjJAhjwBRgnwgIKEAAYgAQYigUYQ8ICDRAAGIAEGIoFGEMYsQPCAgoQABiABBgUGIcCwgIHEAAYgAQYCsICBxAAGIAEGA3CAggQABgIGB4YDcICCBAAGIAEGKIEmAMAiAYBkgcEMTkuOKAHhJcBsgcEMTYuOLgHnRLCBwcwLjEyLjE1yAdIgAgB&sclient=gws-wiz-local"
   },
-  "theme": {
-    "colors": {
-      "primary": "#000000",
-      "primaryLight": "#333333",
-      "primaryLighter": "#eeeeee",
-      "primaryDark": "#000000",
-      "secondary": "#ffffff",
-      "accent": "#ff0000",
-      "background": "#ffffff",
-      "backgroundSecondary": "#f0f0f0",
-      "text": "#000000",
-      "border": "#cccccc"
-    }
+  "colors": {
+    "primary": "#e673B4", 
+    "primaryLight": "#e673B4", 
+    "primaryLighter": "#fce8ed", 
+    "primaryDark": "#d4708f", 
+    "secondary": "#aca7a3", 
+    "accent": "#ef51aA", 
+    "background": "#ffffff", 
+    "backgroundSecondary": "#f0f4f8", 
+    "text": "#3d4a56", 
+    "border": "#cbd5e0", 
+
+    
+    "secondaryDark": "#3d4a56",
+    "secondaryLight": "#8a9ba8",
+    "backgroundSection": "#e8eff5",
+    "backgroundCalendar": "#EA76B8",
+    "backgroundAccent": "#e88fa7",
+    "borderAccent": "#f5c5d4",
+    "textPink": "#dc5b7d"
   }
 }

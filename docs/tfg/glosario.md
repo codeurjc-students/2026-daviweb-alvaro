@@ -35,6 +35,15 @@
 | tribunal | committee / board | defensa |
 | despliegue | deployment | Fases 4-5 |
 | entrega/despliegue continuo | CI / CD | GitHub Actions |
+| clúster | cluster | Kubernetes, en la nube |
+| contenedor / vaina | container / pod | *pod* se deja **sin traducir** en la memoria |
+| manifiesto | manifest | YAML de K8s, versionado en `k8s/` |
+| sonda de disponibilidad / de vida | readiness probe / liveness probe | contra `/api/v1/health` |
+| balanceo de entrada / enrutado HTTP | ingress | `Ingress` + NGINX Ingress Controller |
+| volumen persistente | persistent volume (PVC) | datos de MongoDB |
+| secreto | secret | credenciales; nunca en el repositorio |
+| espacio de nombres | namespace | `daviweb-dev` / `daviweb-prod` |
+| actualización progresiva | rolling update | despliegue sin corte de servicio |
 | capacidad | capacity | huecos simultáneos (multi-barbero) |
 
 > Añade términos aquí en cuanto aparezcan, para no traducir dos veces distinto lo mismo.
