@@ -1,9 +1,9 @@
 # Estado vs rúbrica (gap analysis vivo)
 
 > **Memoria de trabajo del proyecto.** Léelo al empezar cada sesión para orientarte barato; **actualízalo al terminar**.
-> Estados: ❌ no hecho · 🟡 parcial / en curso · ✅ hecho. Última actualización: **2026-09-08** (optativa de despliegue:
-> Kubernetes en la nube; **cierre de la Fase 1**). Fase en curso: **2 — repositorio, pruebas, CI y modernización de
-> Angular** (objetivo: 30 sep 2026).
+> Estados: ❌ no hecho · 🟡 parcial / en curso · ✅ hecho. Última actualización: **2026-09-30** (backlog de la Fase 2 en el
+> Project). Fase en curso: **2 — repositorio, pruebas, CI y subida de Angular** (objetivo original 30 sep, replanificado
+> al **18 oct 2026**; a 30 sep sin avance técnico).
 
 ## Resumen rápido
 El SaaS funcional está muy avanzado (Angular + Firebase), pero **el TFG exige lo que aún no hay**: backend propio
@@ -29,13 +29,13 @@ que ya se cumplen requisitos "difíciles" (algoritmo avanzado, tecnología compl
 | README + docs/ (estructura rúbrica) | 1-5 | 🟡 | **README de Fase 1 publicado** (11 apartados del enunciado, Gantt Mermaid, ER, matriz de permisos, estado por funcionalidad, autoría). Wireframes y estado del arte ya integrados. **Checklist del enunciado §3.2 verificado el 2026-09-01**: contenido completo (objetivos funcionales 9 y técnicos 10, ambos dentro del rango 3-10). Pendiente y **exigible ya en Fase 1**: enlaces reales de blog y GitHub Project en el apartado *Seguimiento*. Pendiente de **Fase 2** en adelante: índice a `docs/`, `docs/api/`, vídeo por release. |
 | Gráficos (charts) — *definición* | 1 | ✅ | 5 gráficos especificados en README con su tipo. Implementación en Fase 4. |
 | Blog (Medium, EN) | 1-5 | 🟡 | **Primer post publicado el 2026-09-08** ([Phase 1](https://medium.com/@alvarofuenteg/phase-1-defining-the-product-and-studying-the-competition-641178c6dedd)), enlazado desde el README. Falta una entrada por fase/release; fuente y flujo de publicación en [`blog/README.md`](blog/README.md). |
-| Gantt + horas reales | 1-6 | ❌ | Empezar registro en `seguimiento.md`. |
-| GitHub Flow + Issues + Projects (Kanban) | 2 | 🟡 | **Repo del TFG operativo** (`codeurjc-students/2026-daviweb-alvaro`). Regla de ramas `add-x`/`fix-x` + PR ya en `CLAUDE.md`. **Project por crear por la tutoría** (el alumno no tiene permisos en la organización); falta pegar su URL directa en el README y poblarlo de issues por fase. |
+| Gantt + horas reales | 1-6 | 🟡 | Registro de horas y tabla de fases (inicio/cierre real + desviaciones) vivos en `seguimiento.md`. Falta el Gantt final de la memoria. |
+| GitHub Flow + Issues + Projects (Kanban) | 2 | 🟡 | **Repo del TFG operativo** (`codeurjc-students/2026-daviweb-alvaro`). Regla de ramas `add-x`/`fix-x` + PR ya en `CLAUDE.md`. **Project creado por la tutoría** ([#53](https://github.com/orgs/codeurjc-students/projects/53)); milestones de las fases 2-5 y etiquetas creados; **backlog de la Fase 2 cargado el 2026-09-30** (issues #2-#13, en *Todo*). Falta: pegar la URL en el README (#12) y **usarlo de verdad** (una rama + PR por issue con `Closes #n`, mover tarjetas). |
 
 ## Optativas elegidas
 | Parte | Pts | Fase | Estado | Notas |
 |---|---|---|---|---|
-| **Modernización de Angular** (última estable + signals, nuevo control de flujo, `inject()`) | — | 2 | ❌ | **Compensación acordada** por partir de app preexistente. No puntúa como optativa de rúbrica, pero es trabajo nuevo evaluable y argumento de memoria. Hoy Angular 19 congelado desde feb-2026. |
+| **Modernización de Angular** (última estable + signals, nuevo control de flujo, `inject()`) | — | 2-3 | ❌ | **Compensación acordada** por partir de app preexistente. No puntúa como optativa de rúbrica, pero es trabajo nuevo evaluable y argumento de memoria. Hoy Angular 19 congelado desde feb-2026. Subida de versión en Fase 2 (#3); adopción de APIs modernas en Fase 3 (ADR 16). |
 | Pruebas unit + integración | 2 | 2→ | ❌ | Hoy 0 tests (skipTests). |
 | Responsive móvil | 1 | 3 | 🟡 | App ya mobile-first; validar y documentar. |
 | **Despliegue con Kubernetes en la nube** | 2 | 4 | ❌ | **Plataforma pactada con la tutoría desde el planteamiento del TFG**, no elegida sobre la marcha. Pendiente: elegir proveedor de clúster (y confirmar si la URJC da créditos cloud), dominio + DNS wildcard, manifiestos en `k8s/` (Kustomize), Ingress NGINX + cert-manager, Mongo `StatefulSet`+PVC o gestionado. Clúster en pie **antes del 30 nov** (la release 0.2 debe estar desplegada). |
