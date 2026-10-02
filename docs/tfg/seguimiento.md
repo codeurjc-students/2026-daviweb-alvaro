@@ -1,7 +1,7 @@
 # Seguimiento del TFG (fases, horas, riesgos, decisiones)
 
 > **Memoria de trabajo** + fuente para el capítulo de metodología de la memoria y el Gantt. Actualízalo al cerrar cada
-> sesión relevante. Última actualización: **2026-09-30** (backlog de la Fase 2 en el GitHub Project y replanificación de su cierre).
+> sesión relevante. Última actualización: **2026-10-02** (monorepo `frontend/` + `backend/`, issue #2).
 
 > **Repositorio del TFG:** [`codeurjc-students/2026-daviweb-alvaro`](https://github.com/codeurjc-students/2026-daviweb-alvaro)
 > — commit inicial `a2109d5`. Historial previo (206 commits) en el repo público
@@ -58,7 +58,7 @@ Gantt sin explicación de las desviaciones no dice nada.
    README** (issue #12).
 7. ~~**Decisión de despliegue (K8s) aprobada por la tutoría**~~ ✅ → **Sigue abierto:** si la URJC
    facilita **créditos cloud**. De la respuesta dependen el proveedor de clúster y el gasto (ver riesgos).
-8. **Fase 2** (en curso desde 2026-09-08, objetivo **18 oct**): monorepo `frontend/` + `backend/` (#2) → NestJS
+8. **Fase 2** (en curso desde 2026-09-08, objetivo **18 oct**): ~~monorepo `frontend/` + `backend/` (#2)~~ ✅ → NestJS
    mínimo (#4) → Mongo + 1 entidad end-to-end (#5) → OpenAPI (#6) → pruebas (#7, #8) → ESLint/Prettier (#9) → CI
    (#10) → Docker mínimo (#11). En huecos: `ng update` (#3), README (#12), post del blog (#13).
 9. ~~**Issues de la Fase 2** en el Project~~ ✅ **2026-09-30**: 12 issues (#2-#13) en el milestone *Phase 2*, con
@@ -76,6 +76,8 @@ Gantt sin explicación de las desviaciones no dice nada.
 | 2026-09-01 | 1 | Registro documental de la optativa de despliegue ya decidida (Kubernetes en la nube) en README y `docs/tfg/` | 1 |
 | 2026-09-08 | 1 | Reescritura y publicación del primer post del blog + auditoría del README contra el checklist del enunciado y cierre de la fase | 2 |
 | 2026-09-30 | 2 | Backlog de la Fase 2 en el GitHub Project (12 issues con criterios de aceptación), replanificación del milestone y registro de la desviación | 1 |
+| 2026-09-30 | 2 | #2: build de referencia, traslado de la app Angular a `frontend/` con `git mv` (historia preservada) y npm como único gestor de paquetes | 1 |
+| 2026-10-02 | 2 | #2: `.gitignore`, `firebase.json` y tareas de VSCode adaptados al monorepo, `backend/` reservado y docs actualizadas; prueba manual de la app | 1 |
 
 ## Riesgos
 | Riesgo | Impacto | Mitigación |

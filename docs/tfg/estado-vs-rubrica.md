@@ -1,9 +1,9 @@
 # Estado vs rúbrica (gap analysis vivo)
 
 > **Memoria de trabajo del proyecto.** Léelo al empezar cada sesión para orientarte barato; **actualízalo al terminar**.
-> Estados: ❌ no hecho · 🟡 parcial / en curso · ✅ hecho. Última actualización: **2026-09-30** (backlog de la Fase 2 en el
-> Project). Fase en curso: **2 — repositorio, pruebas, CI y subida de Angular** (objetivo original 30 sep, replanificado
-> al **18 oct 2026**; a 30 sep sin avance técnico).
+> Estados: ❌ no hecho · 🟡 parcial / en curso · ✅ hecho. Última actualización: **2026-10-02** (monorepo, issue #2).
+> Fase en curso: **2 — repositorio, pruebas, CI y subida de Angular** (objetivo original 30 sep, replanificado al
+> **18 oct 2026**). Hecho: backlog (#2-#13) y monorepo `frontend/` + `backend/` (#2).
 
 ## Resumen rápido
 El SaaS funcional está muy avanzado (Angular + Firebase), pero **el TFG exige lo que aún no hay**: backend propio
@@ -13,7 +13,7 @@ que ya se cumplen requisitos "difíciles" (algoritmo avanzado, tecnología compl
 ## Requisitos obligatorios
 | Requisito | Fase | Estado | Notas / gap |
 |---|---|---|---|
-| Backend propio con API REST (NestJS) | 2-3 | ❌ | Hoy es Firebase. Crear `backend/`. |
+| Backend propio con API REST (NestJS) | 2-3 | ❌ | Hoy es Firebase. Monorepo listo (`frontend/` + `backend/`, #2); scaffold NestJS en #4. |
 | ≥4 entidades relacionadas (una = Usuario) | 1 | ✅ | Sobran entidades; documentar modelo. |
 | 3 roles (anónimo/registrado/admin) | 3 | 🟡 | **Definidos y documentados** en README (matriz de permisos). Implementado solo `owner`; falta construir el rol "registrado". |
 | Permisos/propiedad (ownership) | 3 | 🟡 | Reforzar en backend (service). |
