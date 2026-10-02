@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/daviweb/browser",
+    "public": "frontend/dist/daviweb/browser",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
