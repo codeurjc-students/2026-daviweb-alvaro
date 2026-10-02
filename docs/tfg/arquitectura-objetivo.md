@@ -59,9 +59,9 @@ clúster**.
 ## 2. La clave de la migración: solo cambia `infrastructure/` (y auth)
 La app ya es **Clean Architecture**. `domain/` y `application/` (casos de uso, Strategy de reservas, interfaces de
 repositorio) **no se tocan**. La migración es:
-- **Sustituir** `src/app/infrastructure/firebase/*` por `src/app/infrastructure/http/*`: repositorios que implementan
+- **Sustituir** `frontend/src/app/infrastructure/firebase/*` por `frontend/src/app/infrastructure/http/*`: repositorios que implementan
   **los mismos interfaces** (`AppointmentRepository`, `ServiceRepository`, …) pero usando `HttpClient` contra la API REST.
-- **Cambiar el binding** en `src/app/app.config.ts`: `provide: XRepository, useClass: HttpXRepository`.
+- **Cambiar el binding** en `frontend/src/app/app.config.ts`: `provide: XRepository, useClass: HttpXRepository`.
 - **Auth:** `presentation/shared/authentication.service.ts` pasa de Firebase Auth (Custom Claims) a **JWT** contra
   `/api/v1/auth/*`. El guard de `/admin` valida el token.
 - **TenantService:** sigue resolviendo el tenant por subdominio, pero carga la config desde la API

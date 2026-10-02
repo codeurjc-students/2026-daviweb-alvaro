@@ -44,10 +44,10 @@ Arquitecto senior, mentor **duro, directo y sin peloteo**. Objetivo: que Álvaro
   Mensajes de commit en inglés y descriptivos, **sin `Co-Authored-By`**.
 
 ## Arquitectura en 30 segundos
-- **Clean Architecture** en `src/app`: `domain/` (negocio puro) → `application/` (casos de uso + interfaces de
+- **Clean Architecture** en `frontend/src/app`: `domain/` (negocio puro) → `application/` (casos de uso + interfaces de
   repositorio, incluido el **Strategy** de reservas) → `infrastructure/` (hoy Firebase) → `presentation/` (UI).
 - **La migración = sustituir `infrastructure/firebase/` por `infrastructure/http/`** (mismos interfaces, `HttpClient`
-  contra la API REST) + cambiar el binding en `src/app/app.config.ts` + `authentication.service.ts`→JWT. `domain/` y
+  contra la API REST) + cambiar el binding en `frontend/src/app/app.config.ts` + `authentication.service.ts`→JWT. `domain/` y
   `application/` **no se tocan**. (Argumento estrella para la memoria.)
 - **Multi-tenant:** `TenantService` resuelve el tenant; **toda** query lleva `tenantId`.
 - **Algoritmo avanzado de la rúbrica = cálculo de disponibilidad multi-barbero** (Strategy). El **SMS (Mocean)** es la

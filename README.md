@@ -552,6 +552,23 @@ en la **Escuela Técnica Superior de Ingeniería Informática (ETSII)** de la **
 | Contenerización | Docker · Docker Compose |
 | Orquestación y despliegue | Kubernetes (Ingress NGINX · cert-manager) en un proveedor cloud |
 
+### Estructura del repositorio
+
+```
+frontend/    Aplicación Angular (Clean Architecture en src/app)
+backend/     API REST con NestJS (en construcción)
+functions/   Cloud Functions de Firebase (se retiran al completar la migración)
+docs/        Documentación del proyecto y del TFG
+```
+
+Para arrancar el frontend en local:
+
+```bash
+cd frontend
+npm ci
+npm start
+```
+
 ---
 
 ## Licencia

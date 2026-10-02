@@ -1,7 +1,7 @@
 # Seguimiento del TFG (fases, horas, riesgos, decisiones)
 
 > **Memoria de trabajo** + fuente para el capítulo de metodología de la memoria y el Gantt. Actualízalo al cerrar cada
-> sesión relevante. Última actualización: **2026-09-08** (optativa de despliegue: Kubernetes en la nube).
+> sesión relevante. Última actualización: **2026-10-02** (monorepo `frontend/` + `backend/`, issue #2).
 
 > **Repositorio del TFG:** [`codeurjc-students/2026-daviweb-alvaro`](https://github.com/codeurjc-students/2026-daviweb-alvaro)
 > — commit inicial `a2109d5`. Historial previo (206 commits) en el repo público
@@ -23,7 +23,7 @@
 | Fase | Descripción | Fecha objetivo | Inicio real | Cierre real | Estado |
 |---|---|---|---|---|---|
 | 1 | Definición de funcionalidades y pantallas | 31 ago 2026 | 15 jul 2026 | **8 sep 2026** | ✅ **Cerrada.** README verificado contra el checklist del enunciado §3.2; wireframes y planteamiento validados por la tutoría; primer post del blog publicado; GitHub Project creado por la tutoría (el alumno no tiene permisos en la organización) |
-| 2 | Repositorio, pruebas, CI **y modernización de Angular** | 30 sep 2026 | 8 sep 2026 | — | 🟡 En curso desde el cierre de la Fase 1 |
+| 2 | Repositorio, pruebas, CI **y modernización de Angular** | 30 sep 2026 → **18 oct 2026** | 8 sep 2026 | — | 🟡 En curso. A 30 sep, sin avance técnico: backlog creado ese día (issues #2-#13) y objetivo movido al 18 oct. La adopción de APIs modernas de Angular pasa a la Fase 3 |
 | 3 | v0.1 — Básica sobre backend propio + Docker | 31 oct 2026 | — | — | ❌ |
 | 4 | v0.2 — Intermedia + **despliegue en Kubernetes** | 30 nov 2026 | — | — | ❌ |
 | 5 | v1.0 — Avanzada + **despliegue continuo al clúster** | 22 dic 2026 | — | — | ❌ |
@@ -38,6 +38,11 @@ Gantt sin explicación de las desviaciones no dice nada.
 |---|---|---|---|---|
 | 1 | 31 ago 2026 | 8 sep 2026 | +8 días | El estudio del estado del arte (nueve productos) y la producción de capturas y wireframes se ampliaron sobre lo previsto, y el cierre esperaba además la validación de la tutoría. Sin impacto en la Fase 2, que arranca el mismo día del cierre. |
 
+> **Fase 2 (abierta, nota del 2026-09-30):** llega a su fecha objetivo sin avance técnico; entre el 8 y el 30 de
+> septiembre solo se produjo documentación (post del blog de la Fase 1). Se replanifica el cierre al **18 oct** y la
+> adopción de signals, nuevo control de flujo e `inject()` se traslada a la Fase 3, en paralelo, para no bloquear la
+> cadena crítica (monorepo → backend → pruebas → CI). La fila definitiva se escribe al cerrar la fase.
+
 > Curso 2026/2027. Alumno: **Álvaro Fuente González** · Grado en **Ingeniería del Software** · tutores **Óscar Soto
 > Sánchez** y **Natalia Madrueño Sierro**.
 
@@ -49,12 +54,16 @@ Gantt sin explicación de las desviaciones no dice nada.
 4. ~~**Wireframes y capturas**~~ ✅ **2026-08-11**; ~~validación por la tutoría~~ ✅ **2026-09-01**.
 5. ~~**Publicar el primer post del blog**~~ ✅ **2026-09-08**.
 6. ~~**GitHub Project (Kanban)**~~ ✅  Lo crea la tutoría; el alumno no tiene permisos en la
-   organización. **Pendiente: pegar su URL directa en el README** (hoy apunta al listado de la organización).
+   organización. URL directa: <https://github.com/orgs/codeurjc-students/projects/53>. **Pendiente: pegarla en el
+   README** (issue #12).
 7. ~~**Decisión de despliegue (K8s) aprobada por la tutoría**~~ ✅ → **Sigue abierto:** si la URJC
    facilita **créditos cloud**. De la respuesta dependen el proveedor de clúster y el gasto (ver riesgos).
-8. **Fase 2** (en curso desde 2026-09-08): monorepo `frontend/` + `backend/` → `ng update` a la última estable →
-   NestJS mínimo + 1 entidad end-to-end desde Mongo → OpenAPI → primer test de sistema → CI → Docker mínimo.
-9. **Issues por fase** en el Project recién creado (el modo Asesor genera el backlog de la Fase 2).
+8. **Fase 2** (en curso desde 2026-09-08, objetivo **18 oct**): ~~monorepo `frontend/` + `backend/` (#2)~~ ✅ → NestJS
+   mínimo (#4) → Mongo + 1 entidad end-to-end (#5) → OpenAPI (#6) → pruebas (#7, #8) → ESLint/Prettier (#9) → CI
+   (#10) → Docker mínimo (#11). En huecos: `ng update` (#3), README (#12), post del blog (#13).
+9. ~~**Issues de la Fase 2** en el Project~~ ✅ **2026-09-30**: 12 issues (#2-#13) en el milestone *Phase 2*, con
+   criterios de aceptación y requisito de rúbrica. Las fases 3-5 se detallan al abrir cada una. Una rama y un PR por
+   issue, con `Closes #n`.
 
 ## Registro de horas (para el Gantt)
 | Fecha | Fase | Tarea | Horas |
@@ -66,6 +75,9 @@ Gantt sin explicación de las desviaciones no dice nada.
 | 2026-08-14 | 1 | Estado del arte: estudio de 9 productos del sector, comparativa, carencias e ideas incorporadas | 4 |
 | 2026-09-01 | 1 | Registro documental de la optativa de despliegue ya decidida (Kubernetes en la nube) en README y `docs/tfg/` | 1 |
 | 2026-09-08 | 1 | Reescritura y publicación del primer post del blog + auditoría del README contra el checklist del enunciado y cierre de la fase | 2 |
+| 2026-09-30 | 2 | Backlog de la Fase 2 en el GitHub Project (12 issues con criterios de aceptación), replanificación del milestone y registro de la desviación | 1 |
+| 2026-09-30 | 2 | #2: build de referencia, traslado de la app Angular a `frontend/` con `git mv` (historia preservada) y npm como único gestor de paquetes | 1 |
+| 2026-10-02 | 2 | #2: `.gitignore`, `firebase.json` y tareas de VSCode adaptados al monorepo, `backend/` reservado y docs actualizadas; prueba manual de la app | 1 |
 
 ## Riesgos
 | Riesgo | Impacto | Mitigación |
@@ -100,6 +112,7 @@ Gantt sin explicación de las desviaciones no dice nada.
 | 13 | 2026-08-14 | **Recordatorio SMS previo a la cita** como mejora candidata de la Fase 5 (hoy solo se notifica confirmación y cancelación) | El estado del arte sitúa la secuencia confirmación + recordatorio en reducciones del 25-40 % de ausencias. Sujeta al coste por SMS: se evaluará antes de comprometerla. |
 | 14 | *planteamiento inicial* | **Despliegue en la nube con Kubernetes** (optativa de 2 pts), descartadas VM IaaS (0.5), BD gestionada (1) y PaaS (1). Compose queda como entorno de desarrollo local | **No es una decisión tomada durante el desarrollo: forma parte del alcance pactado con la tutoría al plantear el TFG**, junto con el backend propio (ADR 1) y el resto del stack. Se registra aquí el 2026-09-01 porque hasta entonces no estaba escrita en ningún documento del repositorio. Razones del acuerdo: es la opción de despliegue con más peso en la rúbrica abordable en solitario y encaja con el producto multi-tenant (Ingress con host wildcard, escalado horizontal del mismo binario). El total de optativas queda en **6 pts** sobre el mínimo de 3. |
 | 15 | 2026-09-08 | **El clúster debe estar operativo en Fase 4**, aunque el enunciado sitúe K8s en Fase 5 | La release 0.2 tiene que quedar desplegada en un entorno distinto del de desarrollo (enunciado §6.1): si la plataforma elegida es Kubernetes, ese entorno **es** el clúster. En Fase 5 queda solo automatizar el despliegue y endurecerlo. |
+| 16 | 2026-09-30 | **Adopción de APIs modernas de Angular (signals, nuevo control de flujo, `inject()`) movida a la Fase 3**; en la Fase 2 queda solo la subida de versión | La cadena crítica es el backend: sin él no arranca la v0.1. La modernización no bloquea a nadie y se puede hacer en paralelo con la paridad funcional. |
 
 ## Índice de posts del blog (Medium, EN)
 | Fecha | Título | URL | Release |
