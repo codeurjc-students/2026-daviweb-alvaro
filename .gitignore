@@ -37,6 +37,7 @@ coverage/
 /libpeerconnection.log
 testem.log
 /typings
+.claude/settings.local.json
 
 # System files
 .DS_Store
