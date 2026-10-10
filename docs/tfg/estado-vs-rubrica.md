@@ -1,9 +1,9 @@
 # Estado vs rúbrica (gap analysis vivo)
 
 > **Memoria de trabajo del proyecto.** Léelo al empezar cada sesión para orientarte barato; **actualízalo al terminar**.
-> Estados: ❌ no hecho · 🟡 parcial / en curso · ✅ hecho. Última actualización: **2026-10-02** (monorepo, issue #2).
+> Estados: ❌ no hecho · 🟡 parcial / en curso · ✅ hecho. Última actualización: **2026-10-10** (backend NestJS base, issue #4).
 > Fase en curso: **2 — repositorio, pruebas, CI y subida de Angular** (objetivo original 30 sep, replanificado al
-> **18 oct 2026**). Hecho: backlog (#2-#13) y monorepo `frontend/` + `backend/` (#2).
+> **18 oct 2026**). Hecho: backlog (#2-#13), monorepo (#2) y backend NestJS base (#4).
 
 ## Resumen rápido
 El SaaS funcional está muy avanzado (Angular + Firebase), pero **el TFG exige lo que aún no hay**: backend propio
@@ -13,7 +13,7 @@ que ya se cumplen requisitos "difíciles" (algoritmo avanzado, tecnología compl
 ## Requisitos obligatorios
 | Requisito | Fase | Estado | Notas / gap |
 |---|---|---|---|
-| Backend propio con API REST (NestJS) | 2-3 | ❌ | Hoy es Firebase. Monorepo listo (`frontend/` + `backend/`, #2); scaffold NestJS en #4. |
+| Backend propio con API REST (NestJS) | 2-3 | 🟡 | **Base hecha (#4):** Nest 12 en `backend/`, prefijo `/api/v1`, config por entorno validada, `GET /api/v1/health`. Falta Mongo + primera entidad (#5). |
 | ≥4 entidades relacionadas (una = Usuario) | 1 | ✅ | Sobran entidades; documentar modelo. |
 | 3 roles (anónimo/registrado/admin) | 3 | 🟡 | **Definidos y documentados** en README (matriz de permisos). Implementado solo `owner`; falta construir el rol "registrado". |
 | Permisos/propiedad (ownership) | 3 | 🟡 | Reforzar en backend (service). |
@@ -36,7 +36,7 @@ que ya se cumplen requisitos "difíciles" (algoritmo avanzado, tecnología compl
 | Parte | Pts | Fase | Estado | Notas |
 |---|---|---|---|---|
 | **Modernización de Angular** (última estable + signals, nuevo control de flujo, `inject()`) | — | 2-3 | ❌ | **Compensación acordada** por partir de app preexistente. No puntúa como optativa de rúbrica, pero es trabajo nuevo evaluable y argumento de memoria. Hoy Angular 19 congelado desde feb-2026. Subida de versión en Fase 2 (#3); adopción de APIs modernas en Fase 3 (ADR 16). |
-| Pruebas unit + integración | 2 | 2→ | ❌ | Hoy 0 tests (skipTests). |
+| Pruebas unit + integración | 2 | 2→ | 🟡 | Backend: Vitest + Supertest configurados (4 unit + 2 e2e). Front: 0 tests (skipTests, #8). |
 | Responsive móvil | 1 | 3 | 🟡 | App ya mobile-first; validar y documentar. |
 | **Despliegue con Kubernetes en la nube** | 2 | 4 | ❌ | **Plataforma pactada con la tutoría desde el planteamiento del TFG**, no elegida sobre la marcha. Pendiente: elegir proveedor de clúster (y confirmar si la URJC da créditos cloud), dominio + DNS wildcard, manifiestos en `k8s/` (Kustomize), Ingress NGINX + cert-manager, Mongo `StatefulSet`+PVC o gestionado. Clúster en pie **antes del 30 nov** (la release 0.2 debe estar desplegada). |
 | Despliegue continuo | 1 | 5 | ❌ | Pipeline build→push→`rollout`→smoke test contra el clúster, con `kubeconfig` en secret de GitHub. |
@@ -46,7 +46,7 @@ que ya se cumplen requisitos "difíciles" (algoritmo avanzado, tecnología compl
 | Aspecto | Estado | Notas |
 |---|---|---|
 | Código/comentarios en inglés | 🟡 | Revisar; hay algo de español en logs/console. |
-| ESLint + Prettier | ❌ | Configurar. |
+| Linter + Prettier | 🟡 | Backend: oxlint (`no-explicit-any` en error) + Prettier. Front: angular-eslint pendiente (#9). |
 | Sin `console.log` (logging lib) | 🟡 | Funciones usan emojis en logs; cambiar a logger. |
 | Capas desacopladas | ✅ | Clean Architecture ya aplicada. |
 | Docker / Compose | ❌ | Crear en `docker/`. Imagen no-root + `/api/v1/health` (requisito de las *probes* de K8s). |

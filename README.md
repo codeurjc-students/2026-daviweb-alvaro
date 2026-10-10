@@ -44,7 +44,7 @@ quede ninguna de las dos mitades de la aplicación en su estado original.
 | **API REST** `/api/v1` documentada con OpenAPI (contract-first) | No iniciado |
 | **Autenticación propia con JWT** y sistema de **3 roles** (anónimo / registrado / administrador) | No iniciado |
 | **Rol de usuario registrado**, inexistente hoy: área de cliente con historial y gestión de sus citas | No iniciado |
-| **Batería de pruebas** unitarias, de integración y de sistema (Jest, Supertest, Playwright) | No iniciado |
+| **Batería de pruebas** unitarias, de integración y de sistema (Vitest, Supertest, Playwright) | En curso |
 | **Integración y despliegue continuos** (GitHub Actions) y **contenerización** con Docker | No iniciado |
 | **Orquestación con Kubernetes** y despliegue del sistema en un clúster en la nube | No iniciado |
 | **Dashboard de analítica con gráficos** para el propietario del negocio | No iniciado |
@@ -244,7 +244,7 @@ desacoplamiento por capas.
    actuales —*signals* para la gestión de estado reactivo, nuevo bloque de control de flujo en plantillas e inyección
    de dependencias mediante `inject()`—, con la consiguiente reducción de la dependencia de RxJS heredada del modelo
    de suscripciones en tiempo real de Firestore.
-7. **Pruebas automatizadas**: unitarias y de integración con Jest y Supertest, y de sistema sobre la interfaz con
+7. **Pruebas automatizadas**: unitarias y de integración con Vitest y Supertest, y de sistema sobre la interfaz con
    Playwright.
 8. **Integración continua** con GitHub Actions (compilación, análisis estático, ejecución de la batería de pruebas en
    cada *pull request*) y **despliegue continuo** de las versiones publicadas.
@@ -546,8 +546,8 @@ en la **Escuela Técnica Superior de Ingeniería Informática (ETSII)** de la **
 | Base de datos | MongoDB |
 | Autenticación | JWT |
 | Documentación de la API | OpenAPI (`@nestjs/swagger`) |
-| Pruebas | Jest · Supertest · Playwright |
-| Calidad | ESLint · Prettier · análisis estático |
+| Pruebas | Vitest · Supertest · Playwright |
+| Calidad | oxlint (backend) · angular-eslint (frontend) · Prettier · análisis estático |
 | CI/CD | GitHub Actions |
 | Contenerización | Docker · Docker Compose |
 | Orquestación y despliegue | Kubernetes (Ingress NGINX · cert-manager) en un proveedor cloud |

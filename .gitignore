@@ -4,6 +4,7 @@
 dist/
 tmp/
 out-tsc/
+*.tsbuildinfo
 /bazel-out
 
 # Node
@@ -36,6 +37,7 @@ coverage/
 /libpeerconnection.log
 testem.log
 /typings
+.claude/settings.local.json
 
 # System files
 .DS_Store
@@ -51,3 +53,11 @@ Thumbs.db
 /functions/lib
 # Security
 functions/service-account.json
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Claude Code (personal settings)
+.claude/settings.local.json

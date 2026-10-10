@@ -1,7 +1,7 @@
 # Seguimiento del TFG (fases, horas, riesgos, decisiones)
 
 > **Memoria de trabajo** + fuente para el capítulo de metodología de la memoria y el Gantt. Actualízalo al cerrar cada
-> sesión relevante. Última actualización: **2026-10-02** (monorepo `frontend/` + `backend/`, issue #2).
+> sesión relevante. Última actualización: **2026-10-10** (backend NestJS base, issue #4).
 
 > **Repositorio del TFG:** [`codeurjc-students/2026-daviweb-alvaro`](https://github.com/codeurjc-students/2026-daviweb-alvaro)
 > — commit inicial `a2109d5`. Historial previo (206 commits) en el repo público
@@ -58,8 +58,8 @@ Gantt sin explicación de las desviaciones no dice nada.
    README** (issue #12).
 7. ~~**Decisión de despliegue (K8s) aprobada por la tutoría**~~ ✅ → **Sigue abierto:** si la URJC
    facilita **créditos cloud**. De la respuesta dependen el proveedor de clúster y el gasto (ver riesgos).
-8. **Fase 2** (en curso desde 2026-09-08, objetivo **18 oct**): ~~monorepo `frontend/` + `backend/` (#2)~~ ✅ → NestJS
-   mínimo (#4) → Mongo + 1 entidad end-to-end (#5) → OpenAPI (#6) → pruebas (#7, #8) → ESLint/Prettier (#9) → CI
+8. **Fase 2** (en curso desde 2026-09-08, objetivo **18 oct**): ~~monorepo `frontend/` + `backend/` (#2)~~ ✅ → ~~NestJS
+   mínimo (#4)~~ ✅ → Mongo + 1 entidad end-to-end (#5) → OpenAPI (#6) → pruebas (#7, #8) → linter/Prettier (#9) → CI
    (#10) → Docker mínimo (#11). En huecos: `ng update` (#3), README (#12), post del blog (#13).
 9. ~~**Issues de la Fase 2** en el Project~~ ✅ **2026-09-30**: 12 issues (#2-#13) en el milestone *Phase 2*, con
    criterios de aceptación y requisito de rúbrica. Las fases 3-5 se detallan al abrir cada una. Una rama y un PR por
@@ -78,6 +78,9 @@ Gantt sin explicación de las desviaciones no dice nada.
 | 2026-09-30 | 2 | Backlog de la Fase 2 en el GitHub Project (12 issues con criterios de aceptación), replanificación del milestone y registro de la desviación | 1 |
 | 2026-09-30 | 2 | #2: build de referencia, traslado de la app Angular a `frontend/` con `git mv` (historia preservada) y npm como único gestor de paquetes | 1 |
 | 2026-10-02 | 2 | #2: `.gitignore`, `firebase.json` y tareas de VSCode adaptados al monorepo, `backend/` reservado y docs actualizadas; prueba manual de la app | 1 |
+| 2026-10-02 | 2 | #4: scaffold de NestJS 12 en `backend/` (Node 24) y configuración por entorno validada con Joi, con sus pruebas | 1,5 |
+| 2026-10-04 | 2 | #4: estudio de la estructura de un proyecto Nest (módulos, inyección de dependencias, baterías de pruebas) | 0,5 |
+| 2026-10-10 | 2 | #4: `GET /api/v1/health` (terminus) con pruebas e2e, prefijo global, logging de arranque y documentación (ADR 17) | 1,5 |
 
 ## Riesgos
 | Riesgo | Impacto | Mitigación |
@@ -113,6 +116,7 @@ Gantt sin explicación de las desviaciones no dice nada.
 | 14 | *planteamiento inicial* | **Despliegue en la nube con Kubernetes** (optativa de 2 pts), descartadas VM IaaS (0.5), BD gestionada (1) y PaaS (1). Compose queda como entorno de desarrollo local | **No es una decisión tomada durante el desarrollo: forma parte del alcance pactado con la tutoría al plantear el TFG**, junto con el backend propio (ADR 1) y el resto del stack. Se registra aquí el 2026-09-01 porque hasta entonces no estaba escrita en ningún documento del repositorio. Razones del acuerdo: es la opción de despliegue con más peso en la rúbrica abordable en solitario y encaja con el producto multi-tenant (Ingress con host wildcard, escalado horizontal del mismo binario). El total de optativas queda en **6 pts** sobre el mínimo de 3. |
 | 15 | 2026-09-08 | **El clúster debe estar operativo en Fase 4**, aunque el enunciado sitúe K8s en Fase 5 | La release 0.2 tiene que quedar desplegada en un entorno distinto del de desarrollo (enunciado §6.1): si la plataforma elegida es Kubernetes, ese entorno **es** el clúster. En Fase 5 queda solo automatizar el despliegue y endurecerlo. |
 | 16 | 2026-09-30 | **Adopción de APIs modernas de Angular (signals, nuevo control de flujo, `inject()`) movida a la Fase 3**; en la Fase 2 queda solo la subida de versión | La cadena crítica es el backend: sin él no arranca la v0.1. La modernización no bloquea a nadie y se puede hacer en paralelo con la paridad funcional. |
+| 17 | 2026-10-02 | **Backend con las herramientas por defecto de NestJS 12**: Node 24, ESM, **Vitest + Supertest** en lugar de Jest y **oxlint** en lugar de ESLint | Es lo que genera la versión actual del framework y funciona sin configuración extra; Jest con ESM exige soporte experimental o volver a CommonJS. Vitest mantiene la API de Jest y el enunciado admite herramientas similares. El frontend sigue en Node 20 hasta su subida de versión (#3). |
 
 ## Índice de posts del blog (Medium, EN)
 | Fecha | Título | URL | Release |

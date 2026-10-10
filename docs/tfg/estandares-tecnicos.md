@@ -51,7 +51,7 @@
 - Sustituir suscripciones live de Firestore por HTTP (request/response, polling, o WebSocket puntual).
 
 ## 4. Pruebas (optativa elegida: unit + integración, 2 pts)
-- **Unitarias (Jest):** lógica de negocio de los `service` con **doble de BD** (mock del repositorio). Front: componente
+- **Unitarias (Vitest):** lógica de negocio de los `service` con **doble de BD** (mock del repositorio). Front: componente
   con doble de servicios + DOM virtual.
 - **Integración (Supertest / `mongodb-memory-server`):** servicios contra **BD real** (efímera). Front: servicios
   contra **API REST real**.
