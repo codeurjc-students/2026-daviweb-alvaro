@@ -22,7 +22,7 @@
 | Backend | Java + Spring Boot | **Node.js + NestJS** |
 | Base de datos | MySQL | **MongoDB (Mongoose)** |
 | Frontend | Angular (SPA) | **Angular (SPA)** ✅ mismo |
-| Pruebas | JUnit + Selenium + Rest Assured | **Jest + Supertest + Playwright/Cypress** |
+| Pruebas | JUnit + Selenium + Rest Assured | **Vitest + Supertest + Playwright/Cypress** |
 | Repo / CI | GitHub / GitHub Actions | **GitHub / GitHub Actions** ✅ |
 | Empaquetado | Docker | **Docker** ✅ |
 | Despliegue | VM / PaaS / K8s (optativa) | **Kubernetes en la nube** (2 pts) |

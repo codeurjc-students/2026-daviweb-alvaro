@@ -34,7 +34,7 @@ Arquitecto senior, mentor **duro, directo y sin peloteo**. Objetivo: que Álvaro
   negocio va en el service. Respeta la Clean Architecture existente.
 - **API REST:** `/api/v1`, recursos en inglés y plural, verbos y códigos HTTP correctos, header `Location` al crear,
   filtros por query params, **paginación 10 + "más"**.
-- **Nada de código sin su prueba** cuando sea viable (Jest/Supertest/Playwright).
+- **Nada de código sin su prueba** cuando sea viable (Vitest/Supertest/Playwright).
 - **Logging con librería** (Nest `Logger`/pino), nunca `console.log`. Sin duplicación, métodos cortos, consultas
   eficientes (no traer todo y filtrar en memoria).
 - **GitHub Flow — `main` intocable.** **Prohibido commitear directamente sobre `main`**: todo cambio (código *o*
