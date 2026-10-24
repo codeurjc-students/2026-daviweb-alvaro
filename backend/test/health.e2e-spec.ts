@@ -21,12 +21,15 @@ describe('Health (e2e)', () => {
     await app.close();
   });
 
-  it('GET /api/v1/health returns 200 with status ok', async () => {
+  it('GET /api/v1/health returns 200 when MongoDB is up', async () => {
     const response = await request(app.getHttpServer())
       .get('/api/v1/health')
       .expect(200);
 
-    expect(response.body).toMatchObject({ status: 'ok' });
+    expect(response.body).toMatchObject({
+      status: 'ok',
+      info: { mongodb: { status: 'up' } },
+    });
   });
 
   it('does not expose routes outside the /api/v1 prefix', async () => {
