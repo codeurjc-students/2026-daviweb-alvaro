@@ -13,11 +13,11 @@ const haircut: Service = {
 };
 
 describe('ServicesService', () => {
-  const repository = { findById: vi.fn() };
+  const repository = { findPage: vi.fn(), findById: vi.fn() };
   let service: ServicesService;
 
   beforeEach(async () => {
-    repository.findById.mockReset();
+    vi.resetAllMocks();
     const moduleRef = await Test.createTestingModule({
       providers: [
         ServicesService,
@@ -25,6 +25,26 @@ describe('ServicesService', () => {
       ],
     }).compile();
     service = moduleRef.get(ServicesService);
+  });
+
+  describe('findPage', () => {
+    it('builds the page from the repository items and total', async () => {
+      repository.findPage.mockResolvedValue([[haircut], 11]);
+
+      const page = await service.findPage('shop-a', { page: 0, size: 10 });
+
+      expect(page).toEqual({
+        items: [haircut],
+        page: 0,
+        size: 10,
+        total: 11,
+        hasMore: true,
+      });
+      expect(repository.findPage).toHaveBeenCalledWith('shop-a', {
+        page: 0,
+        size: 10,
+      });
+    });
   });
 
   describe('findById', () => {

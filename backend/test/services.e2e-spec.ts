@@ -37,6 +37,74 @@ describe('Services (e2e)', () => {
       timeSegments: [{ duration: 30 }],
     });
 
+  describe('GET /api/v1/services', () => {
+    const seedMany = (tenantId: string, count: number) =>
+      model.insertMany(
+        Array.from({ length: count }, (_, i) => ({
+          tenantId,
+          name: `Service ${String(i).padStart(2, '0')}`,
+          timeSegments: [{ duration: 30 }],
+        })),
+      );
+
+    it('returns the first 10 services and reports that there are more', async () => {
+      await seedMany('shop-a', 11);
+
+      const response = await request(app.getHttpServer())
+        .get('/api/v1/services')
+        .set('X-Tenant-Id', 'shop-a')
+        .expect(200);
+
+      expect(response.body).toMatchObject({
+        page: 0,
+        size: 10,
+        total: 11,
+        hasMore: true,
+      });
+      expect(response.body.items).toHaveLength(10);
+    });
+
+    it('returns the last page without more items', async () => {
+      await seedMany('shop-a', 11);
+
+      const response = await request(app.getHttpServer())
+        .get('/api/v1/services?page=1')
+        .set('X-Tenant-Id', 'shop-a')
+        .expect(200);
+
+      expect(response.body).toMatchObject({
+        page: 1,
+        total: 11,
+        hasMore: false,
+      });
+      expect(response.body.items.map((s: { name: string }) => s.name)).toEqual([
+        'Service 10',
+      ]);
+    });
+
+    it('only lists services of the requesting tenant', async () => {
+      await seedMany('shop-a', 2);
+      await seedMany('shop-b', 3);
+
+      const response = await request(app.getHttpServer())
+        .get('/api/v1/services')
+        .set('X-Tenant-Id', 'shop-b')
+        .expect(200);
+
+      expect(response.body.total).toBe(3);
+    });
+
+    it.each(['size=0', 'size=51', 'page=-1', 'page=abc', 'sort=name'])(
+      'returns 400 for an invalid query (%s)',
+      async (query) => {
+        await request(app.getHttpServer())
+          .get(`/api/v1/services?${query}`)
+          .set('X-Tenant-Id', 'shop-a')
+          .expect(400);
+      },
+    );
+  });
+
   describe('GET /api/v1/services/:id', () => {
     it('returns the service of the requesting tenant', async () => {
       const doc = await seedHaircut('shop-a');
