@@ -42,6 +42,9 @@ Gantt sin explicación de las desviaciones no dice nada.
 > septiembre solo se produjo documentación (post del blog de la Fase 1). Se replanifica el cierre al **18 oct** y la
 > adopción de signals, nuevo control de flujo e `inject()` se traslada a la Fase 3, en paralelo, para no bloquear la
 > cadena crítica (monorepo → backend → pruebas → CI). La fila definitiva se escribe al cerrar la fase.
+>
+> **Actualización 2026-10-24:** el objetivo replanificado (18 oct) también se ha superado. Entre el 10 y el 24 de
+> octubre no hubo avance en la rama de la #5. Quedan #5/#7 (en curso), #6, #9, #10, #11, #3, #12 y #13.
 
 > Curso 2026/2027. Alumno: **Álvaro Fuente González** · Grado en **Ingeniería del Software** · tutores **Óscar Soto
 > Sánchez** y **Natalia Madrueño Sierro**.
@@ -81,6 +84,7 @@ Gantt sin explicación de las desviaciones no dice nada.
 | 2026-10-02 | 2 | #4: scaffold de NestJS 12 en `backend/` (Node 24) y configuración por entorno validada con Joi, con sus pruebas | 1,5 |
 | 2026-10-04 | 2 | #4: estudio de la estructura de un proyecto Nest (módulos, inyección de dependencias, baterías de pruebas) | 0,5 |
 | 2026-10-10 | 2 | #4: `GET /api/v1/health` (terminus) con pruebas e2e, prefijo global, logging de arranque y documentación (ADR 17) | 1,5 |
+| 2026-10-24 | 2 | #5/#7: conexión a MongoDB con health check, persistencia aislada por tenant, `GET /api/v1/services/:id` y listado paginado, con pruebas unitarias, de integración y e2e; estudio del arranque y la inyección de dependencias de Nest | 3,5 |
 
 ## Riesgos
 | Riesgo | Impacto | Mitigación |
@@ -95,6 +99,7 @@ Gantt sin explicación de las desviaciones no dice nada.
 | **Coste del clúster y del dominio**: un K8s gestionado y un dominio propio son gasto real y recurrente | Medio | **Preguntar a Óscar/Natalia si la URJC facilita créditos cloud** (AWS Academy o similar) antes de contratar nada. Alternativas baratas: plano de control gratuito (AKS/GKE) o k3s sobre una VM pequeña. |
 | **Certificado wildcard para el multi-tenant por subdominio**: el `Ingress` necesita `*.dominio` y eso obliga a reto DNS-01 con acceso por API al proveedor de DNS | Medio | Elegir proveedor de DNS soportado por cert-manager antes de comprar el dominio; probar la emisión en el entorno `dev` del clúster, no directamente en producción. |
 | **Persistencia de Mongo en el clúster**: un `rollout` mal hecho o un PVC mal configurado se lleva los datos por delante | Alto | Decidir pronto `StatefulSet`+PVC vs BD gestionada; en cualquier caso, backup de Mongo antes de cada release y probar el restore una vez. |
+| **Imagen de MongoDB incompatible con kernels Linux 6.19+** ([SERVER-121912](https://jira.mongodb.org/browse/SERVER-121912)): `mongo:8` (8.0) y `mongo:latest` no arrancan en la máquina de desarrollo (kernel 7.0) | Medio | Usar `mongo:8.2`, que sí arranca (comprobado el 2026-10-10). Fijar esa versión en Compose (#11) y comprobar el kernel de los nodos del clúster antes de elegir la imagen en Fase 4. |
 | Compartir frontend con Dario (backends distintos) | Medio | **Contrato OpenAPI** como verdad compartida; sincronizar cambios de front. |
 
 ## Decisiones (ADR-lite)
