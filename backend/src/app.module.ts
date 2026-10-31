@@ -1,7 +1,12 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { envValidationSchema } from './config/env.validation.js';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
+import {
+  EnvironmentVariables,
+  envValidationSchema,
+} from './config/env.validation.js';
 import { HealthModule } from './health/health.module.js';
+import { ServicesModule } from './services/services.module.js';
 
 @Module({
   imports: [
@@ -10,7 +15,14 @@ import { HealthModule } from './health/health.module.js';
       cache: true,
       validationSchema: envValidationSchema,
     }),
+    MongooseModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService<EnvironmentVariables, true>) => ({
+        uri: config.get('MONGODB_URI', { infer: true }),
+      }),
+    }),
     HealthModule,
+    ServicesModule,
   ],
 })
 export class AppModule {}
