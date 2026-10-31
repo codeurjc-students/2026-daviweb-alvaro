@@ -1,9 +1,10 @@
 # Estado vs rúbrica (gap analysis vivo)
 
 > **Memoria de trabajo del proyecto.** Léelo al empezar cada sesión para orientarte barato; **actualízalo al terminar**.
-> Estados: ❌ no hecho · 🟡 parcial / en curso · ✅ hecho. Última actualización: **2026-10-10** (backend NestJS base, issue #4).
+> Estados: ❌ no hecho · 🟡 parcial / en curso · ✅ hecho. Última actualización: **2026-10-31** (primera entidad sobre MongoDB, issues #5 y #7).
 > Fase en curso: **2 — repositorio, pruebas, CI y subida de Angular** (objetivo original 30 sep, replanificado al
-> **18 oct 2026**). Hecho: backlog (#2-#13), monorepo (#2) y backend NestJS base (#4).
+> **18 oct 2026**, también superado). Hecho: backlog (#2-#13), monorepo (#2), backend NestJS base (#4) y primera
+> entidad `services` sobre MongoDB con sus pruebas (#5, #7).
 
 ## Resumen rápido
 El SaaS funcional está muy avanzado (Angular + Firebase), pero **el TFG exige lo que aún no hay**: backend propio
@@ -13,7 +14,7 @@ que ya se cumplen requisitos "difíciles" (algoritmo avanzado, tecnología compl
 ## Requisitos obligatorios
 | Requisito | Fase | Estado | Notas / gap |
 |---|---|---|---|
-| Backend propio con API REST (NestJS) | 2-3 | 🟡 | **Base hecha (#4):** Nest 12 en `backend/`, prefijo `/api/v1`, config por entorno validada, `GET /api/v1/health`. Falta Mongo + primera entidad (#5). |
+| Backend propio con API REST (NestJS) | 2-3 | 🟡 | **Base hecha (#4):** Nest 12 en `backend/`, prefijo `/api/v1`, config por entorno validada, `GET /api/v1/health`. **Primera entidad (#5):** `services` sobre MongoDB con capas `controller → service → repository`, aislamiento por tenant (cabecera `X-Tenant-Id`), `GET` paginado, `GET /:id` y `POST` (201 + `Location`) con validación por DTO. Faltan el resto de entidades (Fase 3). |
 | ≥4 entidades relacionadas (una = Usuario) | 1 | ✅ | Sobran entidades; documentar modelo. |
 | 3 roles (anónimo/registrado/admin) | 3 | 🟡 | **Definidos y documentados** en README (matriz de permisos). Implementado solo `owner`; falta construir el rol "registrado". |
 | Permisos/propiedad (ownership) | 3 | 🟡 | Reforzar en backend (service). |
@@ -25,7 +26,7 @@ que ya se cumplen requisitos "difíciles" (algoritmo avanzado, tecnología compl
 | Wireframes (Figma) | 1 | ✅ | **Hecho 2026-08-11.** 14 capturas de la app actual + 4 wireframes de las pantallas nuevas (login/registro, área de cliente, repetir/cancelar, cuadro de mando) en `docs/tfg/images/`, integrados en el README y enlazados desde la tabla de pantallas. **Validados por la tutoría el 2026-09-01.** |
 | OpenAPI en `docs/api/` | 2 | ❌ | Generar con `@nestjs/swagger`. |
 | Datos de ejemplo (seed) | 3 | ❌ | Seed de Mongo con peluquería demo. |
-| Paginación (10 + más) | 3 | ❌ | API + UI. |
+| Paginación (10 + más) | 3 | 🟡 | **API hecha** (`?page`/`?size`, 10 por defecto, máx. 50, `hasMore`) y reutilizable (`common/pagination`). Falta la UI ("más") en Fase 3. |
 | README + docs/ (estructura rúbrica) | 1-5 | 🟡 | **README de Fase 1 publicado** (11 apartados del enunciado, Gantt Mermaid, ER, matriz de permisos, estado por funcionalidad, autoría). Wireframes y estado del arte ya integrados. **Checklist del enunciado §3.2 verificado el 2026-09-01**: contenido completo (objetivos funcionales 9 y técnicos 10, ambos dentro del rango 3-10). Pendiente y **exigible ya en Fase 1**: enlaces reales de blog y GitHub Project en el apartado *Seguimiento*. Pendiente de **Fase 2** en adelante: índice a `docs/`, `docs/api/`, vídeo por release. |
 | Gráficos (charts) — *definición* | 1 | ✅ | 5 gráficos especificados en README con su tipo. Implementación en Fase 4. |
 | Blog (Medium, EN) | 1-5 | 🟡 | **Primer post publicado el 2026-09-08** ([Phase 1](https://medium.com/@alvarofuenteg/phase-1-defining-the-product-and-studying-the-competition-641178c6dedd)), enlazado desde el README. Falta una entrada por fase/release; fuente y flujo de publicación en [`blog/README.md`](blog/README.md). |
@@ -36,7 +37,7 @@ que ya se cumplen requisitos "difíciles" (algoritmo avanzado, tecnología compl
 | Parte | Pts | Fase | Estado | Notas |
 |---|---|---|---|---|
 | **Modernización de Angular** (última estable + signals, nuevo control de flujo, `inject()`) | — | 2-3 | ❌ | **Compensación acordada** por partir de app preexistente. No puntúa como optativa de rúbrica, pero es trabajo nuevo evaluable y argumento de memoria. Hoy Angular 19 congelado desde feb-2026. Subida de versión en Fase 2 (#3); adopción de APIs modernas en Fase 3 (ADR 16). |
-| Pruebas unit + integración | 2 | 2→ | 🟡 | Backend: Vitest + Supertest configurados (4 unit + 2 e2e). Front: 0 tests (skipTests, #8). |
+| Pruebas unit + integración | 2 | 2→ | 🟡 | **Backend:** 20 unitarias (service con repositorio simulado, validaciones) + 24 de integración/e2e contra `mongodb-memory-server` (paginación, 400, 404, aislamiento entre tenants, `Location`); informe de cobertura con `npm run test:cov`. **Front:** 0 tests (#8). |
 | Responsive móvil | 1 | 3 | 🟡 | App ya mobile-first; validar y documentar. |
 | **Despliegue con Kubernetes en la nube** | 2 | 4 | ❌ | **Plataforma pactada con la tutoría desde el planteamiento del TFG**, no elegida sobre la marcha. Pendiente: elegir proveedor de clúster (y confirmar si la URJC da créditos cloud), dominio + DNS wildcard, manifiestos en `k8s/` (Kustomize), Ingress NGINX + cert-manager, Mongo `StatefulSet`+PVC o gestionado. Clúster en pie **antes del 30 nov** (la release 0.2 debe estar desplegada). |
 | Despliegue continuo | 1 | 5 | ❌ | Pipeline build→push→`rollout`→smoke test contra el clúster, con `kubeconfig` en secret de GitHub. |

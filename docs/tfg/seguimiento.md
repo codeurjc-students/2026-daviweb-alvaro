@@ -1,7 +1,7 @@
 # Seguimiento del TFG (fases, horas, riesgos, decisiones)
 
 > **Memoria de trabajo** + fuente para el capítulo de metodología de la memoria y el Gantt. Actualízalo al cerrar cada
-> sesión relevante. Última actualización: **2026-10-10** (backend NestJS base, issue #4).
+> sesión relevante. Última actualización: **2026-10-31** (primera entidad sobre MongoDB, issues #5 y #7).
 
 > **Repositorio del TFG:** [`codeurjc-students/2026-daviweb-alvaro`](https://github.com/codeurjc-students/2026-daviweb-alvaro)
 > — commit inicial `a2109d5`. Historial previo (206 commits) en el repo público
@@ -62,7 +62,7 @@ Gantt sin explicación de las desviaciones no dice nada.
 7. ~~**Decisión de despliegue (K8s) aprobada por la tutoría**~~ ✅ → **Sigue abierto:** si la URJC
    facilita **créditos cloud**. De la respuesta dependen el proveedor de clúster y el gasto (ver riesgos).
 8. **Fase 2** (en curso desde 2026-09-08, objetivo **18 oct**): ~~monorepo `frontend/` + `backend/` (#2)~~ ✅ → ~~NestJS
-   mínimo (#4)~~ ✅ → Mongo + 1 entidad end-to-end (#5) → OpenAPI (#6) → pruebas (#7, #8) → linter/Prettier (#9) → CI
+   mínimo (#4)~~ ✅ → ~~Mongo + 1 entidad end-to-end (#5)~~ ✅ → OpenAPI (#6) → pruebas (~~#7~~ ✅, #8) → linter/Prettier (#9) → CI
    (#10) → Docker mínimo (#11). En huecos: `ng update` (#3), README (#12), post del blog (#13).
 9. ~~**Issues de la Fase 2** en el Project~~ ✅ **2026-09-30**: 12 issues (#2-#13) en el milestone *Phase 2*, con
    criterios de aceptación y requisito de rúbrica. Las fases 3-5 se detallan al abrir cada una. Una rama y un PR por
@@ -85,6 +85,7 @@ Gantt sin explicación de las desviaciones no dice nada.
 | 2026-10-04 | 2 | #4: estudio de la estructura de un proyecto Nest (módulos, inyección de dependencias, baterías de pruebas) | 0,5 |
 | 2026-10-10 | 2 | #4: `GET /api/v1/health` (terminus) con pruebas e2e, prefijo global, logging de arranque y documentación (ADR 17) | 1,5 |
 | 2026-10-24 | 2 | #5/#7: conexión a MongoDB con health check, persistencia aislada por tenant, `GET /api/v1/services/:id` y listado paginado, con pruebas unitarias, de integración y e2e; estudio del arranque y la inyección de dependencias de Nest | 3,5 |
+| 2026-10-31 | 2 | #5: `POST /api/v1/services` (201 + `Location`) con DTO de validación anidada y sus pruebas; cierre de la issue | 1 |
 
 ## Riesgos
 | Riesgo | Impacto | Mitigación |
