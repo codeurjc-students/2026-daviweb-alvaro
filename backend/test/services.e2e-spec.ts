@@ -142,4 +142,55 @@ describe('Services (e2e)', () => {
         .expect(400);
     });
   });
+
+  describe('POST /api/v1/services', () => {
+    const validBody = {
+      name: 'Haircut',
+      description: 'Classic cut',
+      timeSegments: [{ duration: 30, breakAfter: 5 }],
+      requiresHairLength: false,
+      hourRange: { start: '09:00', end: '14:00' },
+    };
+
+    const post = (body: object) =>
+      request(app.getHttpServer())
+        .post('/api/v1/services')
+        .set('X-Tenant-Id', 'shop-a')
+        .send(body);
+
+    it('creates the service and returns 201 with its Location', async () => {
+      const response = await post(validBody).expect(201);
+
+      expect(response.body).toMatchObject({
+        ...validBody,
+        id: expect.any(String),
+      });
+      expect(response.headers.location).toBe(
+        `/api/v1/services/${response.body.id}`,
+      );
+
+      const fetched = await request(app.getHttpServer())
+        .get(response.headers.location)
+        .set('X-Tenant-Id', 'shop-a')
+        .expect(200);
+      expect(fetched.body).toEqual(response.body);
+    });
+
+    it.each([
+      ['a field outside the contract', { ...validBody, tenantId: 'shop-b' }],
+      ['an empty name', { ...validBody, name: '' }],
+      [
+        'a nested segment with a negative duration',
+        { ...validBody, timeSegments: [{ duration: -5 }] },
+      ],
+      [
+        'an hour range in the wrong format',
+        { ...validBody, hourRange: { start: '9am', end: '14:00' } },
+      ],
+      ['a missing required field', { name: 'Haircut' }],
+    ])('returns 400 for %s', async (_case, body) => {
+      await post(body).expect(400);
+      expect(await model.countDocuments()).toBe(0);
+    });
+  });
 });

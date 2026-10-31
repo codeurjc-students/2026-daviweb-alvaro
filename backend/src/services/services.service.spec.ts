@@ -13,7 +13,7 @@ const haircut: Service = {
 };
 
 describe('ServicesService', () => {
-  const repository = { findPage: vi.fn(), findById: vi.fn() };
+  const repository = { findPage: vi.fn(), findById: vi.fn(), create: vi.fn() };
   let service: ServicesService;
 
   beforeEach(async () => {
@@ -63,6 +63,16 @@ describe('ServicesService', () => {
       await expect(service.findById('shop-a', haircut.id)).rejects.toThrow(
         NotFoundException,
       );
+    });
+  });
+
+  describe('create', () => {
+    it('creates the service in the requesting tenant', async () => {
+      const { id: _id, ...data } = haircut;
+      repository.create.mockResolvedValue(haircut);
+
+      await expect(service.create('shop-a', data)).resolves.toEqual(haircut);
+      expect(repository.create).toHaveBeenCalledWith('shop-a', data);
     });
   });
 });
