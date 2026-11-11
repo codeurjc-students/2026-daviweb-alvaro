@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { AboutUsComponent } from '../about-us/about-us.component';
 import { LocationAndContactComponent } from '../location-and-contact/location-and-contact.component';
@@ -20,7 +20,7 @@ import { SaasConfigService } from 'src/app/config/saas-config.service';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   private saasConfig = inject(SaasConfigService);
   private title = inject(Title);
   private meta = inject(Meta);

@@ -226,7 +226,7 @@ export class AppointmentManagementComponent
     exceptionHandler.setNext(weeklyHandler);
 
     const availability = exceptionHandler.handle(context);
-    let availableHours: string[] = [];
+    const availableHours: string[] = [];
 
     if (availability.isAvailable && availability.intervals) {
       availability.intervals.forEach((interval) => {
@@ -354,7 +354,7 @@ export class AppointmentManagementComponent
     startDate: Date,
     searchForward: boolean
   ): Date {
-    let currentDate = new Date(startDate);
+    const currentDate = new Date(startDate);
     let attempts = 0;
     const maxAttempts = 60;
 

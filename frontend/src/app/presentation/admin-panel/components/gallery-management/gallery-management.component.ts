@@ -4,7 +4,7 @@ import {
   signal,
   ViewChild,
   OnDestroy,
-  inject,
+  inject, OnInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -29,7 +29,7 @@ import { getErrorMessage } from '@domain/shared/utils/error.utils';
   templateUrl: './gallery-management.component.html',
   styleUrls: ['./gallery-management.component.scss'],
 })
-export class GalleryManagementComponent implements OnDestroy {
+export class GalleryManagementComponent implements OnDestroy, OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   // ========================

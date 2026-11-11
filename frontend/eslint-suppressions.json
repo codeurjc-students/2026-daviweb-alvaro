@@ -1,0 +1,364 @@
+{
+  "src/app/application/appointments/appointment-action.service.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    },
+    "no-console": {
+      "count": 5
+    }
+  },
+  "src/app/config/tenant.service.ts": {
+    "no-console": {
+      "count": 6
+    }
+  },
+  "src/app/domain/business-info/availability/availability-handlers.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 2
+    }
+  },
+  "src/app/domain/business-info/availability/get-available-slots-for-day.service.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    }
+  },
+  "src/app/domain/business-info/availability/reservedSlots.entity.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    },
+    "no-console": {
+      "count": 1
+    }
+  },
+  "src/app/domain/services/service.types.ts": {
+    "@typescript-eslint/no-unused-vars": {
+      "count": 1
+    }
+  },
+  "src/app/domain/shared/utils/error.utils.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    }
+  },
+  "src/app/domain/shared/value-objects/phone.vo.ts": {
+    "no-useless-escape": {
+      "count": 2
+    }
+  },
+  "src/app/infrastructure/firebase/appointments/firebase-appointment.repository.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 5
+    },
+    "no-console": {
+      "count": 6
+    }
+  },
+  "src/app/infrastructure/firebase/blacklist/firebase-blacklist.repository.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 4
+    },
+    "@typescript-eslint/no-unused-vars": {
+      "count": 1
+    }
+  },
+  "src/app/infrastructure/firebase/business/firebase-business-info.repository.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    },
+    "no-console": {
+      "count": 12
+    }
+  },
+  "src/app/infrastructure/firebase/business/firebase-schedule.repository.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    },
+    "no-console": {
+      "count": 8
+    }
+  },
+  "src/app/infrastructure/firebase/gallery/firebase-gallery.repository.ts": {
+    "no-console": {
+      "count": 3
+    }
+  },
+  "src/app/infrastructure/firebase/services/firebase-service.repository.ts": {
+    "no-console": {
+      "count": 3
+    }
+  },
+  "src/app/presentation/about-us/about-us.component.ts": {
+    "@typescript-eslint/no-unused-vars": {
+      "count": 1
+    }
+  },
+  "src/app/presentation/admin-panel/components/appointment-management/appointment-management.component.html": {
+    "@angular-eslint/template/click-events-have-key-events": {
+      "count": 6
+    },
+    "@angular-eslint/template/interactive-supports-focus": {
+      "count": 6
+    }
+  },
+  "src/app/presentation/admin-panel/components/appointment-management/appointment-management.component.ts": {
+    "@angular-eslint/no-empty-lifecycle-method": {
+      "count": 1
+    },
+    "@typescript-eslint/no-explicit-any": {
+      "count": 9
+    },
+    "@typescript-eslint/no-unused-vars": {
+      "count": 3
+    },
+    "no-console": {
+      "count": 2
+    }
+  },
+  "src/app/presentation/admin-panel/components/barbers-management/barber-edit-modal/barber-edit-modal.component.html": {
+    "@angular-eslint/template/click-events-have-key-events": {
+      "count": 2
+    },
+    "@angular-eslint/template/interactive-supports-focus": {
+      "count": 2
+    },
+    "@angular-eslint/template/label-has-associated-control": {
+      "count": 2
+    }
+  },
+  "src/app/presentation/admin-panel/components/barbers-management/barber-edit-modal/barber-edit-modal.component.ts": {
+    "@angular-eslint/no-output-native": {
+      "count": 1
+    }
+  },
+  "src/app/presentation/admin-panel/components/blacklist-management/blacklist-management.component.html": {
+    "@angular-eslint/template/click-events-have-key-events": {
+      "count": 2
+    },
+    "@angular-eslint/template/interactive-supports-focus": {
+      "count": 2
+    },
+    "@angular-eslint/template/label-has-associated-control": {
+      "count": 2
+    }
+  },
+  "src/app/presentation/admin-panel/components/blacklist-management/blacklist-management.component.ts": {
+    "@typescript-eslint/no-unused-vars": {
+      "count": 4
+    },
+    "no-console": {
+      "count": 6
+    }
+  },
+  "src/app/presentation/admin-panel/components/gallery-management/gallery-management.component.html": {
+    "@angular-eslint/template/click-events-have-key-events": {
+      "count": 1
+    },
+    "@angular-eslint/template/interactive-supports-focus": {
+      "count": 1
+    }
+  },
+  "src/app/presentation/admin-panel/components/gallery-management/gallery-management.component.ts": {
+    "no-console": {
+      "count": 5
+    }
+  },
+  "src/app/presentation/admin-panel/components/info-management/info-management.component.html": {
+    "@angular-eslint/template/click-events-have-key-events": {
+      "count": 2
+    },
+    "@angular-eslint/template/interactive-supports-focus": {
+      "count": 2
+    },
+    "@angular-eslint/template/label-has-associated-control": {
+      "count": 4
+    }
+  },
+  "src/app/presentation/admin-panel/components/info-management/info-management.component.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    },
+    "@typescript-eslint/no-unused-vars": {
+      "count": 1
+    },
+    "no-console": {
+      "count": 6
+    }
+  },
+  "src/app/presentation/admin-panel/components/services-management/services-management.component.html": {
+    "@angular-eslint/template/click-events-have-key-events": {
+      "count": 1
+    },
+    "@angular-eslint/template/interactive-supports-focus": {
+      "count": 1
+    },
+    "@angular-eslint/template/label-has-associated-control": {
+      "count": 16
+    }
+  },
+  "src/app/presentation/admin-panel/components/services-management/services-management.component.ts": {
+    "no-console": {
+      "count": 4
+    },
+    "no-empty": {
+      "count": 1
+    }
+  },
+  "src/app/presentation/admin-panel/components/shared/schedule-editor/schedule-editor.component.html": {
+    "@angular-eslint/template/label-has-associated-control": {
+      "count": 1
+    }
+  },
+  "src/app/presentation/admin-panel/components/shared/schedule-editor/schedule-editor.component.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 4
+    }
+  },
+  "src/app/presentation/appointment/calendar-selector/booking-form/booking-form.component.html": {
+    "@angular-eslint/template/click-events-have-key-events": {
+      "count": 3
+    },
+    "@angular-eslint/template/interactive-supports-focus": {
+      "count": 3
+    },
+    "@angular-eslint/template/label-has-associated-control": {
+      "count": 1
+    }
+  },
+  "src/app/presentation/appointment/calendar-selector/booking-form/booking-form.component.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 4
+    },
+    "@typescript-eslint/no-unused-vars": {
+      "count": 2
+    },
+    "no-console": {
+      "count": 1
+    }
+  },
+  "src/app/presentation/appointment/calendar-selector/calendar-selector.component.ts": {
+    "@typescript-eslint/no-unused-vars": {
+      "count": 2
+    },
+    "no-console": {
+      "count": 2
+    }
+  },
+  "src/app/presentation/appointment/calendar-selector/hour-selector/hour-selector.component.html": {
+    "@angular-eslint/template/click-events-have-key-events": {
+      "count": 1
+    },
+    "@angular-eslint/template/interactive-supports-focus": {
+      "count": 1
+    }
+  },
+  "src/app/presentation/barbers-info/barbers-info.component.ts": {
+    "@typescript-eslint/no-unused-vars": {
+      "count": 1
+    }
+  },
+  "src/app/presentation/cancel-appointment/cancel-appointment.component.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    },
+    "@typescript-eslint/no-unused-vars": {
+      "count": 1
+    },
+    "no-console": {
+      "count": 6
+    }
+  },
+  "src/app/presentation/faq/faq.component.ts": {
+    "@typescript-eslint/no-unused-vars": {
+      "count": 1
+    }
+  },
+  "src/app/presentation/footer/footer.component.ts": {
+    "@typescript-eslint/no-unused-vars": {
+      "count": 1
+    }
+  },
+  "src/app/presentation/header/header.component.ts": {
+    "@typescript-eslint/no-unused-vars": {
+      "count": 2
+    }
+  },
+  "src/app/presentation/location-and-contact/location-and-contact.component.ts": {
+    "@typescript-eslint/no-unused-vars": {
+      "count": 4
+    }
+  },
+  "src/app/presentation/opinions/opinions.component.ts": {
+    "@typescript-eslint/no-unused-vars": {
+      "count": 1
+    }
+  },
+  "src/app/presentation/services-info/services-info.component.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 6
+    },
+    "@typescript-eslint/no-unused-vars": {
+      "count": 2
+    }
+  },
+  "src/app/presentation/shared/alert/alert.service.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    },
+    "no-console": {
+      "count": 4
+    }
+  },
+  "src/app/presentation/shared/authentication.service.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    },
+    "@typescript-eslint/no-unused-vars": {
+      "count": 3
+    },
+    "no-console": {
+      "count": 5
+    }
+  },
+  "src/app/presentation/shared/business-state.service.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 2
+    },
+    "no-console": {
+      "count": 8
+    }
+  },
+  "src/app/presentation/shared/components/phone-input/phone-input.component.html": {
+    "@angular-eslint/template/label-has-associated-control": {
+      "count": 1
+    }
+  },
+  "src/app/presentation/shared/components/phone-input/phone-input.component.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 2
+    },
+    "@typescript-eslint/no-unused-vars": {
+      "count": 7
+    },
+    "no-empty": {
+      "count": 1
+    }
+  },
+  "src/app/presentation/shared/scroll.service.ts": {
+    "no-console": {
+      "count": 1
+    }
+  },
+  "src/main.ts": {
+    "@typescript-eslint/no-unused-vars": {
+      "count": 2
+    },
+    "no-console": {
+      "count": 1
+    }
+  },
+  "src/server.ts": {
+    "no-console": {
+      "count": 1
+    }
+  }
+}

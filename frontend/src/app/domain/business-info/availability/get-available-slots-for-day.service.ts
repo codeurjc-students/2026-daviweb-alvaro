@@ -44,7 +44,7 @@ export class GetAvailableSlotsForDayService {
       .filter((slot) => slot.date === dateKey)
       .map((s) => this.normalizeTime(s.time));
 
-    let availableSlots: string[] = [];
+    const availableSlots: string[] = [];
     intervals.forEach((interval) => {
       availableSlots.push(
         ...this.hoursRangeFromOpenClose(interval.open, interval.close)
