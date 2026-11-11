@@ -1,5 +1,10 @@
 import { Controller, Get } from '@nestjs/common';
 import {
+  ApiOperation,
+  ApiServiceUnavailableResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import {
   HealthCheck,
   HealthCheckResult,
   HealthCheckService,
@@ -8,6 +13,7 @@ import {
 
 const MONGODB_PING_TIMEOUT_MS = 1500;
 
+@ApiTags('health')
 @Controller('health')
 export class HealthController {
   constructor(
@@ -17,6 +23,8 @@ export class HealthController {
 
   // Readiness probe: returns 503 when MongoDB does not answer.
   @Get()
+  @ApiOperation({ summary: 'Readiness probe' })
+  @ApiServiceUnavailableResponse({ description: 'MongoDB is not reachable' })
   @HealthCheck()
   check(): Promise<HealthCheckResult> {
     return this.health.check([
