@@ -47,7 +47,7 @@ que ya se cumplen requisitos "difíciles" (algoritmo avanzado, tecnología compl
 | Aspecto | Estado | Notas |
 |---|---|---|
 | Código/comentarios en inglés | 🟡 | Revisar; hay algo de español en logs/console. |
-| Linter + Prettier | 🟡 | Backend: oxlint (`no-explicit-any` en error) + Prettier. Front: angular-eslint pendiente (#9). |
+| Linter + Prettier | ✅ | Backend: oxlint (`no-explicit-any` y `no-console` en error) + Prettier. Front: angular-eslint 19 con `any`/`console` prohibidos; las 260 infracciones heredadas (96 `console`, 48 `any`…) se rastrean en `frontend/eslint-suppressions.json` y solo pueden bajar. Prettier compartido; el front aún no está reformateado. |
 | Sin `console.log` (logging lib) | 🟡 | Funciones usan emojis en logs; cambiar a logger. |
 | Capas desacopladas | ✅ | Clean Architecture ya aplicada. |
 | Docker / Compose | ❌ | Crear en `docker/`. Imagen no-root + `/api/v1/health` (requisito de las *probes* de K8s). |
