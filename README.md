@@ -41,7 +41,7 @@ quede ninguna de las dos mitades de la aplicación en su estado original.
 |---|---|
 | **Backend propio con NestJS + MongoDB** sustituyendo por completo a Firebase | No iniciado |
 | **Modernización del frontend**: actualización de Angular a la última versión estable y adopción de sus APIs actuales (*signals*, nuevo control de flujo, `inject()`) | No iniciado |
-| **API REST** `/api/v1` documentada con OpenAPI (contract-first) | No iniciado |
+| **API REST** `/api/v1` documentada con OpenAPI (contract-first) | En curso: [`docs/api/openapi.json`](docs/api/openapi.json) |
 | **Autenticación propia con JWT** y sistema de **3 roles** (anónimo / registrado / administrador) | No iniciado |
 | **Rol de usuario registrado**, inexistente hoy: área de cliente con historial y gestión de sus citas | No iniciado |
 | **Batería de pruebas** unitarias, de integración y de sistema (Vitest, Supertest, Playwright) | En curso |
@@ -559,6 +559,15 @@ frontend/    Aplicación Angular (Clean Architecture en src/app)
 backend/     API REST con NestJS (en construcción)
 functions/   Cloud Functions de Firebase (se retiran al completar la migración)
 docs/        Documentación del proyecto y del TFG
+docs/api/    Especificación OpenAPI de la API (generada)
+```
+
+Para regenerar la especificación OpenAPI (no necesita MongoDB) y ver el Swagger UI en desarrollo
+(`http://localhost:3000/api/v1/docs`, desactivado en producción):
+
+```bash
+cd backend
+npm run openapi
 ```
 
 Para arrancar el frontend en local:
