@@ -14,7 +14,7 @@
             <label for="toast-prompt-input" class="sr-only">{{ config.placeholder || 'Entrada' }}</label>
             <input id="toast-prompt-input" #promptInput class="toast-input" [type]="config.inputType || 'text'"
                 [placeholder]="config.placeholder || ''" [value]="config.defaultValue || ''" [attr.aria-label]="config.placeholder || 'Entrada'"
-                (keyup.enter)="confirmPrompt()" (keyup.escape)="cancel()" (blur)="onInputBlur($event)" autofocus>
+                (keyup.enter)="confirmPrompt()" (keyup.escape)="cancel()" (blur)="onInputBlur($event)">
         </div>
 
         <!-- Botones para confirmaciones y prompts -->

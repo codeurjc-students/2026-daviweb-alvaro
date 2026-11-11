@@ -21,7 +21,7 @@ export class TenantService {
   };
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(PLATFORM_ID) private platformId: object,
     @Inject(DOCUMENT) private document: Document,
     private firestore: Firestore,
     private transferState: TransferState
@@ -102,7 +102,7 @@ export class TenantService {
 
     // Subdomain/SLD resolution (e.g., tenant.domain.com -> tenant)
     const parts = hostname.split('.');
-    let tenantId = parts.length > 1 ? parts[0] : this.DEFAULT_TENANT_ID;
+    const tenantId = parts.length > 1 ? parts[0] : this.DEFAULT_TENANT_ID;
 
     // Check Manual Mapping (override resolved ID)
     if (this.TENANT_MAPPING[tenantId]) {

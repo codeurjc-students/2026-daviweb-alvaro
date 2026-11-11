@@ -6,7 +6,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class ScrollService {
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(@Inject(PLATFORM_ID) private platformId: object) { }
 
   scrollToSection(sectionId: string): void {
     if (!isPlatformBrowser(this.platformId)) {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, Injector, Input, runInInjectionContext } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, Injector, Input, runInInjectionContext, OnInit } from "@angular/core";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { BusinessStateService } from "@presentation/shared/business-state.service";
 @Component({
@@ -7,7 +7,7 @@ import { BusinessStateService } from "@presentation/shared/business-state.servic
   styleUrls: ["./location-and-contact.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LocationAndContactComponent {
+export class LocationAndContactComponent implements OnInit {
   public state = inject(BusinessStateService)
   private sanitizer = inject(DomSanitizer)
   coords: SafeResourceUrl | null = null
