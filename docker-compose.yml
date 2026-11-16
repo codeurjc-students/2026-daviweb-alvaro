@@ -1,0 +1,28 @@
+# Local environment: backend + MongoDB. Configuration comes from the environment (see .env.example).
+services:
+  backend:
+    build: ./backend
+    ports:
+      - '${PORT:-3000}:${PORT:-3000}'
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      PORT: ${PORT:-3000}
+      MONGODB_URI: mongodb://mongo:27017/${MONGO_DB:-daviweb}
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  mongo:
+    image: mongo:8.2 # 8.0 does not start on Linux kernels >= 6.19 (SERVER-121912)
+    ports:
+      - '127.0.0.1:27017:27017' # Only for running the backend outside Docker
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ['CMD', 'mongosh', '--quiet', '--eval', "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mongo-data:

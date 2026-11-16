@@ -50,6 +50,6 @@ que ya se cumplen requisitos "difíciles" (algoritmo avanzado, tecnología compl
 | Linter + Prettier | ✅ | Backend: oxlint (`no-explicit-any` y `no-console` en error) + Prettier. Front: angular-eslint 19 con `any`/`console` prohibidos; las 260 infracciones heredadas (96 `console`, 48 `any`…) se rastrean en `frontend/eslint-suppressions.json` y solo pueden bajar. Prettier compartido; el front aún no está reformateado. |
 | Sin `console.log` (logging lib) | 🟡 | Funciones usan emojis en logs; cambiar a logger. |
 | Capas desacopladas | ✅ | Clean Architecture ya aplicada. |
-| Docker / Compose | ❌ | Crear en `docker/`. Imagen no-root + `/api/v1/health` (requisito de las *probes* de K8s). |
+| Docker / Compose | ✅ | `backend/Dockerfile` multi-etapa (Node 24 alpine, usuario `node`, solo dependencias de producción) y `docker-compose.yml` en la raíz con backend + `mongo:8.2` (volumen con nombre, *healthcheck*). Configuración solo por variables de entorno (`.env.example`). `/api/v1/health` responde en el contenedor (requisito de las *probes* de K8s). Falta el frontend en Compose (decisión SSR/Nest en Fase 3). |
 | Manifiestos Kubernetes | ❌ | Crear `k8s/` (base + overlays dev/prod). |
 | CI/CD (Actions) | 🟡 | `.github/workflows/ci.yml`: en cada PR a `main`, jobs separados de back (lint, unitarias, e2e, build) y front (lint, build) con caché de npm, y badge en el README. Falta el paso de tests del front (#8) y el CD (Fase 5). |

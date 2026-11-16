@@ -87,8 +87,9 @@ Gantt sin explicación de las desviaciones no dice nada.
 | 2026-10-24 | 2 | #5/#7: conexión a MongoDB con health check, persistencia aislada por tenant, `GET /api/v1/services/:id` y listado paginado, con pruebas unitarias, de integración y e2e; estudio del arranque y la inyección de dependencias de Nest | 3,5 |
 | 2026-10-31 | 2 | #5: `POST /api/v1/services` (201 + `Location`) con DTO de validación anidada y sus pruebas; cierre de la issue | 1 |
 | 2026-11-11 | 2 | #9: angular-eslint en el front, `no-console` en el back, Prettier compartido y línea base de infracciones heredadas | 1,5 |
-| 2026-11-11 | 2 | #6: OpenAPI con `@nestjs/swagger` (plugin de CLI), script de exportación a `docs/api/`, Swagger UI en desarrollo y test e2e | 2 |
 | 2026-11-11 | 2 | #10: workflow de CI en GitHub Actions (jobs de back y front, caché de npm, badge en el README) | 1 |
+| 2026-11-11 | 2 | #6: OpenAPI con `@nestjs/swagger` (plugin de CLI), script de exportación a `docs/api/`, Swagger UI en desarrollo y test e2e | 2 |
+| 2026-11-16 | 2 | #11: Dockerfile multi-etapa no-root del backend, Compose con MongoDB y volumen, verificación de health, persistencia y usuario | 1,5 |
 
 ## Riesgos
 | Riesgo | Impacto | Mitigación |
