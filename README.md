@@ -572,6 +572,13 @@ cd backend
 npm run openapi
 ```
 
+Para levantar el backend y MongoDB con Docker (la API queda en `http://localhost:3000/api/v1/health`; los
+datos persisten en un volumen, `docker compose down -v` lo borra):
+
+```bash
+docker compose up --build
+```
+
 Para arrancar el frontend en local:
 
 ```bash
