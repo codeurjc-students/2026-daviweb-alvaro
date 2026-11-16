@@ -1,5 +1,7 @@
 # Daviweb
 
+[![CI](https://github.com/codeurjc-students/2026-daviweb-alvaro/actions/workflows/ci.yml/badge.svg)](https://github.com/codeurjc-students/2026-daviweb-alvaro/actions/workflows/ci.yml)
+
 Aplicación web **SaaS multi-tenant** de gestión de reservas para peluquerías y barberías. Cada negocio (*tenant*)
 dispone de su propia web pública personalizada —branding, servicios, horarios y contenidos propios— desde la que sus
 clientes reservan cita online sin necesidad de registrarse, y de un panel de administración con el que gestionar la

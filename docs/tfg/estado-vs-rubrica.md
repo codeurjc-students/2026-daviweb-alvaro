@@ -52,4 +52,4 @@ que ya se cumplen requisitos "difíciles" (algoritmo avanzado, tecnología compl
 | Capas desacopladas | ✅ | Clean Architecture ya aplicada. |
 | Docker / Compose | ❌ | Crear en `docker/`. Imagen no-root + `/api/v1/health` (requisito de las *probes* de K8s). |
 | Manifiestos Kubernetes | ❌ | Crear `k8s/` (base + overlays dev/prod). |
-| CI/CD (Actions) | ❌ | Crear workflows. |
+| CI/CD (Actions) | 🟡 | `.github/workflows/ci.yml`: en cada PR a `main`, jobs separados de back (lint, unitarias, e2e, build) y front (lint, build) con caché de npm, y badge en el README. Falta el paso de tests del front (#8) y el CD (Fase 5). |
