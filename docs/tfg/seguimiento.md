@@ -88,6 +88,7 @@ Gantt sin explicación de las desviaciones no dice nada.
 | 2026-10-31 | 2 | #5: `POST /api/v1/services` (201 + `Location`) con DTO de validación anidada y sus pruebas; cierre de la issue | 1 |
 | 2026-11-11 | 2 | #9: angular-eslint en el front, `no-console` en el back, Prettier compartido y línea base de infracciones heredadas | 1,5 |
 | 2026-11-11 | 2 | #6: OpenAPI con `@nestjs/swagger` (plugin de CLI), script de exportación a `docs/api/`, Swagger UI en desarrollo y test e2e | 2 |
+| 2026-11-11 | 2 | #10: workflow de CI en GitHub Actions (jobs de back y front, caché de npm, badge en el README) | 1 |
 
 ## Riesgos
 | Riesgo | Impacto | Mitigación |
