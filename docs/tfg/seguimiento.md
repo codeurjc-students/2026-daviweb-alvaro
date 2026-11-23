@@ -90,6 +90,7 @@ Gantt sin explicación de las desviaciones no dice nada.
 | 2026-11-11 | 2 | #10: workflow de CI en GitHub Actions (jobs de back y front, caché de npm, badge en el README) | 1 |
 | 2026-11-11 | 2 | #6: OpenAPI con `@nestjs/swagger` (plugin de CLI), script de exportación a `docs/api/`, Swagger UI en desarrollo y test e2e | 2 |
 | 2026-11-16 | 2 | #11: Dockerfile multi-etapa no-root del backend, Compose con MongoDB y volumen, verificación de health, persistencia y usuario | 1,5 |
+| 2026-11-16 | 2 | #8: Karma en Chrome headless para CI, `skipTests` retirado y 15 primeros tests del front (caso de uso, componente, utilidades y *value object*) | 2 |
 
 ## Riesgos
 | Riesgo | Impacto | Mitigación |
